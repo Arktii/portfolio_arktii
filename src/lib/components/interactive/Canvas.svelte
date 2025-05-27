@@ -1,26 +1,27 @@
 <script lang="ts">
 	import P5 from '$lib/components/P5.svelte';
 
-	function setup(p5: import('p5')) {
-		console.log(p5.windowWidth);
+	export let setup = (p5: import('p5')) => {};
+	export let update = (p5: import('p5'), deltaTime: number) => {};
+	export let windowResized = (p5: import('p5')) => {};
+	export let mouseMoved = (p5: import('p5')) => {};
+    export let keyPressed = (p5: import('p5')) => {};
+
+	function canvasSetup(p5: import('p5')) {
 		p5.createCanvas(p5.windowWidth, p5.windowHeight);
 		p5.pixelDensity(1);
 		p5.noSmooth();
+
+		setup(p5);
 	}
 
 	function draw(p5: import('p5')) {
-		console.log('draw');
-        p5.clear();
-		p5.circle(p5.mouseX, p5.mouseY, 50);
-	}
+		p5.clear();
 
-	function windowResized(p5: import('p5')) {
-		console.log('Window resized: ', p5.windowWidth, ', ', p5.windowHeight);
+		update(p5, p5.deltaTime);
 	}
-
-	function mouseMoved(p5: import('p5')) {}
 </script>
 
 <div>
-	<P5 {setup} {draw} {windowResized} {mouseMoved} />
+	<P5 setup={canvasSetup} {draw} {windowResized} {mouseMoved} {keyPressed} />
 </div>

@@ -1,9 +1,25 @@
-<script>
+<script lang="ts">
 	import Canvas from '$lib/components/interactive/Canvas.svelte';
-	import P5 from '$lib/components/P5.svelte';
+	import { CollisionSpace } from '$lib/models/CollisionSpace';
+
+	let collisionSpace: CollisionSpace;
+
+	function setup(p5: import('p5')) {
+		collisionSpace = new CollisionSpace(0, 0, 500, 500, 50);
+	}
+
+	function update(p5: import('p5'), deltaTime: number) {
+		p5.circle(p5.mouseX, p5.mouseY, 250);
+	}
+
+	function keyPressed(p5: import('p5')) {
+		console.log(p5.key);
+		if (p5.key == ' ') {
+			console.log('Mobility Button Pressed');
+		} else if (p5.key == 'F' || p5.keyCode == p5.ENTER) {
+			console.log('Interact Button Pressed');
+		}
+	}
 </script>
 
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
-
-<Canvas />
+<Canvas {setup} {update} {keyPressed} />

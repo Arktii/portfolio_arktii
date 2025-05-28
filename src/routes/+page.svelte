@@ -30,7 +30,13 @@
 	function setup(p5: import('p5')) {
 		world = new World();
 
-		colSpace = new CollisionSpace(0, 0, BUILDING_SIZE.WIDTH, BUILDING_SIZE.HEIGHT, 50);
+		colSpace = new CollisionSpace(
+			0,
+			0,
+			Math.ceil(BUILDING_SIZE.WIDTH / COL_SPACE.DEFAULT_CELL_SIZE),
+			Math.ceil(BUILDING_SIZE.HEIGHT / COL_SPACE.DEFAULT_CELL_SIZE),
+			COL_SPACE.DEFAULT_CELL_SIZE
+		);
 		player = new Player({ x: p5.width / 2, y: 50 });
 
 		colSpace.colliderGrid[4][3] = true;

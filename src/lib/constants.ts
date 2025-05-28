@@ -4,10 +4,12 @@ export const CANVAS_SIZE = {
 	PADDING: 0.9
 };
 
+const SCALE_MULTIPLIER = 3;
+
 export const BUILDING_SIZE = {
-	WIDTH: 140 * 4,
-	HEIGHT: 400 * 4,
-	ASPECT_RATIO: 140 / 400
+	WIDTH: 180 * SCALE_MULTIPLIER,
+	HEIGHT: 600 * SCALE_MULTIPLIER,
+	ASPECT_RATIO: 180 / 600
 };
 
 export const WORLD_SIZE = {
@@ -15,8 +17,7 @@ export const WORLD_SIZE = {
 };
 
 export const COLLISION_SPACE = {
-	DEFAULT_CELL_SIZE: 50,
-	REFERENCE_WIDTH: 600
+	DEFAULT_CELL_SIZE: 10 * SCALE_MULTIPLIER
 };
 
 export const PLAYER_SIZE = {

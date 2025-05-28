@@ -31,5 +31,4 @@
 	});
 </script>
 
-<p>Hi</p>
 <div bind:this={canvas}></div>

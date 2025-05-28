@@ -32,7 +32,9 @@ export class CollisionSpace {
 		this.worldWidth = gridWidth * cellSize;
 		this.worldHeight = gridHeight * cellSize;
 
-		this.colliderGrid = Array(this.gridWidth).fill(Array(this.gridWidth).fill(false));
+		this.colliderGrid = Array(this.gridWidth)
+			.fill(null)
+			.map(() => Array(this.gridWidth).fill(false));
 	}
 
 	checkForCollision(rectangle: BoundingBox): boolean {

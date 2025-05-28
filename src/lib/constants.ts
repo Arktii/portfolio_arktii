@@ -1,0 +1,16 @@
+export const CANVAS_SIZE = {
+	MIN_WIDTH: 300,
+	MAX_WIDTH: 500,
+	PADDING: 0.9
+};
+
+export const BUILDING_SIZE = {
+	WIDTH: 140,
+	HEIGHT: 400,
+	ASPECT_RATIO: 140 / 400
+};
+
+export const COLLISION_SPACE = {
+	DEFAULT_CELL_SIZE: 50,
+	REFERENCE_WIDTH: 600
+};

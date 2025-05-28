@@ -5,12 +5,21 @@ export const CANVAS_SIZE = {
 };
 
 export const BUILDING_SIZE = {
-	WIDTH: 140,
-	HEIGHT: 400,
+	WIDTH: 140 * 4,
+	HEIGHT: 400 * 4,
 	ASPECT_RATIO: 140 / 400
+};
+
+export const WORLD_SIZE = {
+	REFERENCE_WIDTH: 600
 };
 
 export const COLLISION_SPACE = {
 	DEFAULT_CELL_SIZE: 50,
 	REFERENCE_WIDTH: 600
+};
+
+export const PLAYER_SIZE = {
+	WIDTH: 32 * 2,
+	HEIGHT: 32 * 2
 };

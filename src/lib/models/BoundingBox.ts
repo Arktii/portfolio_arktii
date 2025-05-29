@@ -1,4 +1,4 @@
-class BoundingBox {
+export class BoundingBox {
 	left: number;
 	right: number;
 	top: number;
@@ -12,7 +12,7 @@ class BoundingBox {
 	}
 
 	/// x and y are the coordinates of the upper-left corner
-	fromRect(x: number, y: number, width: number, height: number): BoundingBox {
+	static fromRect(x: number, y: number, width: number, height: number): BoundingBox {
 		return new BoundingBox(x, x + width, y, y + height);
 	}
 }

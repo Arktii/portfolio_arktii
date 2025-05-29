@@ -16,11 +16,34 @@ export const WORLD_SIZE = {
 	REFERENCE_WIDTH: 600
 };
 
-export const COLLISION_SPACE = {
-	DEFAULT_CELL_SIZE: 10 * SCALE_MULTIPLIER
+export const PLAYER = {
+	SPRITE_WIDTH: 32 * 2,
+	SPRITE_HEIGHT: 32 * 2,
+
+	WIDTH: 32 * 2,
+	HEIGHT: 32 * 2,
+	SPEED: 200,
+	GRAVITY: 300
 };
 
-export const PLAYER_SIZE = {
-	WIDTH: 32 * 2,
-	HEIGHT: 32 * 2
+export const COLLISION_SPACE = {
+	CELL_SIZE: 10 * SCALE_MULTIPLIER
 };
+
+let gridWidth = Math.ceil(BUILDING_SIZE.WIDTH / COLLISION_SPACE.CELL_SIZE);
+let gridHeight = Math.ceil(BUILDING_SIZE.HEIGHT / COLLISION_SPACE.CELL_SIZE);
+
+// TODO: consider other solutions?
+export function makeColliderGrid() {
+	let grid = Array(gridWidth)
+		.fill(null)
+		.map(() => Array(gridHeight).fill(false));
+
+	grid[0][2] = true;
+
+	for (let x = 0; x < gridWidth; x++) {
+		grid[x][3] = true;
+	}
+
+	return grid;
+}

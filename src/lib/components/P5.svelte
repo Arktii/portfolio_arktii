@@ -9,6 +9,7 @@
 	export let windowResized = (p5js: any) => {};
 	export let mouseMoved = (p5js: any) => {};
 	export let keyPressed = (p5js: any) => {};
+	export let keyReleased = (p5js: any) => {};
 
 	onMount(async () => {
 		if (typeof window !== 'undefined') {
@@ -20,6 +21,7 @@
 				p5js.windowResized = () => windowResized(p5js);
 				p5js.mouseMoved = () => mouseMoved(p5js);
 				p5js.keyPressed = () => keyPressed(p5js);
+				p5js.keyReleased = () => keyReleased(p5js);
 			}, canvas);
 		}
 	});

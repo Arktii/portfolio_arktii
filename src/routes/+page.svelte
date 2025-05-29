@@ -9,11 +9,13 @@
 	import {
 		BUILDING_SIZE,
 		COLLISION_SPACE as COL_SPACE,
-		PLAYER_SIZE,
+		makeColliderGrid,
+		PLAYER as PLAYER,
 		WORLD_SIZE
 	} from '$lib/constants';
 	import { Player } from '$lib/models/Player';
 	import { World } from '$lib/models/World';
+	import { Vec2 } from '$lib/models/Vec2';
 
 	let buildingImage: p5.Image;
 	let playerImage: p5.Image;
@@ -31,15 +33,12 @@
 		world = new World();
 
 		colSpace = new CollisionSpace(
-			0,
-			0,
-			Math.ceil(BUILDING_SIZE.WIDTH / COL_SPACE.DEFAULT_CELL_SIZE),
-			Math.ceil(BUILDING_SIZE.HEIGHT / COL_SPACE.DEFAULT_CELL_SIZE),
-			COL_SPACE.DEFAULT_CELL_SIZE
+			Math.ceil(BUILDING_SIZE.WIDTH / COL_SPACE.CELL_SIZE),
+			Math.ceil(BUILDING_SIZE.HEIGHT / COL_SPACE.CELL_SIZE),
+			COL_SPACE.CELL_SIZE
 		);
-		player = new Player({ x: p5.width / 2, y: 50 });
-
-		colSpace.colliderGrid[4][3] = true;
+		colSpace.colliderGrid = makeColliderGrid();
+		player = new Player(colSpace, new Vec2(p5.width / 2, 0));
 
 		p5.resizeCanvas(p5.width, p5.width / BUILDING_SIZE.ASPECT_RATIO);
 
@@ -47,6 +46,9 @@
 	}
 
 	function update(p5: import('p5'), deltaTime: number) {
+		// TODO: have each entity subscribe to update loop instead of mentioning them explicitly here
+		player.update(p5, deltaTime);
+
 		display(p5);
 	}
 
@@ -78,17 +80,19 @@
 		p5.image(
 			playerImage,
 			world.toCanvas(player.position.x),
-			world.toCanvas(player.position.y - PLAYER_SIZE.HEIGHT),
-			world.toCanvas(PLAYER_SIZE.WIDTH),
-			world.toCanvas(PLAYER_SIZE.HEIGHT)
+			world.toCanvas(player.position.y),
+			world.toCanvas(PLAYER.WIDTH),
+			world.toCanvas(PLAYER.HEIGHT)
 		);
 
-		p5.rect(
-			world.toCanvas(Math.floor(world.toWorld(p5.mouseX) / colSpace.cellSize) * colSpace.cellSize),
-			world.toCanvas(Math.floor(world.toWorld(p5.mouseY) / colSpace.cellSize) * colSpace.cellSize),
-			displayCellSize,
-			displayCellSize
-		);
+		let gridX = Math.floor(world.toWorld(p5.mouseX) / colSpace.cellSize);
+		let gridY = Math.floor(world.toWorld(p5.mouseY) / colSpace.cellSize);
+		let worldX = world.toCanvas(gridX * colSpace.cellSize);
+		let worldY = world.toCanvas(gridY * colSpace.cellSize);
+		p5.rect(worldX, worldY, displayCellSize, displayCellSize);
+		p5.text(gridX + ',' + gridY, worldX, worldY + world.toWorld(colSpace.cellSize / 2));
+
+		p5.rect(world.toCanvas(player.position.x), world.toCanvas(player.position.y), world.toCanvas(PLAYER.WIDTH), world.toCanvas(PLAYER.HEIGHT));
 	}
 
 	function windowResized(p5: import('p5')) {
@@ -98,19 +102,33 @@
 	}
 
 	function keyPressed(p5: import('p5')) {
-		console.log(p5.key);
-		if (p5.key == ' ') {
-			console.log('Mobility Button Pressed');
-		} else if (p5.key == 'F' || p5.keyCode == p5.ENTER) {
-			console.log('Interact Button Pressed');
-		}
+		// Keycodes are used instead of properties like p5.ARROW_LEFT because those seem to be automatically cast into strings
+		console.log(p5.keyCode);
+		// if (p5.keyCode == 38 || p5.key == 'w') {
+		// 	console.log('UP');
+		// } else if (p5.keyCode == 40 || p5.key == 's') {
+		// 	console.log('DOWN');
+		// } else if (p5.key == ' ') {
+		// 	console.log('Interact Button Pressed');
+		// }
+	}
+
+	function keyReleased(p5: import('p5')) {
+		// console.log('Released: ', p5.key);
+		// if (p5.keyCode == 38 || p5.key == 'w') {
+		// 	console.log('UP');
+		// } else if (p5.keyCode == 40 || p5.key == 's') {
+		// 	console.log('DOWN');
+		// } else if (p5.key == ' ') {
+		// 	console.log('Interact Button Released');
+		// }
 	}
 </script>
 
 <p>Top of the screen</p>
 
 <div class="mx-auto w-fit">
-	<Canvas {preload} {setup} {update} {windowResized} {keyPressed} />
+	<Canvas {preload} {setup} {update} {windowResized} {keyPressed} {keyReleased} />
 </div>
 
 <p>Bottom of the screen</p>

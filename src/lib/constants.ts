@@ -1,3 +1,5 @@
+export const FLOAT_TOLERANCE = 0.001;
+
 export const CANVAS_SIZE = {
 	MIN_WIDTH: 300,
 	MAX_WIDTH: 500,
@@ -23,7 +25,9 @@ export const PLAYER = {
 	WIDTH: 32 * 2,
 	HEIGHT: 32 * 2,
 	SPEED: 200,
-	GRAVITY: 300
+	GRAVITY: 300,
+
+	EDGE_CHECK: 0.1,
 };
 
 export const COLLISION_SPACE = {
@@ -39,11 +43,11 @@ export function makeColliderGrid() {
 		.fill(null)
 		.map(() => Array(gridHeight).fill(false));
 
-	grid[0][2] = true;
-
 	for (let x = 0; x < gridWidth; x++) {
 		grid[x][3] = true;
 	}
+
+	grid[3][3] = false;
 
 	return grid;
 }

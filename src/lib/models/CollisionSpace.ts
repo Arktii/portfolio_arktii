@@ -28,6 +28,28 @@ export class CollisionSpace {
 			.map(() => Array(this.gridWidth).fill(false));
 	}
 
+	/**
+	 * converts a coordinate in the world to a grid coordinate
+	 */
+	worldToGrid(worldCoordinate: number): number {
+		return Math.floor(worldCoordinate / this.cellSize);
+	}
+
+	checkPointCollision(point: Vec2): boolean {
+		if (point.x < 0 || point.y < 0) {
+			return false;
+		}
+
+		let x = this.worldToGrid(point.x);
+		let y = this.worldToGrid(point.y);
+
+		if (x >= this.gridWidth || y >= this.gridHeight) {
+			return false;
+		}
+
+		return this.colliderGrid[x][y];
+	}
+
 	checkForCollision(aabb: BoundingBox): boolean {
 		let xStart = Math.floor(aabb.left / this.cellSize);
 		let xEnd = Math.floor(aabb.right / this.cellSize);
@@ -107,8 +129,6 @@ export class CollisionSpace {
 		// but canvas coordinates have lower values up and higher values going down
 		let down = staticAABB.bottom - pushedAABB.top;
 		let up = pushedAABB.bottom - staticAABB.top;
-
-		console.log(left, right, up, down);
 
 		if (Math.min(left, right) < Math.min(up, down)) {
 			if (left < right) {

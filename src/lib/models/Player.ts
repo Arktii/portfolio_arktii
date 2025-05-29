@@ -1,4 +1,4 @@
-import { PLAYER } from '$lib/constants';
+import { FLOAT_TOLERANCE, PLAYER } from '$lib/constants';
 import type { CollisionSpace } from './CollisionSpace';
 import { DirectionFlags } from './DirectionFlags';
 import { Vec2 } from './Vec2';
@@ -36,11 +36,15 @@ export class Player {
 		// @ts-ignore (typescript definitions aren't up to date with p5 version)
 		this.directionInputs.right = p5.keyIsDown(p5.RIGHT_ARROW) || p5.keyIsDown('d');
 
-		// gravity
-		// TODO: check if grounded
 		// horizontal movement
 		this.velocity.x = this.directionInputs.xAxis() * this.speed;
-		this.position.x += this.velocity.x * deltaSecs;
+
+		// gravity
+		this.velocity.y += PLAYER.GRAVITY * deltaSecs;
+
+		// update positions
+		this.position.y += this.velocity.y * deltaSecs;
+		this.position.x = Math.max(this.position.x + this.velocity.x * deltaSecs, 0); // prevent negative x
 
 		// TODO: don't walk off of edges
 
@@ -52,9 +56,6 @@ export class Player {
 			PLAYER.HEIGHT
 		);
 
-		this.velocity.y += PLAYER.GRAVITY * deltaSecs;
-		this.position.y += this.velocity.y * deltaSecs;
-
 		let collisionDisplacement = this.colSpace.calculateDisplacement(collisionBox);
 		if (collisionDisplacement.y != 0) {
 			this.velocity.y = 0;
@@ -64,6 +65,34 @@ export class Player {
 		if (collisionDisplacement.x != 0) {
 			this.velocity.x = 0;
 			this.position.x += collisionDisplacement.x;
+		}
+
+		console.log(this.position.x);
+
+		// prevent walking off edges
+		if (this.velocity.y == 0) {
+			// walking left
+			if (this.velocity.x < 0) {
+				let playerLeft = this.position.x;
+				let playerBottom = this.position.y + PLAYER.HEIGHT;
+				let point = new Vec2(playerLeft, playerBottom + PLAYER.EDGE_CHECK);
+
+				if (!this.colSpace.checkPointCollision(point)) {
+					this.velocity.x = 0;
+					this.position.x += this.colSpace.cellSize - (playerLeft % this.colSpace.cellSize);
+				}
+			}
+			// walking right
+			else if (this.velocity.x > 0) {
+				let playerRight = this.position.x + PLAYER.WIDTH;
+				let playerBottom = this.position.y + PLAYER.HEIGHT;
+				let point = new Vec2(playerRight, playerBottom + PLAYER.EDGE_CHECK);
+
+				if (!this.colSpace.checkPointCollision(point)) {
+					this.velocity.x = 0;
+					this.position.x -= playerRight % this.colSpace.cellSize;
+				}
+			}
 		}
 	}
 }

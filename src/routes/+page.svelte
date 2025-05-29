@@ -17,6 +17,8 @@
 	import { World } from '$lib/interactive/models/World';
 	import { Vec2 } from '$lib/interactive/models/Vec2';
 	import { EventBus } from '$lib/interactive/systems/EventBus';
+	import { MoveArea } from '$lib/interactive/models/MoveArea';
+	import { MovementPointManager as MoveAreaManager } from '$lib/interactive/models/MovementAreaManager';
 
 	let buildingImage: p5.Image;
 	let playerImage: p5.Image;
@@ -26,6 +28,9 @@
 	let player: Player;
 
 	let updateBus: EventBus;
+
+	let movementPoints: MoveArea[] = [];
+	let moveAreaManager: MoveAreaManager;
 
 	async function preload(p5: import('p5')) {
 		buildingImage = await p5.loadImage(building);
@@ -46,6 +51,13 @@
 
 		player = new Player(colSpace, new Vec2(p5.width / 2, 0));
 		updateBus.subscribe('update', player.update.bind(player));
+
+		// setup movement points
+		// TODO: consider other locations for this
+		moveAreaManager = new MoveAreaManager(colSpace, player);
+		moveAreaManager.addArea(new Vec2(0, 2), new Vec2(7, 2), new Vec2(3, 7));
+
+		updateBus.subscribe('update', moveAreaManager.update.bind(moveAreaManager));
 
 		p5.resizeCanvas(p5.width, p5.width / BUILDING_SIZE.ASPECT_RATIO);
 		world.resizeRatio = p5.width / WORLD_SIZE.REFERENCE_WIDTH;

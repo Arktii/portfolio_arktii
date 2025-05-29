@@ -35,6 +35,34 @@ export class CollisionSpace {
 		return Math.floor(worldCoordinate / this.cellSize);
 	}
 
+	/**
+	 * converts a grid coordinate to the cell's left edge in the world
+	 */
+	gridToWorldLeft(gridCoordinate: number): number {
+		return gridCoordinate * this.cellSize;
+	}
+
+	/**
+	 * converts a grid coordinate to the cell's right edge in the world
+	 */
+	gridToWorldRight(gridCoordinate: number): number {
+		return (gridCoordinate + 1) * this.cellSize + this.cellSize;
+	}
+
+	/**
+	 * converts a grid coordinate to the cell's top edge in the world
+	 */
+	gridToWorldTop(gridCoordinate: number): number {
+		return gridCoordinate * this.cellSize;
+	}
+
+	/**
+	 * converts a grid coordinate to the cell's bottom edge in the world
+	 */
+	gridToWorldBottom(gridCoordinate: number): number {
+		return (gridCoordinate + 1) * this.cellSize;
+	}
+
 	checkPointCollision(point: Vec2): boolean {
 		if (point.x < 0 || point.y < 0) {
 			return false;

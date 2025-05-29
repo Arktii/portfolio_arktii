@@ -27,7 +27,7 @@ export const PLAYER = {
 	SPEED: 200,
 	GRAVITY: 300,
 
-	EDGE_CHECK: 0.1,
+	EDGE_CHECK: 0.1
 };
 
 export const COLLISION_SPACE = {
@@ -47,7 +47,9 @@ export function makeColliderGrid() {
 		grid[x][3] = true;
 	}
 
-	grid[3][3] = false;
+	for (let x = 0; x <= 6; x++) {
+		grid[x][8] = true;
+	}
 
 	return grid;
 }

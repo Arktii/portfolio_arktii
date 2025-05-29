@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Canvas from '$lib/components/interactive/Canvas.svelte';
-	import { CollisionSpace } from '$lib/models/CollisionSpace';
+	import { CollisionSpace } from '$lib/interactive/models/CollisionSpace';
 
 	import type p5 from 'p5';
 
@@ -12,10 +12,10 @@
 		makeColliderGrid,
 		PLAYER as PLAYER,
 		WORLD_SIZE
-	} from '$lib/constants';
-	import { Player } from '$lib/models/Player';
-	import { World } from '$lib/models/World';
-	import { Vec2 } from '$lib/models/Vec2';
+	} from '$lib/interactive/constants';
+	import { Player } from '$lib/interactive/models/Player';
+	import { World } from '$lib/interactive/models/World';
+	import { Vec2 } from '$lib/interactive/models/Vec2';
 
 	let buildingImage: p5.Image;
 	let playerImage: p5.Image;

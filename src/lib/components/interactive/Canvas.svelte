@@ -1,7 +1,7 @@
 <script lang="ts">
 	// TODO? combine this with P5 component
 	import P5 from '$lib/components/P5.svelte';
-	import { CANVAS_SIZE } from '$lib/constants';
+	import { CANVAS_SIZE } from '$lib/interactive/constants';
 
 	export let preload = async (p5: import('p5')) => {};
 	export let setup = (p5: import('p5')) => {};

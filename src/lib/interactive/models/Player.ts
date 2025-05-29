@@ -1,4 +1,4 @@
-import { FLOAT_TOLERANCE, PLAYER } from '$lib/constants';
+import { FLOAT_TOLERANCE, PLAYER } from '$lib/interactive/constants';
 import type { CollisionSpace } from './CollisionSpace';
 import { DirectionFlags } from './DirectionFlags';
 import { Vec2 } from './Vec2';
@@ -46,9 +46,7 @@ export class Player {
 		this.position.y += this.velocity.y * deltaSecs;
 		this.position.x = Math.max(this.position.x + this.velocity.x * deltaSecs, 0); // prevent negative x
 
-		// TODO: don't walk off of edges
-
-		// Collisions
+		// collisions
 		let collisionBox = BoundingBox.fromRect(
 			this.position.x,
 			this.position.y,
@@ -66,8 +64,6 @@ export class Player {
 			this.velocity.x = 0;
 			this.position.x += collisionDisplacement.x;
 		}
-
-		console.log(this.position.x);
 
 		// prevent walking off edges
 		if (this.velocity.y == 0) {

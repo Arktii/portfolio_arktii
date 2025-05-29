@@ -16,6 +16,7 @@
 	import { Player } from '$lib/interactive/models/Player';
 	import { World } from '$lib/interactive/models/World';
 	import { Vec2 } from '$lib/interactive/models/Vec2';
+	import { EventBus } from '$lib/interactive/systems/EventBus';
 
 	let buildingImage: p5.Image;
 	let playerImage: p5.Image;
@@ -23,6 +24,8 @@
 	let world: World;
 	let colSpace: CollisionSpace;
 	let player: Player;
+
+	let updateBus: EventBus;
 
 	async function preload(p5: import('p5')) {
 		buildingImage = await p5.loadImage(building);
@@ -32,22 +35,24 @@
 	function setup(p5: import('p5')) {
 		world = new World();
 
+		updateBus = new EventBus();
+
 		colSpace = new CollisionSpace(
 			Math.ceil(BUILDING_SIZE.WIDTH / COL_SPACE.CELL_SIZE),
 			Math.ceil(BUILDING_SIZE.HEIGHT / COL_SPACE.CELL_SIZE),
 			COL_SPACE.CELL_SIZE
 		);
 		colSpace.colliderGrid = makeColliderGrid();
+
 		player = new Player(colSpace, new Vec2(p5.width / 2, 0));
+		updateBus.subscribe('update', player.update.bind(player));
 
 		p5.resizeCanvas(p5.width, p5.width / BUILDING_SIZE.ASPECT_RATIO);
-
 		world.resizeRatio = p5.width / WORLD_SIZE.REFERENCE_WIDTH;
 	}
 
-	function update(p5: import('p5'), deltaTime: number) {
-		// TODO: have each entity subscribe to update loop instead of mentioning them explicitly here
-		player.update(p5, deltaTime);
+	function update(p5: import('p5'), deltaSecs: number) {
+		updateBus.publish('update', p5, deltaSecs);
 
 		display(p5);
 	}
@@ -92,7 +97,12 @@
 		p5.rect(worldX, worldY, displayCellSize, displayCellSize);
 		p5.text(gridX + ',' + gridY, worldX, worldY + world.toWorld(colSpace.cellSize / 2));
 
-		p5.rect(world.toCanvas(player.position.x), world.toCanvas(player.position.y), world.toCanvas(PLAYER.WIDTH), world.toCanvas(PLAYER.HEIGHT));
+		p5.rect(
+			world.toCanvas(player.position.x),
+			world.toCanvas(player.position.y),
+			world.toCanvas(PLAYER.WIDTH),
+			world.toCanvas(PLAYER.HEIGHT)
+		);
 	}
 
 	function windowResized(p5: import('p5')) {

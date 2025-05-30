@@ -6,7 +6,6 @@ import { BoundingBox } from './BoundingBox';
 
 export class Player {
 	position: Vec2;
-	// aabb: BoundingBox;
 
 	lockInput: boolean;
 
@@ -21,7 +20,6 @@ export class Player {
 		this.colSpace = collisionSpace;
 
 		this.position = position;
-		// this.aabb = BoundingBox.fromRect(position.x, position.y, PLAYER.WIDTH, PLAYER.HEIGHT);
 
 		this.lockInput = false;
 		this.directionInputs = new DirectionFlags();
@@ -29,15 +27,12 @@ export class Player {
 		this.velocity = Vec2.ZERO;
 	}
 
-	update(p5: import('p5'), deltaSecs: number) {
-		// movement inputs (checked in update for greater responsiveness)
-		// @ts-ignore (typescript definitions aren't up to date with p5 version)
-		this.directionInputs.left = p5.keyIsDown(p5.LEFT_ARROW) || p5.keyIsDown('a');
-		// @ts-ignore (typescript definitions aren't up to date with p5 version)
-		this.directionInputs.right = p5.keyIsDown(p5.RIGHT_ARROW) || p5.keyIsDown('d');
+	calculateAABB(): BoundingBox {
+		return BoundingBox.fromRect(this.position.x, this.position.y, PLAYER.WIDTH, PLAYER.HEIGHT);
+	}
 
-		// horizontal movement
-		this.velocity.x = this.directionInputs.xAxis() * this.speed;
+	update(p5: import('p5'), deltaSecs: number) {
+		this.moveHorizontally(p5);
 
 		// gravity
 		this.velocity.y += PLAYER.GRAVITY * deltaSecs;
@@ -46,13 +41,24 @@ export class Player {
 		this.position.y += this.velocity.y * deltaSecs;
 		this.position.x = Math.max(this.position.x + this.velocity.x * deltaSecs, 0); // prevent negative x
 
-		// collisions
-		let collisionBox = BoundingBox.fromRect(
-			this.position.x,
-			this.position.y,
-			PLAYER.WIDTH,
-			PLAYER.HEIGHT
-		);
+		this.handleCollisions();
+
+		this.handleEdgeProtection();
+	}
+
+	private moveHorizontally(p5: import('p5')) {
+		// movement inputs (checked in update for greater responsiveness)
+		// @ts-ignore (typescript definitions aren't up to date with p5 version)
+		this.directionInputs.left = p5.keyIsDown(p5.LEFT_ARROW) || p5.keyIsDown('a');
+		// @ts-ignore (typescript definitions aren't up to date with p5 version)
+		this.directionInputs.right = p5.keyIsDown(p5.RIGHT_ARROW) || p5.keyIsDown('d');
+
+		// horizontal movement
+		this.velocity.x = this.directionInputs.xAxis() * this.speed;
+	}
+
+	private handleCollisions() {
+		let collisionBox = this.calculateAABB();
 
 		let collisionDisplacement = this.colSpace.calculateDisplacement(collisionBox);
 		if (collisionDisplacement.y != 0) {
@@ -64,13 +70,18 @@ export class Player {
 			this.velocity.x = 0;
 			this.position.x += collisionDisplacement.x;
 		}
+	}
 
-		// prevent walking off edges
+	/**
+	 * prevent walking off edges
+	 */
+	private handleEdgeProtection() {
 		if (this.velocity.y == 0) {
 			// walking left
 			if (this.velocity.x < 0) {
 				let playerLeft = this.position.x;
 				let playerBottom = this.position.y + PLAYER.HEIGHT;
+				// a point slightly below the overhang
 				let point = new Vec2(playerLeft, playerBottom + PLAYER.EDGE_CHECK);
 
 				if (!this.colSpace.checkPointCollision(point)) {
@@ -78,10 +89,12 @@ export class Player {
 					this.position.x += this.colSpace.cellSize - (playerLeft % this.colSpace.cellSize);
 				}
 			}
+
 			// walking right
 			else if (this.velocity.x > 0) {
 				let playerRight = this.position.x + PLAYER.WIDTH;
 				let playerBottom = this.position.y + PLAYER.HEIGHT;
+				// a point slightly below the overhang
 				let point = new Vec2(playerRight, playerBottom + PLAYER.EDGE_CHECK);
 
 				if (!this.colSpace.checkPointCollision(point)) {
@@ -91,4 +104,26 @@ export class Player {
 			}
 		}
 	}
+
+	// Code from other project for jumping Lerp:
+	// public static void Jump(Node2D node2d, Vector2 end, Action callback, float speed = MoveSpeed)
+	// {
+	//     node2d.ZIndex += 1;
+	//     Vector2 start = node2d.Position;
+	//     float distance = start.DistanceTo(end);
+	//     float duration = distance / speed;
+
+	//     float tan = Mathf.Tan(LaunchAngle);
+	//     (float sin, float cos) = Mathf.SinCos(LaunchAngle);
+	//     float adjustedSpeed = Mathf.Sqrt(5 * distance / (sin * cos));
+
+	//     // Formula: y(x) = -g/2 * (x/v_0*cos(theta))^2  + x * tan(theta); where g = 10
+	//     float deltaY(float x) => -5 * Mathf.Pow(x / (adjustedSpeed * cos), 2) + (x * tan);
+
+	//     Tween tween = node2d.CreateTween();
+	//     Callable callable = Callable.From((float t) => UpdatePosition(node2d, start, end, deltaY, t));
+	//     Callable finalize = Callable.From(() => { node2d.ZIndex -= 1; callback(); });
+	//     tween.TweenMethod(callable, 0f, 1f, duration);
+	//     tween.TweenCallback(finalize);
+	// }
 }

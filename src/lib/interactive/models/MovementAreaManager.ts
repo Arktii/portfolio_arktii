@@ -26,12 +26,7 @@ export class MovementPointManager {
 	}
 
 	update(p5: import('p5'), deltaSecs: number) {
-		let playerAABB = BoundingBox.fromRect(
-			this.player.position.x,
-			this.player.position.y,
-			PLAYER.WIDTH,
-			PLAYER.HEIGHT
-		);
+		let playerAABB = this.player.calculateAABB();
 
 		for (let i = 0; i < this.moveAreas.length; i++) {
 			let moveAreaAABB = this.moveAreas[i].aabb;

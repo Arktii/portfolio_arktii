@@ -56,6 +56,10 @@
 		// TODO: consider other locations for this
 		moveAreaManager = new MoveAreaManager(colSpace, player);
 		moveAreaManager.addArea(new Vec2(0, 2), new Vec2(7, 2), new Vec2(3, 7));
+		moveAreaManager.addArea(new Vec2(0, 7), new Vec2(6, 7), undefined, new Vec2(3, 2));
+		moveAreaManager.addArea(new Vec2(0, 7), new Vec2(3, 7), undefined, new Vec2(3, 2));
+		moveAreaManager.addArea(new Vec2(4, 7), new Vec2(6, 7), new Vec2(11, 8), new Vec2(3, 2));
+		// TODO: add offset based area + direction (i.e. (x + 1, y + 5) if player is moving right else (x - 1, y + 5))
 
 		updateBus.subscribe('update', moveAreaManager.update.bind(moveAreaManager));
 
@@ -125,7 +129,6 @@
 
 	function keyPressed(p5: import('p5')) {
 		// Keycodes are used instead of properties like p5.ARROW_LEFT because those seem to be automatically cast into strings
-		console.log(p5.keyCode);
 		// if (p5.keyCode == 38 || p5.key == 'w') {
 		// 	console.log('UP');
 		// } else if (p5.keyCode == 40 || p5.key == 's') {
@@ -133,6 +136,11 @@
 		// } else if (p5.key == ' ') {
 		// 	console.log('Interact Button Pressed');
 		// }
+
+		if (p5.key == 't') {
+			console.log('JUMP');
+			player.jump(new Vec2(50, 100));
+		}
 	}
 
 	function keyReleased(p5: import('p5')) {

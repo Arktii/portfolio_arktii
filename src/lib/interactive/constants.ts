@@ -27,7 +27,12 @@ export const PLAYER = {
 	SPEED: 200,
 	GRAVITY: 300,
 
-	EDGE_CHECK: 0.1
+	EDGE_CHECK: 0.1,
+
+	DOWN_JUMP_SPEED: 400,
+	UP_JUMP_SPEED: 300,
+	DOWN_LAUNCH_ANGLE: 0.349066, // 20 degrees
+	UP_LAUNCH_ANGLE: 1.22173 // 70 degrees
 };
 
 export const COLLISION_SPACE = {
@@ -39,17 +44,37 @@ let gridHeight = Math.ceil(BUILDING_SIZE.HEIGHT / COLLISION_SPACE.CELL_SIZE);
 
 // TODO: consider other solutions?
 export function makeColliderGrid() {
-	let grid = Array(gridWidth)
+	let grid: boolean[][] = Array(gridWidth)
 		.fill(null)
 		.map(() => Array(gridHeight).fill(false));
 
-	for (let x = 0; x < gridWidth; x++) {
-		grid[x][3] = true;
-	}
+	fillRow(grid, 3);
 
-	for (let x = 0; x <= 6; x++) {
-		grid[x][8] = true;
-	}
+	fillX(grid, 0, 6, 8);
+
+	fillX(grid, 10, 14, 9);
+
+	fillY(grid, 4, 12, 17);
+
+	fillRow(grid, 13);
 
 	return grid;
+}
+
+function fillRow(grid: boolean[][], y: number) {
+	for (let x = 0; x < gridWidth; x++) {
+		grid[x][y] = true;
+	}
+}
+
+function fillX(grid: boolean[][], startX: number, endX: number, y: number) {
+	for (let x = startX; x <= endX; x++) {
+		grid[x][y] = true;
+	}
+}
+
+function fillY(grid: boolean[][], startY: number, endY: number, x: number) {
+	for (let y = startY; y <= endY; y++) {
+		grid[x][y] = true;
+	}
 }

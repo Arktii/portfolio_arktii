@@ -1,9 +1,8 @@
 import { PLAYER } from '../constants';
-import { BoundingBox } from './BoundingBox';
 import type { CollisionSpace } from './CollisionSpace';
 import { MoveArea } from './MoveArea';
 import type { Player } from './Player';
-import type { Vec2 } from './Vec2';
+import { Vec2 } from './Vec2';
 
 export class MovementPointManager {
 	moveAreas: MoveArea[] = [];
@@ -29,11 +28,24 @@ export class MovementPointManager {
 		let playerAABB = this.player.calculateAABB();
 
 		for (let i = 0; i < this.moveAreas.length; i++) {
-			let moveAreaAABB = this.moveAreas[i].aabb;
-			if (moveAreaAABB.colliding(playerAABB)) {
-				// TODO: open new input options
-				console.log('HEY THERE');
-				break;
+			let moveArea = this.moveAreas[i];
+			if (moveArea.aabb.colliding(playerAABB)) {
+				// @ts-ignore (typescript definitions aren't up to date with p5 version)
+				if (moveArea.downTarget && p5.keyIsDown('s') && !this.player.inputIsLocked) {
+					let targetX = moveArea.downTarget.x - PLAYER.WIDTH / 2;
+					let targetY = moveArea.downTarget.y - PLAYER.HEIGHT / 2;
+
+					this.player.jump(new Vec2(targetX, targetY));
+					break;
+				}
+				// @ts-ignore (typescript definitions aren't up to date with p5 version)
+				if (moveArea.upTarget && p5.keyIsDown('w') && !this.player.inputIsLocked) {
+					let targetX = moveArea.upTarget.x - PLAYER.WIDTH / 2;
+					let targetY = moveArea.upTarget.y - PLAYER.HEIGHT / 2;
+
+					this.player.jump(new Vec2(targetX, targetY));
+					break;
+				}
 			}
 		}
 	}

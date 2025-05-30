@@ -17,7 +17,7 @@
 	import { World } from '$lib/interactive/models/World';
 	import { Vec2 } from '$lib/interactive/models/Vec2';
 	import { EventBus } from '$lib/interactive/systems/EventBus';
-	import { MoveArea } from '$lib/interactive/models/MoveArea';
+	import { MoveArea, Target } from '$lib/interactive/models/MoveArea';
 	import { MovementPointManager as MoveAreaManager } from '$lib/interactive/models/MovementAreaManager';
 
 	let buildingImage: p5.Image;
@@ -55,11 +55,19 @@
 		// setup movement points
 		// TODO: consider other locations for this
 		moveAreaManager = new MoveAreaManager(colSpace, player);
-		moveAreaManager.addArea(new Vec2(0, 2), new Vec2(7, 2), new Vec2(3, 7));
-		moveAreaManager.addArea(new Vec2(0, 7), new Vec2(6, 7), undefined, new Vec2(3, 2));
-		moveAreaManager.addArea(new Vec2(0, 7), new Vec2(3, 7), undefined, new Vec2(3, 2));
-		moveAreaManager.addArea(new Vec2(4, 7), new Vec2(6, 7), new Vec2(11, 8), new Vec2(3, 2));
-		// TODO: add offset based area + direction (i.e. (x + 1, y + 5) if player is moving right else (x - 1, y + 5))
+		moveAreaManager.addArea(new Vec2(0, 2), new Vec2(7, 2), new Target(3, 7, true));
+		moveAreaManager.addArea(
+			new Vec2(0, 7),
+			new Vec2(3, 7),
+			undefined,
+			new Target(1, -5, false, true)
+		);
+		moveAreaManager.addArea(
+			new Vec2(4, 7),
+			new Vec2(6, 7),
+			new Target(11, 8, true),
+			new Target(1, -5, false, true)
+		);
 
 		updateBus.subscribe('update', moveAreaManager.update.bind(moveAreaManager));
 
@@ -98,13 +106,20 @@
 		let displayCellSize = world.toCanvas(colSpace.cellSize);
 		let playerDisplayPosition = world.worldPointToCanvas(player.position);
 
+		p5.push();
+		p5.scale(player.direction, 1);
+		let addX = player.direction < 0 ? -PLAYER.SPRITE_WIDTH : 0;
 		p5.image(
 			playerImage,
-			world.toCanvas(player.position.x),
-			world.toCanvas(player.position.y),
-			world.toCanvas(PLAYER.WIDTH),
-			world.toCanvas(PLAYER.HEIGHT)
+			// TODO: see if this extra calculation is really necessary [(PLAYER.SPRITE_WIDTH - PLAYER.WIDTH) / 2)]
+			world.toCanvas(
+				(player.position.x - (PLAYER.SPRITE_WIDTH - PLAYER.WIDTH) / 2) * player.direction + addX
+			),
+			world.toCanvas(player.position.y - PLAYER.HEIGHT),
+			world.toCanvas(PLAYER.SPRITE_WIDTH),
+			world.toCanvas(PLAYER.SPRITE_HEIGHT)
 		);
+		p5.pop();
 
 		let gridX = Math.floor(world.toWorld(p5.mouseX) / colSpace.cellSize);
 		let gridY = Math.floor(world.toWorld(p5.mouseY) / colSpace.cellSize);
@@ -113,12 +128,38 @@
 		p5.rect(worldX, worldY, displayCellSize, displayCellSize);
 		p5.text(gridX + ',' + gridY, worldX, worldY + world.toWorld(colSpace.cellSize / 2));
 
-		p5.rect(
-			world.toCanvas(player.position.x),
-			world.toCanvas(player.position.y),
-			world.toCanvas(PLAYER.WIDTH),
-			world.toCanvas(PLAYER.HEIGHT)
+		let playerAABB = player.calculateAABB();
+		p5.line(
+			world.toCanvas(playerAABB.left),
+			world.toCanvas(playerAABB.top),
+			world.toCanvas(playerAABB.right),
+			world.toCanvas(playerAABB.top)
 		);
+		p5.line(
+			world.toCanvas(playerAABB.left),
+			world.toCanvas(playerAABB.bottom),
+			world.toCanvas(playerAABB.right),
+			world.toCanvas(playerAABB.bottom)
+		);
+		p5.line(
+			world.toCanvas(playerAABB.left),
+			world.toCanvas(playerAABB.top),
+			world.toCanvas(playerAABB.left),
+			world.toCanvas(playerAABB.bottom)
+		);
+		p5.line(
+			world.toCanvas(playerAABB.right),
+			world.toCanvas(playerAABB.top),
+			world.toCanvas(playerAABB.right),
+			world.toCanvas(playerAABB.bottom)
+		);
+
+		// p5.rect(
+		// 	world.toCanvas(player.position.x),
+		// 	world.toCanvas(player.position.y),
+		// 	world.toCanvas(PLAYER.WIDTH),
+		// 	world.toCanvas(PLAYER.HEIGHT)
+		// );
 	}
 
 	function windowResized(p5: import('p5')) {

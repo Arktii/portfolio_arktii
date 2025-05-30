@@ -22,8 +22,8 @@ export const PLAYER = {
 	SPRITE_WIDTH: 32 * 2,
 	SPRITE_HEIGHT: 32 * 2,
 
-	WIDTH: 32 * 2,
-	HEIGHT: 32 * 2,
+	WIDTH: (28) * 2,
+	HEIGHT: 32,
 	SPEED: 200,
 	GRAVITY: 300,
 

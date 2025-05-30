@@ -8,6 +8,8 @@ import { Tween } from '../systems/Tween';
 export class Player {
 	position: Vec2;
 
+	#direction: -1 | 1;
+
 	#inputIsLocked: boolean;
 
 	// property, because I may introduce a slower speed for when pushing objects
@@ -24,6 +26,7 @@ export class Player {
 		this.#colSpace = collisionSpace;
 
 		this.position = position;
+		this.#direction = 1;
 
 		this.#inputIsLocked = false;
 		this.#directionInputs = new DirectionFlags();
@@ -33,6 +36,14 @@ export class Player {
 
 	get inputIsLocked() {
 		return this.#inputIsLocked;
+	}
+
+	get velocity() {
+		return this.#velocity;
+	}
+
+	get direction() {
+		return this.#direction;
 	}
 
 	calculateAABB(): BoundingBox {
@@ -69,6 +80,13 @@ export class Player {
 
 		// horizontal movement
 		this.#velocity.x = this.#directionInputs.xAxis() * this.#speed;
+
+		// update direction
+		if (this.velocity.x > 0) {
+			this.#direction = 1;
+		} else if (this.velocity.x < 0) {
+			this.#direction = -1;
+		}
 	}
 
 	private handleCollisions() {
@@ -120,6 +138,8 @@ export class Player {
 	}
 
 	jump(target: Vec2) {
+		this.#inputIsLocked = true;
+
 		let launchAngle =
 			target.y < this.position.y ? PLAYER.UP_LAUNCH_ANGLE : PLAYER.DOWN_LAUNCH_ANGLE;
 		let jumpSpeed = target.y < this.position.y ? PLAYER.UP_JUMP_SPEED : PLAYER.DOWN_JUMP_SPEED;
@@ -143,8 +163,9 @@ export class Player {
 				this.updateJumpPosition(start, target, t, calcDeltaY);
 			})
 			.setFinishFunction(() => {
-				console.log('landed');
+				this.position = target;
 				this.#tween = undefined;
+				this.#inputIsLocked = false;
 			});
 
 		this.#tween = tween;

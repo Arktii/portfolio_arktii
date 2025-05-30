@@ -1,3 +1,4 @@
+import { clamp } from '$lib/utils/Math';
 import { PLAYER } from '../constants';
 import type { CollisionSpace } from './CollisionSpace';
 import { MoveArea, Target } from './MoveArea';
@@ -15,8 +16,10 @@ export class MovementPointManager {
 		this.player = player;
 	}
 
-	addArea(start: Vec2, end: Vec2, downTarget?: Target, upTarget?: Target) {
-		this.moveAreas.push(new MoveArea(this.colSpace.cellSize, start, end, downTarget, upTarget));
+	addArea(xStart: number, xEnd: number, y: number, downTarget?: Target, upTarget?: Target) {
+		this.moveAreas.push(
+			new MoveArea(this.colSpace.cellSize, xStart, xEnd, y, downTarget, upTarget)
+		);
 	}
 
 	update(p5: import('p5'), deltaSecs: number) {
@@ -27,47 +30,44 @@ export class MovementPointManager {
 			if (moveArea.aabb.colliding(playerAABB)) {
 				// @ts-ignore (typescript definitions aren't up to date with p5 version)
 				if (moveArea.downTarget && p5.keyIsDown('s') && !this.player.inputIsLocked) {
-					let target: Vec2;
-					if (moveArea.downTarget.absolute) {
-						target = new Vec2(moveArea.downTarget.worldX, moveArea.downTarget.worldY);
-					} else {
-						let direction = moveArea.downTarget.multiplyXByDirection ? this.player.direction : 1;
-
-						target = new Vec2(
-							this.player.position.x + moveArea.downTarget.worldX * direction,
-							this.player.position.y + moveArea.downTarget.worldY
-						);
-					}
-
-					this.jump(target);
+					this.jump(
+						moveArea.downTarget.offset,
+						moveArea.downTarget.xLimitStart,
+						moveArea.downTarget.xLimitEnd,
+						moveArea.downTarget.multiplyXByDirection
+					);
 					break;
 				}
 				// @ts-ignore (typescript definitions aren't up to date with p5 version)
 				if (moveArea.upTarget && p5.keyIsDown('w') && !this.player.inputIsLocked) {
-					let target: Vec2;
-					if (moveArea.upTarget.absolute) {
-						target = new Vec2(moveArea.upTarget.worldX, moveArea.upTarget.worldY);
-					} else {
-						let direction = moveArea.upTarget.multiplyXByDirection ? this.player.direction : 1;
-
-						console.log('Direction: ', direction);
-						console.log('Offset: ', moveArea.upTarget.worldX * direction);
-
-						target = new Vec2(
-							this.player.position.x + moveArea.upTarget.worldX * direction,
-							this.player.position.y + moveArea.upTarget.worldY
-						);
-					}
-
-					this.jump(target);
-
+					this.jump(
+						moveArea.upTarget.offset,
+						moveArea.upTarget.xLimitStart,
+						moveArea.upTarget.xLimitEnd,
+						moveArea.upTarget.multiplyXByDirection
+					);
 					break;
 				}
 			}
 		}
 	}
 
-	private jump(target: Vec2) {
+	private jump(
+		offset: Vec2,
+		xLimitStart: number | undefined,
+		xLimitEnd: number | undefined,
+		multiplyXByDirection: boolean
+	) {
+		let direction = multiplyXByDirection ? this.player.direction : 1;
+
+		let target = new Vec2(
+			this.player.position.x + offset.x * direction,
+			this.player.position.y + offset.y
+		);
+
+		if (xLimitStart !== undefined) target.x = Math.max(target.x, xLimitStart);
+		if (xLimitEnd !== undefined) target.x = Math.min(target.x, xLimitEnd);
+
 		let targetX = target.x;
 		let targetY = target.y - PLAYER.HEIGHT;
 

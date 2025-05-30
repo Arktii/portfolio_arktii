@@ -55,19 +55,12 @@
 		// setup movement points
 		// TODO: consider other locations for this
 		moveAreaManager = new MoveAreaManager(colSpace, player);
-		moveAreaManager.addArea(new Vec2(0, 2), new Vec2(7, 2), new Target(3, 7, true));
-		moveAreaManager.addArea(
-			new Vec2(0, 7),
-			new Vec2(3, 7),
-			undefined,
-			new Target(1, -5, false, true)
-		);
-		moveAreaManager.addArea(
-			new Vec2(4, 7),
-			new Vec2(6, 7),
-			new Target(11, 8, true),
-			new Target(1, -5, false, true)
-		);
+		moveAreaManager.addArea(0, 7, 2, new Target(3, 5, 0, 5, true));
+		moveAreaManager.addArea(0, 3, 7, undefined, new Target(1, -5, 0));
+		moveAreaManager.addArea(4, 6, 7, new Target(6, 1, 10, 14, false), new Target(1, -5, 0));
+		moveAreaManager.addArea(10, 10, 8, new Target(1, 4, 0, 15), new Target(5, -1, 0, 5));
+		moveAreaManager.addArea(12, 14, 8, new Target(1, 4, 0, 15));
+		moveAreaManager.addArea(9, 15, 11, undefined, new Target(1, -4, 10, 13));
 
 		updateBus.subscribe('update', moveAreaManager.update.bind(moveAreaManager));
 

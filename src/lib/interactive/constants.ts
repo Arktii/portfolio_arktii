@@ -32,7 +32,7 @@ export const PLAYER = {
 	DOWN_JUMP_SPEED: 400,
 	UP_JUMP_SPEED: 300,
 	DOWN_LAUNCH_ANGLE: 0.349066, // 20 degrees
-	UP_LAUNCH_ANGLE: 1.22173 // 70 degrees
+	UP_LAUNCH_ANGLE: 1.0472 // 60 degrees
 };
 
 export const COLLISION_SPACE = {

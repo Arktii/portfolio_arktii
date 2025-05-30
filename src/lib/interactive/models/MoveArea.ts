@@ -1,60 +1,61 @@
 import { BoundingBox } from './BoundingBox';
 import { Vec2 } from './Vec2';
 
-// TODO: remove absolute, replace with absolute limits
 export class Target {
-	gridX: number;
-	gridY: number;
-	absolute: boolean = false;
-	/**
-	 * has no effect if absolute is true
-	 */
+	offsetX: number;
+	offSetY: number;
+	xLimitStart?: number;
+	xLimitEnd?: number;
 	multiplyXByDirection: boolean;
 
 	constructor(
 		gridX: number,
 		gridY: number,
-		absolute: boolean = true,
-		multiplyXByDirection: boolean = false
+		xLimitStart?: number,
+		xLimitEnd?: number,
+		multiplyXByDirection: boolean = true
 	) {
-		this.gridX = gridX;
-		this.gridY = gridY;
-		this.absolute = absolute;
+		this.offsetX = gridX;
+		this.offSetY = gridY;
+		this.xLimitStart = xLimitStart;
+		this.xLimitEnd = xLimitEnd;
 		this.multiplyXByDirection = multiplyXByDirection;
 	}
 }
 
 class WorldTarget {
 	/**
-	 * targets bottom left corner (rather than top)
+	 * bottom-left corner
 	 */
-	worldX: number;
-	/**
-	 * targets bottom left corner (rather than top)
-	 */
-	worldY: number;
-	absolute: boolean;
+	offset: Vec2;
+	xLimitStart?: number;
+	xLimitEnd?: number;
+
 	/**
 	 * has no effect if absolute is true
 	 */
 	multiplyXByDirection: boolean;
 
-	constructor(
-		worldX: number,
-		worldY: number,
-		absolute: boolean = true,
-		multiplyXByDirection: boolean = false
-	) {
-		this.worldX = worldX;
-		this.worldY = worldY;
-		this.absolute = absolute;
-		this.multiplyXByDirection = multiplyXByDirection;
+	constructor(target: Target, cellSize: number) {
+		this.offset = new Vec2(target.offsetX * cellSize, (target.offSetY + 1) * cellSize);
+
+		if (target.xLimitStart !== undefined) this.xLimitStart = target.xLimitStart * cellSize;
+		if (target.xLimitEnd !== undefined) this.xLimitEnd = target.xLimitEnd * cellSize;
+
+		this.multiplyXByDirection = target.multiplyXByDirection;
 	}
 }
 
 export class MoveArea {
-	start: Vec2;
-	end: Vec2;
+	/**
+	 * x position only
+	 */
+	xStart: number;
+	/**
+	 * x position only
+	 */
+	xend: number;
+	y: number;
 	downTarget?: WorldTarget;
 	upTarget?: WorldTarget;
 
@@ -62,31 +63,23 @@ export class MoveArea {
 
 	constructor(
 		cellSize: number,
-		start: Vec2,
-		end: Vec2,
+		start: number,
+		end: number,
+		y: number,
 		downGridTarget?: Target,
 		upGridTarget?: Target
 	) {
-		this.start = start;
-		this.end = end;
+		this.xStart = start;
+		this.xend = end;
+		this.y = y;
 
 		if (downGridTarget) {
-			this.downTarget = new WorldTarget(
-				downGridTarget.gridX * cellSize,
-				(downGridTarget.gridY + 1) * cellSize,
-				downGridTarget.absolute,
-				downGridTarget.multiplyXByDirection
-			);
+			this.downTarget = new WorldTarget(downGridTarget, cellSize);
 		}
 		if (upGridTarget) {
-			this.upTarget = new WorldTarget(
-				upGridTarget.gridX * cellSize,
-				(upGridTarget.gridY + 1) * cellSize,
-				upGridTarget.absolute,
-				upGridTarget.multiplyXByDirection
-			);
+			this.upTarget = new WorldTarget(upGridTarget, cellSize);
 		}
 
-		this.aabb = BoundingBox.fromGrid(this.start.x, this.start.y, this.end.x, this.end.y, cellSize);
+		this.aabb = BoundingBox.fromGrid(this.xStart, this.y, this.xend, this.y, cellSize);
 	}
 }

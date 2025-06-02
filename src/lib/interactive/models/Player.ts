@@ -1,5 +1,7 @@
-import { FLOAT_TOLERANCE, PLAYER } from '$lib/interactive/constants';
-import type { CollisionSpace } from './CollisionSpace';
+import { PLAYER } from '../constants';
+import type { CollisionSpace } from '../core/CollisionSpace';
+import type { Context } from '../core/Context';
+
 import { DirectionFlags } from './DirectionFlags';
 import { Vec2 } from './Vec2';
 import { BoundingBox } from './BoundingBox';
@@ -18,13 +20,9 @@ export class Player {
 	#directionInputs: DirectionFlags;
 	#velocity: Vec2;
 
-	#colSpace: CollisionSpace;
-
 	#tween?: Tween;
 
 	constructor(collisionSpace: CollisionSpace, position: Vec2) {
-		this.#colSpace = collisionSpace;
-
 		this.position = position;
 		this.#direction = 1;
 
@@ -50,9 +48,9 @@ export class Player {
 		return BoundingBox.fromRect(this.position.x, this.position.y, PLAYER.WIDTH, PLAYER.HEIGHT);
 	}
 
-	update(p5: import('p5'), deltaSecs: number) {
+	update(context: Context, deltaSecs: number) {
 		if (!this.#inputIsLocked) {
-			this.moveHorizontally(p5);
+			this.moveHorizontally(context.p5);
 
 			// gravity
 			this.#velocity.y += PLAYER.GRAVITY * deltaSecs;
@@ -61,9 +59,9 @@ export class Player {
 			this.position.y += this.#velocity.y * deltaSecs;
 			this.position.x = Math.max(this.position.x + this.#velocity.x * deltaSecs, 0); // prevent negative x
 
-			this.handleCollisions();
+			this.handleCollisions(context.colSpace);
 
-			this.handleEdgeProtection();
+			this.handleEdgeProtection(context.colSpace);
 		}
 
 		if (this.#tween) {
@@ -89,10 +87,10 @@ export class Player {
 		}
 	}
 
-	private handleCollisions() {
+	private handleCollisions(colSpace: CollisionSpace) {
 		let collisionBox = this.calculateAABB();
 
-		let collisionDisplacement = this.#colSpace.calculateDisplacement(collisionBox);
+		let collisionDisplacement = colSpace.calculateDisplacement(collisionBox);
 		if (collisionDisplacement.y != 0) {
 			this.#velocity.y = 0;
 			this.position.y += collisionDisplacement.y;
@@ -107,7 +105,7 @@ export class Player {
 	/**
 	 * prevent walking off edges
 	 */
-	private handleEdgeProtection() {
+	private handleEdgeProtection(colSpace: CollisionSpace) {
 		if (this.#velocity.y == 0) {
 			// walking left
 			if (this.#velocity.x < 0) {
@@ -116,9 +114,9 @@ export class Player {
 				// a point slightly below the overhang
 				let point = new Vec2(playerLeft, playerBottom + PLAYER.EDGE_CHECK);
 
-				if (!this.#colSpace.checkPointCollision(point)) {
+				if (!colSpace.checkPointCollision(point)) {
 					this.#velocity.x = 0;
-					this.position.x += this.#colSpace.cellSize - (playerLeft % this.#colSpace.cellSize);
+					this.position.x += colSpace.cellSize - (playerLeft % colSpace.cellSize);
 				}
 			}
 
@@ -129,9 +127,9 @@ export class Player {
 				// a point slightly below the overhang
 				let point = new Vec2(playerRight, playerBottom + PLAYER.EDGE_CHECK);
 
-				if (!this.#colSpace.checkPointCollision(point)) {
+				if (!colSpace.checkPointCollision(point)) {
 					this.#velocity.x = 0;
-					this.position.x -= playerRight % this.#colSpace.cellSize;
+					this.position.x -= playerRight % colSpace.cellSize;
 				}
 			}
 		}

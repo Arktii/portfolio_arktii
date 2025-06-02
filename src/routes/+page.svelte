@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Canvas from '$lib/components/interactive/Canvas.svelte';
-	import { CollisionSpace } from '$lib/interactive/models/CollisionSpace';
+	import { CollisionSpace } from '$lib/interactive/core/CollisionSpace';
 
 	import type p5 from 'p5';
 
@@ -14,24 +14,25 @@
 		WORLD_SIZE
 	} from '$lib/interactive/constants';
 	import { Player } from '$lib/interactive/models/Player';
-	import { World } from '$lib/interactive/models/World';
+	import { World } from '$lib/interactive/core/World';
 	import { Vec2 } from '$lib/interactive/models/Vec2';
-	import { EventBus } from '$lib/interactive/systems/EventBus';
-	import { MoveArea, Target } from '$lib/interactive/models/MoveArea';
+	import { EventBus } from '$lib/interactive/core/EventBus';
+	import { Target } from '$lib/interactive/models/MoveArea';
 	import { MovementPointManager as MoveAreaManager } from '$lib/interactive/models/MovementAreaManager';
-	import { Drawing } from '$lib/interactive/models/Drawing';
+	import { Drawing } from '$lib/interactive/core/Drawing';
+	import { Context } from '$lib/interactive/core/Context';
 
 	let buildingImage: p5.Image;
 	let playerImage: p5.Image;
 
+	let context: Context;
 	let world: World;
 	let colSpace: CollisionSpace;
 	let drawing: Drawing;
 	let player: Player;
 
-	let updateBus: EventBus;
+	let eventBus: EventBus;
 
-	let movementPoints: MoveArea[] = [];
 	let moveAreaManager: MoveAreaManager;
 
 	async function preload(p5: import('p5')) {
@@ -42,9 +43,7 @@
 	function setup(p5: import('p5')) {
 		world = new World();
 		drawing = new Drawing(p5, world);
-
-		updateBus = new EventBus();
-
+		eventBus = new EventBus();
 		colSpace = new CollisionSpace(
 			Math.ceil(BUILDING_SIZE.WIDTH / COL_SPACE.CELL_SIZE),
 			Math.ceil(BUILDING_SIZE.HEIGHT / COL_SPACE.CELL_SIZE),
@@ -52,8 +51,10 @@
 		);
 		colSpace.colliderGrid = makeColliderGrid();
 
+		context = new Context(p5, world, drawing, colSpace, eventBus);
+
 		player = new Player(colSpace, new Vec2(p5.width / 2, 0));
-		updateBus.subscribe('update', player.update.bind(player));
+		eventBus.subscribe('update', player.update.bind(player));
 
 		// setup movement points
 		// TODO: consider other locations for this
@@ -65,14 +66,14 @@
 		moveAreaManager.addArea(12, 14, 8, new Target(1, 4, 0, 15));
 		moveAreaManager.addArea(9, 15, 11, undefined, new Target(1, -4, 10, 13));
 
-		updateBus.subscribe('update', moveAreaManager.update.bind(moveAreaManager));
+		eventBus.subscribe('update', moveAreaManager.update.bind(moveAreaManager));
 
 		p5.resizeCanvas(p5.width, p5.width / BUILDING_SIZE.ASPECT_RATIO);
 		world.resizeRatio = p5.width / WORLD_SIZE.REFERENCE_WIDTH;
 	}
 
 	function update(p5: import('p5'), deltaSecs: number) {
-		updateBus.publish('update', p5, deltaSecs);
+		eventBus.publish('update', context, deltaSecs);
 
 		display(p5);
 	}

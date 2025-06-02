@@ -1,5 +1,5 @@
-import { BoundingBox } from './BoundingBox';
-import { Vec2 } from './Vec2';
+import { BoundingBox } from '../models/BoundingBox';
+import { Vec2 } from '../models/Vec2';
 
 export class CollisionSpace {
 	// todo? add origin

@@ -19,12 +19,14 @@
 	import { EventBus } from '$lib/interactive/systems/EventBus';
 	import { MoveArea, Target } from '$lib/interactive/models/MoveArea';
 	import { MovementPointManager as MoveAreaManager } from '$lib/interactive/models/MovementAreaManager';
+	import { Drawing } from '$lib/interactive/models/Drawing';
 
 	let buildingImage: p5.Image;
 	let playerImage: p5.Image;
 
 	let world: World;
 	let colSpace: CollisionSpace;
+	let drawing: Drawing;
 	let player: Player;
 
 	let updateBus: EventBus;
@@ -39,6 +41,7 @@
 
 	function setup(p5: import('p5')) {
 		world = new World();
+		drawing = new Drawing(p5, world);
 
 		updateBus = new EventBus();
 
@@ -75,44 +78,26 @@
 	}
 
 	function display(p5: import('p5')) {
-		p5.image(
-			buildingImage,
-			world.toCanvas(0),
-			world.toCanvas(0),
-			world.toCanvas(BUILDING_SIZE.WIDTH),
-			world.toCanvas(BUILDING_SIZE.HEIGHT)
-		);
+		drawing.image(buildingImage, 0, 0, BUILDING_SIZE.WIDTH, BUILDING_SIZE.HEIGHT);
 
 		for (let y = 0; y < colSpace.gridHeight; y++) {
 			for (let x = 0; x < colSpace.gridWidth; x++) {
 				if (colSpace.colliderGrid[x][y] === true) {
-					p5.rect(
-						x * world.toCanvas(colSpace.cellSize),
-						y * world.toCanvas(colSpace.cellSize),
-						world.toCanvas(colSpace.cellSize),
-						world.toCanvas(colSpace.cellSize)
-					);
+					drawing.gridRect(x, y, 1, 1, colSpace.cellSize);
 				}
 			}
 		}
 
 		let displayCellSize = world.toCanvas(colSpace.cellSize);
-		let playerDisplayPosition = world.worldPointToCanvas(player.position);
 
-		p5.push();
-		p5.scale(player.direction, 1);
-		let addX = player.direction < 0 ? -PLAYER.SPRITE_WIDTH : 0;
-		p5.image(
+		drawing.image(
 			playerImage,
-			// TODO: see if this extra calculation is really necessary [(PLAYER.SPRITE_WIDTH - PLAYER.WIDTH) / 2)]
-			world.toCanvas(
-				(player.position.x - (PLAYER.SPRITE_WIDTH - PLAYER.WIDTH) / 2) * player.direction + addX
-			),
-			world.toCanvas(player.position.y - PLAYER.HEIGHT),
-			world.toCanvas(PLAYER.SPRITE_WIDTH),
-			world.toCanvas(PLAYER.SPRITE_HEIGHT)
+			player.position.x - (PLAYER.SPRITE_WIDTH - PLAYER.WIDTH) / 2,
+			player.position.y - PLAYER.HEIGHT,
+			PLAYER.SPRITE_WIDTH,
+			PLAYER.SPRITE_HEIGHT,
+			player.direction < 0
 		);
-		p5.pop();
 
 		let gridX = Math.floor(world.toWorld(p5.mouseX) / colSpace.cellSize);
 		let gridY = Math.floor(world.toWorld(p5.mouseY) / colSpace.cellSize);

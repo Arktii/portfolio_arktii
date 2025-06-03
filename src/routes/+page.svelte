@@ -21,6 +21,7 @@
 	import { MovementPointManager as MoveAreaManager } from '$lib/interactive/models/MovementAreaManager';
 	import { Drawing } from '$lib/interactive/core/Drawing';
 	import { Context } from '$lib/interactive/core/Context';
+	import { testPriorityQueue, type PriorityQueue } from '$lib/collections/PriorityQueue';
 
 	let buildingImage: p5.Image;
 	let playerImage: p5.Image;
@@ -41,6 +42,8 @@
 	}
 
 	function setup(p5: import('p5')) {
+		testPriorityQueue();
+
 		world = new World();
 		drawing = new Drawing(p5, world);
 		eventBus = new EventBus();

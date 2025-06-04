@@ -33,74 +33,74 @@ export class MovementPointManager {
 		this.#hereArrowImage = await context.p5.loadImage(hereArrowImg);
 
 		// roof
-		this.addArea(1, 11, 3, new Target(2, 3, 1, 8));
+		this.addArea(2, 12, 3, new Target(2, 3, 2, 9));
 
 		// balcony 1
-		this.addArea(1, 10, 6, new Target(1, 3, 1, 8), new Target(1, -3, 1));
-		this.addArea(1, 10, 9, new Target(1, 4, 1, 17), new Target(1, -3, 1, 8));
+		this.addArea(2, 11, 6, new Target(1, 3, 2, 9), new Target(1, -3, 2));
+		this.addArea(2, 11, 9, new Target(1, 4, 2, 18), new Target(1, -3, 2, 9));
 
 		// pipe
-		this.addArea(1, 10, 13, new Target(1, 5, 3, 18), new Target(1, -4, 1, 8));
-		this.addArea(11, 19, 13, new Target(1, 5, 3, 18));
+		this.addArea(2, 11, 13, new Target(1, 5, 4, 19), new Target(1, -4, 2, 9));
+		this.addArea(12, 20, 13, new Target(1, 5, 4, 19));
 
 		// ledge
-		this.addArea(16, 20, 18, new Target(1, 3, 17, 18), new Target(2, -5, 1, 17));
-		this.addArea(3, 13, 18, undefined, new Target(2, -5, 1, 17));
+		this.addArea(17, 21, 18, new Target(1, 3, 18, 19), new Target(2, -5, 2, 18));
+		this.addArea(4, 14, 18, undefined, new Target(2, -5, 2, 18));
 
 		// machine
-		this.addArea(17, 20, 21, new Target(0, 4, 17, 18), new Target(0, -3));
+		this.addArea(18, 21, 21, new Target(0, 4, 18, 19), new Target(0, -3));
 
 		// machine
-		this.addArea(17, 17, 25, new Target(3, 2, 3, 13), new Target(0, -4));
-		this.addArea(17, 20, 25, new Target(0, 4), new Target(0, -4));
+		this.addArea(18, 18, 25, new Target(3, 2, 4, 14), new Target(0, -4));
+		this.addArea(18, 21, 25, new Target(0, 4), new Target(0, -4));
 
 		// billboard
-		this.addArea(15, 15, 27, new Target(0, 2, 17, 18), new Target(0, -2, 17, 18));
-		this.addArea(3, 14, 27, new Target(0, 6));
+		this.addArea(16, 16, 27, new Target(0, 2, 18, 19), new Target(0, -2, 18, 19));
+		this.addArea(4, 15, 27, new Target(0, 6));
 
 		// machine
-		this.addArea(17, 17, 29, new Target(2, 4, 1, 16), new Target(3, -2, 3, 13));
-		this.addArea(18, 20, 29, new Target(2, 4, 1, 16), new Target(0, -4));
+		this.addArea(18, 18, 29, new Target(2, 4, 2, 17), new Target(3, -2, 4, 14));
+		this.addArea(19, 21, 29, new Target(2, 4, 2, 17), new Target(0, -4));
 
 		// ledge
-		this.addArea(16, 18, 33, new Target(1, 5, 17, 18), new Target(1, -5, 17, 18));
-		this.addArea(1, 15, 33, new Target(0, 3, 1, 12));
+		this.addArea(17, 19, 33, new Target(1, 5, 18, 19), new Target(1, -5, 18, 19));
+		this.addArea(2, 16, 33, new Target(0, 3, 2, 13));
 
 		// pipe
-		this.addArea(1, 2, 36, new Target(0, 4, 1, 1), new Target(0, -3));
-		this.addArea(3, 9, 36, new Target(0, 7, 1, 6), new Target(0, -3));
-		this.addArea(14, 14, 36, new Target(3, 2, 17, 17), new Target(0, -3));
-		this.addArea(10, 13, 36, new Target(0, 7, 1, 6), new Target(0, -3));
+		this.addArea(2, 3, 36, new Target(0, 4, 2, 2), new Target(0, -3));
+		this.addArea(4, 10, 36, new Target(0, 7, 2, 7), new Target(0, -3));
+		this.addArea(15, 15, 36, new Target(3, 2, 18, 18), new Target(0, -3));
+		this.addArea(11, 14, 36, new Target(0, 7, 2, 7), new Target(0, -3));
 
 		// machine
-		this.addArea(17, 20, 38, new Target(0, 4), new Target(1, -2, 1, 12));
+		this.addArea(18, 21, 38, new Target(0, 4), new Target(1, -2, 2, 13));
 
 		// pipe
-		this.addArea(15, 20, 42, undefined, new Target(0, -4, 17, 18));
+		this.addArea(16, 21, 42, undefined, new Target(0, -4, 18, 19));
 
 		// balcony
-		this.addArea(1, 2, 40, new Target(1, 3, 1, 6), new Target(0, -4));
-		this.addArea(1, 3, 43, new Target(0, 3, 1, 1), new Target(0, -3, 1, 1));
-		this.addArea(4, 5, 43, new Target(0, 6, 1, 2));
+		this.addArea(2, 3, 40, new Target(1, 3, 2, 7), new Target(0, -4));
+		this.addArea(2, 4, 43, new Target(0, 3, 2, 2), new Target(0, -3, 2, 2));
+		this.addArea(5, 6, 43, new Target(0, 6, 2, 3));
 
 		// balcony
-		this.addArea(1, 2, 46, new Target(1, 3, 1, 6), new Target(0, -3));
-		this.addArea(4, 4, 49, new Target(2, 3, 6, 8, false));
-		this.addArea(1, 3, 49, new Target(0, 3, 1, 1), new Target(0, -3, 1, 1));
+		this.addArea(2, 3, 46, new Target(1, 3, 2, 7), new Target(0, -3));
+		this.addArea(5, 5, 49, new Target(2, 3, 7, 9, false));
+		this.addArea(2, 4, 49, new Target(0, 3, 2, 2), new Target(0, -3, 2, 2));
 
 		// balcony
-		this.addArea(1, 2, 52, new Target(1, 3, 1, 6), new Target(0, -4));
-		this.addArea(5, 8, 55, new Target(0, 3), new Target(1, -3, 6));
-		this.addArea(1, 4, 55, new Target(0, 3), new Target(0, -3, 1, 1));
+		this.addArea(2, 3, 52, new Target(1, 3, 2, 7), new Target(0, -4));
+		this.addArea(6, 9, 55, new Target(0, 3), new Target(1, -3, 7));
+		this.addArea(2, 5, 55, new Target(0, 3), new Target(0, -3, 2, 2));
 
 		// billboard
-		this.addArea(6, 6, 52, new Target(1, 3, 1, 6), new Target(2, -3, 3, 3));
-		this.addArea(7, 9, 52, new Target(1, 3, 1, 6));
+		this.addArea(7, 7, 52, new Target(1, 3, 2, 7), new Target(2, -3, 4, 4));
+		this.addArea(8, 10, 52, new Target(1, 3, 2, 7));
 
 		// balcony
-		this.addArea(1, 9, 58, new Target(0, 3), new Target(0, -3, 1, 7));
-		this.addArea(9, 17, 58, new Target(0, 3));
-		this.addArea(1, 18, 61, undefined, new Target(0, -3, 1, 16));
+		this.addArea(2, 10, 58, new Target(0, 3), new Target(0, -3, 2, 8));
+		this.addArea(10, 18, 58, new Target(0, 3));
+		this.addArea(2, 19, 61, undefined, new Target(0, -3, 2, 17));
 	}
 
 	addArea(xStart: number, xEnd: number, y: number, downTarget?: Target, upTarget?: Target) {

@@ -9,13 +9,13 @@ export const CANVAS_SIZE = {
 const SCALE_MULTIPLIER = 3;
 
 export const BUILDING_SIZE = {
-	WIDTH: 220 * SCALE_MULTIPLIER,
+	WIDTH: 240 * SCALE_MULTIPLIER,
 	HEIGHT: 700 * SCALE_MULTIPLIER,
-	ASPECT_RATIO: 220 / 700
+	ASPECT_RATIO: 240 / 700
 };
 
 export const WORLD_SIZE = {
-	REFERENCE_WIDTH: 660
+	REFERENCE_WIDTH: 720
 };
 
 export const PHYSICS = {
@@ -76,41 +76,42 @@ export function makeColliderGrid() {
 
 	fillRow(grid, 4);
 
-	fillX(grid, 1, 10, 7);
-	fillX(grid, 1, 10, 10);
+	// balcony
+	fillX(grid, 2, 11, 7);
+	fillX(grid, 2, 11, 10);
 
 	// pipe
-	fillY(grid, 5, 14, 20);
+	fillY(grid, 5, 14, 21);
 	fillRow(grid, 14);
-	fillY(grid, 15, 28, 1);
+	fillY(grid, 15, 28, 2);
 
 	// right-overhanging things
-	fillX(grid, 3, 20, 19);
-	fillX(grid, 17, 20, 22);
-	fillX(grid, 17, 20, 26);
-	fillX(grid, 17, 20, 30);
-	fillX(grid, 17, 20, 39);
+	fillX(grid, 4, 21, 19);
+	fillX(grid, 18, 21, 22);
+	fillX(grid, 18, 21, 26);
+	fillX(grid, 18, 21, 30);
+	fillX(grid, 18, 21, 39);
 
-	fillX(grid, 3, 15, 28);
-	fillX(grid, 1, 18, 34);
+	fillX(grid, 4, 16, 28);
+	fillX(grid, 2, 19, 34);
 
 	//pipe
-	fillX(grid, 1, 14, 37);
-	fillY(grid, 38, 42, 14);
-	fillX(grid, 14, 20, 43);
-	fillY(grid, 43, 61, 20);
+	fillX(grid, 2, 15, 37);
+	fillY(grid, 38, 42, 15);
+	fillX(grid, 15, 21, 43);
+	fillY(grid, 43, 61, 21);
 
-	fillX(grid, 6, 18, 53);
+	fillX(grid, 7, 19, 53);
 
 	// balcony things
-	fillX(grid, 1, 2, 41);
-	fillX(grid, 1, 8, 44);
-	fillX(grid, 1, 2, 47);
-	fillX(grid, 1, 4, 50);
-	fillX(grid, 1, 2, 53);
-	fillX(grid, 1, 8, 56);
-	fillX(grid, 1, 17, 59);
-	fillX(grid, 1, 18, 62);
+	fillX(grid, 2, 3, 41);
+	fillX(grid, 2, 9, 44);
+	fillX(grid, 2, 3, 47);
+	fillX(grid, 2, 5, 50);
+	fillX(grid, 2, 3, 53);
+	fillX(grid, 2, 9, 56);
+	fillX(grid, 2, 18, 59);
+	fillX(grid, 2, 19, 62);
 
 	// floor
 	fillX(grid, 0, 21, 69);
@@ -119,7 +120,7 @@ export function makeColliderGrid() {
 }
 
 function fillRow(grid: boolean[][], y: number) {
-	for (let x = 1; x < gridWidth - 1; x++) {
+	for (let x = 2; x < gridWidth - 2; x++) {
 		grid[x][y] = true;
 	}
 }

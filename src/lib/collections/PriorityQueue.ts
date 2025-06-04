@@ -1,6 +1,3 @@
-import type { Rectangle } from '$lib/interactive/models/Drawable';
-
-// TODO: Make into Min Heap
 export class PriorityQueue<T extends Ord> {
 	#data: (T | null)[];
 	#size: number;

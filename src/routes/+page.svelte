@@ -17,7 +17,7 @@
 	import { World } from '$lib/interactive/core/World';
 	import { Vec2 } from '$lib/interactive/models/Vec2';
 	import { EventBus } from '$lib/interactive/core/EventBus';
-	import { MovementPointManager as MoveAreaManager } from '$lib/interactive/models/MovementAreaManager';
+	import { MovementPointManager as MoveAreaManager } from '$lib/interactive/systems/MovementAreaManager';
 	import { Drawing } from '$lib/interactive/core/Drawing';
 	import { Context } from '$lib/interactive/core/Context';
 

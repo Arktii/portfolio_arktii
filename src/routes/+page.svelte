@@ -76,31 +76,27 @@
 	function display(p5: import('p5')) {
 		drawing.image(buildingImage, 0, 0, BUILDING_SIZE.WIDTH, BUILDING_SIZE.HEIGHT);
 
-		for (let y = 0; y < colSpace.gridHeight; y++) {
-			for (let x = 0; x < colSpace.gridWidth; x++) {
-				if (colSpace.colliderGrid[x][y] === true) {
-					drawing.gridRect(x, y, 1, 1);
-				}
-			}
-		}
+		// draw colliders
+		// for (let y = 0; y < colSpace.gridHeight; y++) {
+		// 	for (let x = 0; x < colSpace.gridWidth; x++) {
+		// 		if (colSpace.colliderGrid[x][y] === true) {
+		// 			drawing.gridRect(x, y, 1, 1);
+		// 		}
+		// 	}
+		// }
 
 		let displayCellSize = world.toCanvas(colSpace.cellSize);
 
 		drawing.image(
 			playerImage,
 			player.position.x - (PLAYER.SPRITE_WIDTH - PLAYER.WIDTH) / 2,
-			player.position.y - PLAYER.HEIGHT,
+			player.position.y - (PLAYER.SPRITE_HEIGHT - PLAYER.HEIGHT),
 			PLAYER.SPRITE_WIDTH,
 			PLAYER.SPRITE_HEIGHT,
 			player.direction < 0
 		);
 
-		let gridX = Math.floor(world.toWorld(p5.mouseX) / colSpace.cellSize);
-		let gridY = Math.floor(world.toWorld(p5.mouseY) / colSpace.cellSize);
-		let worldX = world.toCanvas(gridX * colSpace.cellSize);
-		let worldY = world.toCanvas(gridY * colSpace.cellSize);
-		p5.rect(worldX, worldY, displayCellSize, displayCellSize);
-		p5.text(gridX + ',' + gridY, worldX, worldY + world.toWorld(colSpace.cellSize / 2));
+		drawing.render(context);
 
 		let playerAABB = player.calculateAABB();
 		p5.line(
@@ -128,7 +124,13 @@
 			world.toCanvas(playerAABB.bottom)
 		);
 
-		drawing.render(context);
+		// TODO: add proper drawing methods to handle this
+		let gridX = Math.floor(world.toWorld(p5.mouseX) / colSpace.cellSize);
+		let gridY = Math.floor(world.toWorld(p5.mouseY) / colSpace.cellSize);
+		let worldX = world.toCanvas(gridX * colSpace.cellSize);
+		let worldY = world.toCanvas(gridY * colSpace.cellSize);
+		p5.rect(worldX, worldY, displayCellSize, displayCellSize);
+		p5.text(gridX + ',' + gridY, worldX, worldY + world.toWorld(colSpace.cellSize / 2));
 	}
 
 	function windowResized(p5: import('p5')) {

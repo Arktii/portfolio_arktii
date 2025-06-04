@@ -37,7 +37,7 @@ class WorldTarget {
 	multiplyXByDirection: boolean;
 
 	constructor(target: Target, cellSize: number) {
-		this.offset = new Vec2(target.offsetX * cellSize, (target.offSetY + 1) * cellSize);
+		this.offset = new Vec2(target.offsetX * cellSize, target.offSetY * cellSize);
 
 		if (target.xLimitStart !== undefined) this.xLimitStart = target.xLimitStart * cellSize;
 		if (target.xLimitEnd !== undefined) this.xLimitEnd = target.xLimitEnd * cellSize;

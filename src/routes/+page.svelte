@@ -20,6 +20,7 @@
 	import { MovementPointManager as MoveAreaManager } from '$lib/interactive/systems/MovementAreaManager';
 	import { Drawing } from '$lib/interactive/core/Drawing';
 	import { Context } from '$lib/interactive/core/Context';
+	import { ShovableManager } from '$lib/interactive/systems/ShovableManager';
 
 	let buildingImage: p5.Image;
 	let playerImage: p5.Image;
@@ -33,6 +34,7 @@
 	let eventBus: EventBus;
 
 	let moveAreaManager: MoveAreaManager;
+	let shovableManager: ShovableManager;
 
 	async function preload(p5: import('p5')) {
 		buildingImage = await p5.loadImage(building);
@@ -61,7 +63,12 @@
 		moveAreaManager = new MoveAreaManager(colSpace, player);
 		await moveAreaManager.setup(context);
 
+		// setup pots
+		shovableManager = new ShovableManager(player);
+		await shovableManager.setup(context);
+
 		eventBus.subscribe('update', moveAreaManager.update.bind(moveAreaManager));
+		eventBus.subscribe('update', shovableManager.update.bind(shovableManager));
 
 		p5.resizeCanvas(p5.width, p5.width / BUILDING_SIZE.ASPECT_RATIO);
 		world.resizeRatio = p5.width / WORLD_SIZE.REFERENCE_WIDTH;

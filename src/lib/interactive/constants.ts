@@ -18,6 +18,10 @@ export const WORLD_SIZE = {
 	REFERENCE_WIDTH: 660
 };
 
+export const PHYSICS = {
+	GRAVITY: 500
+};
+
 export const PLAYER = {
 	SPRITE_WIDTH: 32 * SCALE_MULTIPLIER,
 	SPRITE_HEIGHT: 32 * SCALE_MULTIPLIER,
@@ -25,7 +29,6 @@ export const PLAYER = {
 	WIDTH: 24 * SCALE_MULTIPLIER,
 	HEIGHT: 16 * SCALE_MULTIPLIER,
 	SPEED: 300,
-	GRAVITY: 300,
 
 	EDGE_CHECK: 0.1,
 
@@ -46,6 +49,20 @@ export const INDICATORS = {
 	HEIGHT: 16,
 	SPACING: 4,
 	Z_INDEX: 5
+};
+
+export const POT = {
+	SPRITE_WIDTH: 12 * SCALE_MULTIPLIER,
+	SPRITE_HEIGHT: 12 * SCALE_MULTIPLIER,
+	WIDTH: 8 * SCALE_MULTIPLIER,
+	HEIGHT: 6 * SCALE_MULTIPLIER,
+	FALLING_VELOCITY: 100 // if y velocity exceeds this amount, the pot will be considered falling, and will break on impact
+};
+
+export const POT_COMPUTED = {
+	WIDTH_DIFF: POT.SPRITE_WIDTH - POT.WIDTH,
+	WIDTH_DIFF_HALF: (POT.SPRITE_WIDTH - POT.WIDTH) / 2,
+	HEIGHT_DIFF: POT.SPRITE_HEIGHT - POT.HEIGHT
 };
 
 let gridWidth = Math.ceil(BUILDING_SIZE.WIDTH / COLLISION_SPACE.CELL_SIZE);
@@ -94,6 +111,9 @@ export function makeColliderGrid() {
 	fillX(grid, 1, 8, 56);
 	fillX(grid, 1, 17, 59);
 	fillX(grid, 1, 18, 62);
+
+	// floor
+	fillX(grid, 0, 21, 69);
 
 	return grid;
 }

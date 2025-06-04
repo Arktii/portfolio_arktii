@@ -1,4 +1,4 @@
-import { PLAYER } from '../constants';
+import { PHYSICS, PLAYER } from '../constants';
 import type { CollisionSpace } from '../core/CollisionSpace';
 import type { Context } from '../core/Context';
 
@@ -53,7 +53,7 @@ export class Player {
 			this.moveHorizontally(context.p5);
 
 			// gravity
-			this.#velocity.y += PLAYER.GRAVITY * deltaSecs;
+			this.#velocity.y += PHYSICS.GRAVITY * deltaSecs;
 
 			// update positions
 			this.position.y += this.#velocity.y * deltaSecs;
@@ -183,36 +183,4 @@ export class Player {
 
 		this.position = new Vec2(flat.x, flat.y - y);
 	}
-
-	// Code from other project for jumping Lerp:
-	// public static void Jump(Node2D node2d, Vector2 end, Action callback, float speed = MoveSpeed)
-	// {
-	//     node2d.ZIndex += 1;
-	//     Vector2 start = node2d.Position;
-	//     float distance = start.DistanceTo(end);
-	//     float duration = distance / speed;
-
-	//     float tan = Mathf.Tan(LaunchAngle);
-	//     (float sin, float cos) = Mathf.SinCos(LaunchAngle);
-	//     float adjustedSpeed = Mathf.Sqrt(5 * distance / (sin * cos));
-
-	//     // Formula: y(x) = -g/2 * (x/v_0*cos(theta))^2  + x * tan(theta); where g = 10
-	//     float deltaY(float x) => -5 * Mathf.Pow(x / (adjustedSpeed * cos), 2) + (x * tan);
-
-	//     Tween tween = node2d.CreateTween();
-	//     Callable callable = Callable.From((float t) => UpdatePosition(node2d, start, end, deltaY, t));
-	//     Callable finalize = Callable.From(() => { node2d.ZIndex -= 1; callback(); });
-	//     tween.TweenMethod(callable, 0f, 1f, duration);
-	//     tween.TweenCallback(finalize);
-	// }
-
-	// private static void UpdatePosition(Node2D node2d, Vector2 start, Vector2 end, Func<float, float> deltaY, float t)
-	// {
-	//     Vector2 flat = start.Lerp(end, t);
-	//     float deltaX = start.DistanceTo(flat);
-
-	//     float y = deltaY(deltaX);
-
-	//     node2d.Position = new Vector2(flat.X, flat.Y - y);
-	// }
 }

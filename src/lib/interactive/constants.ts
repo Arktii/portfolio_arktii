@@ -2,7 +2,7 @@ export const FLOAT_TOLERANCE = 0.001;
 
 export const CANVAS_SIZE = {
 	MIN_WIDTH: 300,
-	MAX_WIDTH: 500,
+	MAX_WIDTH: 800,
 	PADDING: 0.9
 };
 
@@ -22,7 +22,7 @@ export const PLAYER = {
 	SPRITE_WIDTH: 32 * 2,
 	SPRITE_HEIGHT: 32 * 2,
 
-	WIDTH: (28) * 2,
+	WIDTH: 28 * 2,
 	HEIGHT: 32,
 	SPEED: 200,
 	GRAVITY: 300,
@@ -37,6 +37,15 @@ export const PLAYER = {
 
 export const COLLISION_SPACE = {
 	CELL_SIZE: 10 * SCALE_MULTIPLIER
+};
+
+export const INDICATORS = {
+	MAX_OFFSET: 3,
+	MOVE_SPEED: 20,
+	WIDTH: 16,
+	HEIGHT: 16,
+	SPACING: 4,
+	Z_INDEX: 5
 };
 
 let gridWidth = Math.ceil(BUILDING_SIZE.WIDTH / COLLISION_SPACE.CELL_SIZE);

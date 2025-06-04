@@ -17,11 +17,9 @@
 	import { World } from '$lib/interactive/core/World';
 	import { Vec2 } from '$lib/interactive/models/Vec2';
 	import { EventBus } from '$lib/interactive/core/EventBus';
-	import { Target } from '$lib/interactive/models/MoveArea';
 	import { MovementPointManager as MoveAreaManager } from '$lib/interactive/models/MovementAreaManager';
 	import { Drawing } from '$lib/interactive/core/Drawing';
 	import { Context } from '$lib/interactive/core/Context';
-	import { testPriorityQueue, type PriorityQueue } from '$lib/collections/PriorityQueue';
 
 	let buildingImage: p5.Image;
 	let playerImage: p5.Image;
@@ -41,7 +39,7 @@
 		playerImage = await p5.loadImage(playerImg);
 	}
 
-	function setup(p5: import('p5')) {
+	async function setup(p5: import('p5')) {
 		// testPriorityQueue();
 
 		world = new World();
@@ -60,14 +58,8 @@
 		eventBus.subscribe('update', player.update.bind(player));
 
 		// setup movement points
-		// TODO: consider other locations for this
 		moveAreaManager = new MoveAreaManager(colSpace, player);
-		moveAreaManager.addArea(0, 7, 2, new Target(3, 5, 0, 5, true));
-		moveAreaManager.addArea(0, 3, 7, undefined, new Target(1, -5, 0));
-		moveAreaManager.addArea(4, 6, 7, new Target(6, 1, 10, 14, false), new Target(1, -5, 0));
-		moveAreaManager.addArea(10, 10, 8, new Target(1, 4, 0, 15), new Target(5, -1, 0, 5));
-		moveAreaManager.addArea(12, 14, 8, new Target(1, 4, 0, 15));
-		moveAreaManager.addArea(9, 15, 11, undefined, new Target(1, -4, 10, 13));
+		await moveAreaManager.setup(context);
 
 		eventBus.subscribe('update', moveAreaManager.update.bind(moveAreaManager));
 
@@ -135,13 +127,6 @@
 			world.toCanvas(playerAABB.right),
 			world.toCanvas(playerAABB.bottom)
 		);
-
-		// p5.rect(
-		// 	world.toCanvas(player.position.x),
-		// 	world.toCanvas(player.position.y),
-		// 	world.toCanvas(PLAYER.WIDTH),
-		// 	world.toCanvas(PLAYER.HEIGHT)
-		// );
 
 		drawing.render(context);
 	}

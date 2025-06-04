@@ -4,7 +4,7 @@
 	import { CANVAS_SIZE } from '$lib/interactive/constants';
 
 	export let preload = async (p5: import('p5')) => {};
-	export let setup = (p5: import('p5')) => {};
+	export let setup = async (p5: import('p5')) => {};
 	export let update = (p5: import('p5'), deltaSecs: number) => {};
 	export let windowResized = (p5: import('p5')) => {};
 	export let mouseMoved = (p5: import('p5')) => {};
@@ -21,7 +21,7 @@
 		const width = p5.constrain(p5.windowWidth * 0.9, CANVAS_SIZE.MIN_WIDTH, CANVAS_SIZE.MAX_WIDTH);
 		p5.resizeCanvas(width, p5.windowHeight);
 
-		setup(p5);
+		await setup(p5);
 	}
 
 	function draw(p5: import('p5')) {
@@ -39,5 +39,12 @@
 </script>
 
 <div class="mx-auto w-fit">
-	<P5 setup={canvasSetup} {draw} windowResized={canvasWindowResized} {mouseMoved} {keyPressed} {keyReleased} />
+	<P5
+		setup={canvasSetup}
+		{draw}
+		windowResized={canvasWindowResized}
+		{mouseMoved}
+		{keyPressed}
+		{keyReleased}
+	/>
 </div>

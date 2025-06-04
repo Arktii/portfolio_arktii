@@ -138,6 +138,12 @@ export class Player {
 	jump(target: Vec2) {
 		this.#inputIsLocked = true;
 
+		if (target.x < this.position.x) {
+			this.#direction = -1;
+		} else if (target.x > this.position.x) {
+			this.#direction = 1;
+		}
+
 		let launchAngle =
 			target.y < this.position.y ? PLAYER.UP_LAUNCH_ANGLE : PLAYER.DOWN_LAUNCH_ANGLE;
 		let jumpSpeed = target.y < this.position.y ? PLAYER.UP_JUMP_SPEED : PLAYER.DOWN_JUMP_SPEED;

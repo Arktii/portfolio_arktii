@@ -1,51 +1,45 @@
-import type { World } from './World';
+import { PriorityQueue } from '$lib/collections/PriorityQueue';
+import { Drawable, GridRectangle, Img, Rectangle } from '../models/Drawable';
+import type { Context } from './Context';
 
 /**
  * helps draw world items on the canvas with proper scaling
  */
 export class Drawing {
-	#p5: import('p5');
-	#world: World;
+	#renderQueue: PriorityQueue<Drawable>;
 
-	constructor(p5: import('p5'), world: World) {
-		this.#p5 = p5;
-		this.#world = world;
+	constructor() {
+		this.#renderQueue = new PriorityQueue<Drawable>();
 	}
 
-	image(image: any, x: number, y: number, width: number, height: number, flipX = false) {
-		this.#p5.push();
-		this.#p5.scale(flipX ? -1 : 1, 1);
-
-        let xDirection = flipX ? -1 : 1;
-		let addX = flipX ? -width : 0;
-
-		this.#p5.image(
-			image,
-			this.#world.toCanvas(x * xDirection + addX),
-			this.#world.toCanvas(y),
-			this.#world.toCanvas(width),
-			this.#world.toCanvas(height)
-		);
-		this.#p5.pop();
+	render(context: Context) {
+		while (this.#renderQueue.isNotEmpty()) {
+			let nextDrawing = this.#renderQueue.pop();
+			nextDrawing?.draw(context);
+		}
 	}
 
-	rect(x: number, y: number, width: number, height: number) {
-		this.#p5.rect(
-			this.#world.toCanvas(x),
-			this.#world.toCanvas(y),
-			this.#world.toCanvas(width),
-			this.#world.toCanvas(height)
+	image(
+		image: any,
+		x: number,
+		y: number,
+		width: number,
+		height: number,
+		flipX = false,
+		zIndex: number = 0
+	) {
+		this.#renderQueue.insert(
+			new Img(image, x, y, width, height, flipX, zIndex, this.#renderQueue.size)
 		);
 	}
 
-	// TODO?: store colspace in Drawing class
-	gridRect(x: number, y: number, width: number, height: number, cellSize: number) {
-		let canvasCellSize = this.#world.toCanvas(cellSize);
-		this.#p5.rect(
-			x * canvasCellSize,
-			y * canvasCellSize,
-			width * canvasCellSize,
-			height * canvasCellSize
+	rect(x: number, y: number, width: number, height: number, zIndex: number = 0) {
+		this.#renderQueue.insert(new Rectangle(x, y, width, height, zIndex, this.#renderQueue.size));
+	}
+
+	gridRect(x: number, y: number, width: number, height: number, zIndex: number = 0) {
+		this.#renderQueue.insert(
+			new GridRectangle(x, y, width, height, zIndex, this.#renderQueue.size)
 		);
 	}
 }

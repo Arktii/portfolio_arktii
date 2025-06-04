@@ -1,35 +1,45 @@
+import type { Rectangle } from '$lib/interactive/models/Drawable';
+
 // TODO: Make into Min Heap
-export class PriorityQueue<T> {
-	private data: (T | null)[];
-	private size: number;
+export class PriorityQueue<T extends Ord> {
+	#data: (T | null)[];
+	#size: number;
 
 	constructor() {
-		this.data = [null];
-		this.size = 0;
+		this.#data = [null];
+		this.#size = 0;
+	}
+
+	get size() {
+		return this.#size;
 	}
 
 	isEmpty(): boolean {
-		return this.size === 0;
+		return this.#size === 0;
 	}
 
-	insert(data: T): void {
-		const index = this.size;
-		this.size += 1;
+	isNotEmpty(): boolean {
+		return this.#size > 0;
+	}
+
+	insert(value: T): void {
+		const index = this.#size;
+		this.#size += 1;
 
 		this.ensureIndexInBounds(index);
-		this.data[index] = data;
+		this.#data[index] = value;
 
 		this.siftUp(index);
 	}
 
 	pop(): T | null {
-		if (this.size === 0) {
+		if (this.#size === 0) {
 			return null;
 		} else {
-			let result = this.data[0];
+			let result = this.#data[0];
 
-			this.size -= 1;
-			this.data[0] = this.data[this.size];
+			this.#size -= 1;
+			this.#data[0] = this.#data[this.#size];
 			this.siftDown(0);
 
 			return result;
@@ -37,10 +47,10 @@ export class PriorityQueue<T> {
 	}
 
 	private ensureIndexInBounds(index: number): void {
-		if (index >= this.data.length) {
+		if (index >= this.#data.length) {
 			const newLength = index + 1;
-			this.data.length = newLength;
-			this.data.fill(null, newLength);
+			this.#data.length = newLength;
+			this.#data.fill(null, newLength);
 		}
 	}
 
@@ -49,7 +59,7 @@ export class PriorityQueue<T> {
 			let parent = PriorityQueue.parentIndex(index);
 			// These should never be null in practice
 			// @ts-expect-error
-			if (this.data[parent] > this.data[index]) {
+			if (this.#data[parent].greaterThan(this.#data[index])) {
 				this.swap(parent, index);
 			} else {
 				break;
@@ -68,14 +78,14 @@ export class PriorityQueue<T> {
 			let left = PriorityQueue.leftIndex(index);
 			// These should never be null in practice
 			// @ts-expect-error
-			if (left < this.size && this.data[left] < this.data[maxIndex]) {
+			if (left < this.#size && this.#data[left].lessThan(this.#data[maxIndex])) {
 				maxIndex = left;
 			}
 
 			let right = PriorityQueue.rightIndex(index);
 			// These should never be null in practice
 			// @ts-expect-error
-			if (right < this.size && this.data[right] < this.data[maxIndex]) {
+			if (right < this.#size && this.#data[right].lessThan(this.#data[maxIndex])) {
 				maxIndex = right;
 			}
 
@@ -90,7 +100,7 @@ export class PriorityQueue<T> {
 	}
 
 	private swap(a: number, b: number): void {
-		[this.data[a], this.data[b]] = [this.data[b], this.data[a]];
+		[this.#data[a], this.#data[b]] = [this.#data[b], this.#data[a]];
 	}
 
 	private static parentIndex(childIndex: number): number {
@@ -106,26 +116,41 @@ export class PriorityQueue<T> {
 	}
 }
 
+class SimpleNumber implements Ord {
+	constructor(public value: number) {}
+	lessThan(other: this): boolean {
+		return this.value < other.value;
+	}
+	greaterThan(other: this): boolean {
+		return this.value > other.value;
+	}
+	equalTo(other: this): boolean {
+		return this.value === other.value;
+	}
+}
+
 // Test
 // TODO: convert to a proper test
 export function testPriorityQueue() {
 	console.log('TESTING PRIORITY QUEUE');
-	const queue = new PriorityQueue<number>();
+	const queue = new PriorityQueue<SimpleNumber>();
 
-	queue.insert(6);
-	queue.insert(2);
-	queue.insert(4);
-	queue.insert(7);
-	queue.insert(9);
-	queue.insert(5);
-	queue.insert(0);
-	queue.insert(1);
-	queue.insert(3);
-	queue.insert(8);
+	queue.insert(new SimpleNumber(6));
+	queue.insert(new SimpleNumber(2));
+	queue.insert(new SimpleNumber(4));
+	queue.insert(new SimpleNumber(7));
+	queue.insert(new SimpleNumber(9));
+	queue.insert(new SimpleNumber(5));
+	queue.insert(new SimpleNumber(0));
+	queue.insert(new SimpleNumber(1));
+	queue.insert(new SimpleNumber(3));
+	queue.insert(new SimpleNumber(8));
 
 	for (let i = 0; i <= 9; i++) {
-		const value = queue.pop();
-		console.assert(value === i, `Expected ${i}, got ${value}`);
-		console.log(value);
+		const popped = queue.pop();
+		//@ts-expect-error (ignore possible null error)
+		console.assert(popped.value === i, `Expected ${i}, got ${popped.value}`);
+		//@ts-expect-error (ignore possible null error)
+		console.log(popped.value);
 	}
 }

@@ -23,6 +23,10 @@ export class MovementPointManager {
 	}
 
 	update(context: Context, deltaSecs: number) {
+		if (this.player.inputIsLocked) {
+			return;
+		}
+
 		let p5 = context.p5;
 		let playerAABB = this.player.calculateAABB();
 
@@ -37,7 +41,7 @@ export class MovementPointManager {
 						moveArea.downTarget.multiplyXByDirection
 					);
 
-					this.drawTarget(p5, target);
+					this.drawTarget(context, target);
 
 					// @ts-ignore (typescript definitions aren't up to date with p5 version)
 					if (p5.keyIsDown('s') && !this.player.inputIsLocked) {
@@ -53,7 +57,7 @@ export class MovementPointManager {
 						moveArea.upTarget.multiplyXByDirection
 					);
 
-					this.drawTarget(p5, target);
+					this.drawTarget(context, target);
 
 					// @ts-ignore (typescript definitions aren't up to date with p5 version)
 					if (p5.keyIsDown('w') && !this.player.inputIsLocked) {
@@ -90,7 +94,7 @@ export class MovementPointManager {
 		return new Vec2(targetX, targetY);
 	}
 
-	private drawTarget(p5: import('p5'), target: Vec2) {
-		p5.rect(target.x, target.y, 25, 25);
+	private drawTarget(context: Context, target: Vec2) {
+		context.drawing.rect(target.x, target.y, 25, 25, 1);
 	}
 }

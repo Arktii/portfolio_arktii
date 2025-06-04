@@ -42,10 +42,10 @@
 	}
 
 	function setup(p5: import('p5')) {
-		testPriorityQueue();
+		// testPriorityQueue();
 
 		world = new World();
-		drawing = new Drawing(p5, world);
+		drawing = new Drawing();
 		eventBus = new EventBus();
 		colSpace = new CollisionSpace(
 			Math.ceil(BUILDING_SIZE.WIDTH / COL_SPACE.CELL_SIZE),
@@ -87,7 +87,7 @@
 		for (let y = 0; y < colSpace.gridHeight; y++) {
 			for (let x = 0; x < colSpace.gridWidth; x++) {
 				if (colSpace.colliderGrid[x][y] === true) {
-					drawing.gridRect(x, y, 1, 1, colSpace.cellSize);
+					drawing.gridRect(x, y, 1, 1);
 				}
 			}
 		}
@@ -142,6 +142,8 @@
 		// 	world.toCanvas(PLAYER.WIDTH),
 		// 	world.toCanvas(PLAYER.HEIGHT)
 		// );
+
+		drawing.render(context);
 	}
 
 	function windowResized(p5: import('p5')) {

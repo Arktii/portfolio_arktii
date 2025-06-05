@@ -6,12 +6,16 @@ import { DirectionFlags } from './DirectionFlags';
 import { Vec2 } from './Vec2';
 import { BoundingBox } from './BoundingBox';
 import { Tween } from '../systems/Tween';
+import { AnimatedSprite } from './AnimatedSprite';
+
+import playerIdleSheet from '$lib/images/player-idle.png';
+import playerWalkSheet from '$lib/images/player-walk.png';
+import { SpriteAnimation } from './SpriteAnimation';
 
 export class Player {
 	position: Vec2;
 
 	#direction: -1 | 1;
-
 	#inputIsLocked: boolean;
 
 	// property, because I may introduce a slower speed for when pushing objects
@@ -22,14 +26,29 @@ export class Player {
 
 	#tween?: Tween;
 
-	constructor(collisionSpace: CollisionSpace, position: Vec2) {
+	#idletime: number = 0;
+
+	// animation
+	#idleSpriteSheet: any;
+	#walkSpriteSheet: any;
+	#jumpUpSpriteSheet: any;
+	#jumpDownSpriteSheet: any;
+
+	#animatedSprite: AnimatedSprite;
+
+	constructor(position: Vec2) {
 		this.position = position;
 		this.#direction = 1;
 
 		this.#inputIsLocked = false;
 		this.#directionInputs = new DirectionFlags();
 		this.#speed = PLAYER.SPEED;
-		this.#velocity = Vec2.ZERO;
+		this.#velocity = Vec2.zero();
+
+		this.#animatedSprite = new AnimatedSprite(
+			position,
+			new Vec2(-(PLAYER.SPRITE_WIDTH - PLAYER.WIDTH) / 2, -(PLAYER.SPRITE_HEIGHT - PLAYER.HEIGHT))
+		);
 	}
 
 	get inputIsLocked() {
@@ -48,6 +67,19 @@ export class Player {
 		return BoundingBox.fromRect(this.position.x, this.position.y, PLAYER.WIDTH, PLAYER.HEIGHT);
 	}
 
+	async setup(context: Context) {
+		this.#idleSpriteSheet = await context.p5.loadImage(playerIdleSheet);
+		this.#walkSpriteSheet = await context.p5.loadImage(playerWalkSheet);
+
+		this.#animatedSprite
+			.addAnim('idle', new SpriteAnimation(this.#idleSpriteSheet, 32, 32, 4, 1, 4, 0.2, 3))
+			.addAnim('walk', new SpriteAnimation(this.#walkSpriteSheet, 32, 32, 8, 1, 8, 0.125, 3));
+
+		this.#animatedSprite.play('idle');
+
+		// TODO: add other animations
+	}
+
 	update(context: Context, deltaSecs: number) {
 		if (!this.#inputIsLocked) {
 			this.moveHorizontally(context.p5);
@@ -62,11 +94,32 @@ export class Player {
 			this.handleCollisions(context.colSpace);
 
 			this.handleEdgeProtection(context.colSpace);
+
+			// update animation (should be after edge protection to avoid "walking" without moving)
+			if (this.velocity.x == 0) {
+				this.#idletime += deltaSecs;
+			} else {
+				this.#idletime = 0;
+				this.#animatedSprite.play('walk');
+			}
+
+			if (this.#idletime > PLAYER.IDLETIME_THRESHOLD) {
+				this.#animatedSprite.play('idle');
+			}
 		}
 
 		if (this.#tween) {
 			this.#tween.update(deltaSecs);
 		}
+
+		this.#animatedSprite.position = this.position;
+		this.#animatedSprite.update(deltaSecs);
+		this.#animatedSprite.draw(context);
+	}
+
+	setDirection(direction: -1 | 1) {
+		this.#direction = direction;
+		this.#animatedSprite.flipX = direction < 1;
 	}
 
 	private moveHorizontally(p5: import('p5')) {
@@ -81,9 +134,9 @@ export class Player {
 
 		// update direction
 		if (this.velocity.x > 0) {
-			this.#direction = 1;
+			this.setDirection(1);
 		} else if (this.velocity.x < 0) {
-			this.#direction = -1;
+			this.setDirection(-1);
 		}
 	}
 
@@ -139,9 +192,9 @@ export class Player {
 		this.#inputIsLocked = true;
 
 		if (target.x < this.position.x) {
-			this.#direction = -1;
+			this.setDirection(-1);
 		} else if (target.x > this.position.x) {
-			this.#direction = 1;
+			this.setDirection(1);
 		}
 
 		let launchAngle =

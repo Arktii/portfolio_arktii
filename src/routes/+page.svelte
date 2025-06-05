@@ -56,8 +56,9 @@
 
 		context = new Context(p5, world, drawing, colSpace, eventBus);
 
-		player = new Player(colSpace, new Vec2(p5.width / 2, 0));
-		eventBus.subscribe('update', player.update.bind(player));
+		// setup player
+		player = new Player(new Vec2(WORLD_SIZE.REFERENCE_WIDTH / 2, 0));
+		player.setup(context);
 
 		// setup movement points
 		moveAreaManager = new MoveAreaManager(colSpace, player);
@@ -67,6 +68,7 @@
 		shovableManager = new ShovableManager(player);
 		await shovableManager.setup(context);
 
+		eventBus.subscribe('update', player.update.bind(player));
 		eventBus.subscribe('update', moveAreaManager.update.bind(moveAreaManager));
 		eventBus.subscribe('update', shovableManager.update.bind(shovableManager));
 
@@ -93,15 +95,6 @@
 		// }
 
 		let displayCellSize = world.toCanvas(colSpace.cellSize);
-
-		drawing.image(
-			playerImage,
-			player.position.x - (PLAYER.SPRITE_WIDTH - PLAYER.WIDTH) / 2,
-			player.position.y - (PLAYER.SPRITE_HEIGHT - PLAYER.HEIGHT),
-			PLAYER.SPRITE_WIDTH,
-			PLAYER.SPRITE_HEIGHT,
-			player.direction < 0
-		);
 
 		drawing.render(context);
 
@@ -155,11 +148,6 @@
 		// } else if (p5.key == ' ') {
 		// 	console.log('Interact Button Pressed');
 		// }
-
-		if (p5.key == 't') {
-			console.log('JUMP');
-			player.jump(new Vec2(50, 100));
-		}
 	}
 
 	function keyReleased(p5: import('p5')) {

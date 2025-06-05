@@ -26,7 +26,7 @@ export const PLAYER = {
 	SPRITE_WIDTH: 32,
 	SPRITE_HEIGHT: 32,
 
-	WIDTH: 24,
+	WIDTH: 20,
 	HEIGHT: 16,
 	SPEED: 100,
 
@@ -35,8 +35,12 @@ export const PLAYER = {
 	DOWN_JUMP_SPEED: 150,
 	UP_JUMP_SPEED: 100,
 	DOWN_LAUNCH_ANGLE: 0.349066, // 20 degrees
-	UP_LAUNCH_ANGLE: 1.0472 // 60 degrees
+	UP_LAUNCH_ANGLE: 1.0472, // 60 degrees
+
+	IDLETIME_THRESHOLD: 0.05, // how long the player needs to be idle to enter idle animation (to prevent switching between walking and idling too rapidly)
 };
+
+// TODO: PLAYER_COMPUTED, which contains commonly used things like SPRITE_WIDTH - WIDTH
 
 export const COLLISION_SPACE = {
 	CELL_SIZE: 10

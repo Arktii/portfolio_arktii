@@ -33,25 +33,25 @@ export class MovementPointManager {
 		this.#hereArrowImage = await context.p5.loadImage(hereArrowImg);
 
 		// roof
-		this.addArea(2, 12, 3, new Target(2, 3, 2, 9));
+		this.addArea(2, 12, 3, new Target(2, 3, 2, 10));
 
 		// balcony 1
-		this.addArea(2, 11, 6, new Target(1, 3, 2, 9), new Target(1, -3, 2));
-		this.addArea(2, 11, 9, new Target(1, 4, 2, 18), new Target(1, -3, 2, 9));
+		this.addArea(2, 11, 6, new Target(1, 3, 2, 10), new Target(1, -3, 2));
+		this.addArea(2, 11, 9, new Target(1, 4, 2, 19), new Target(1, -3, 2, 10));
 
 		// pipe
-		this.addArea(2, 11, 13, new Target(1, 5, 4, 19), new Target(1, -4, 2, 9));
-		this.addArea(12, 20, 13, new Target(1, 5, 4, 19));
+		this.addArea(2, 11, 13, new Target(1, 5, 4, 20), new Target(1, -4, 2, 10));
+		this.addArea(12, 20, 13, new Target(1, 5, 4, 20));
 
 		// ledge
-		this.addArea(17, 21, 18, new Target(1, 3, 18, 19), new Target(2, -5, 2, 18));
-		this.addArea(4, 14, 18, undefined, new Target(2, -5, 2, 18));
+		this.addArea(17, 21, 18, new Target(1, 3, 18, 20), new Target(2, -5, 2, 19));
+		this.addArea(4, 14, 18, undefined, new Target(2, -5, 2, 19));
 
 		// machine
-		this.addArea(18, 21, 21, new Target(0, 4, 18, 19), new Target(0, -3));
+		this.addArea(18, 21, 21, new Target(0, 4, 18, 20), new Target(0, -3));
 
 		// machine
-		this.addArea(18, 18, 25, new Target(3, 2, 4, 14), new Target(0, -4));
+		this.addArea(18, 18, 25, new Target(3, 2, 4, 15), new Target(0, -4));
 		this.addArea(18, 21, 25, new Target(0, 4), new Target(0, -4));
 
 		// billboard
@@ -59,29 +59,29 @@ export class MovementPointManager {
 		this.addArea(4, 15, 27, new Target(0, 6));
 
 		// machine
-		this.addArea(18, 18, 29, new Target(2, 4, 2, 17), new Target(3, -2, 4, 14));
-		this.addArea(19, 21, 29, new Target(2, 4, 2, 17), new Target(0, -4));
+		this.addArea(18, 18, 29, new Target(2, 4, 2, 18), new Target(3, -2, 4, 15));
+		this.addArea(19, 21, 29, new Target(2, 4, 2, 18), new Target(0, -4));
 
 		// ledge
-		this.addArea(17, 19, 33, new Target(1, 5, 18, 19), new Target(1, -5, 18, 19));
-		this.addArea(2, 16, 33, new Target(0, 3, 2, 13));
+		this.addArea(17, 19, 33, new Target(1, 5, 18, 20), new Target(1, -5, 18, 20));
+		this.addArea(2, 16, 33, new Target(0, 3, 2, 14));
 
 		// pipe
 		this.addArea(2, 3, 36, new Target(0, 4, 2, 2), new Target(0, -3));
-		this.addArea(4, 10, 36, new Target(0, 7, 2, 7), new Target(0, -3));
+		this.addArea(4, 10, 36, new Target(0, 7, 2, 8), new Target(0, -3));
 		this.addArea(15, 15, 36, new Target(3, 2, 18, 18), new Target(0, -3));
-		this.addArea(11, 14, 36, new Target(0, 7, 2, 7), new Target(0, -3));
+		this.addArea(11, 14, 36, new Target(0, 7, 2, 8), new Target(0, -3));
 
 		// machine
-		this.addArea(18, 21, 38, new Target(0, 4), new Target(1, -2, 2, 13));
+		this.addArea(18, 21, 38, new Target(0, 4), new Target(1, -2, 2, 14));
 
 		// pipe
-		this.addArea(16, 21, 42, undefined, new Target(0, -4, 18, 19));
+		this.addArea(16, 21, 42, undefined, new Target(0, -4, 18, 20));
 
 		// balcony
 		this.addArea(2, 3, 40, new Target(1, 3, 2, 7), new Target(0, -4));
 		this.addArea(2, 4, 43, new Target(0, 3, 2, 2), new Target(0, -3, 2, 2));
-		this.addArea(5, 6, 43, new Target(0, 6, 2, 3));
+		this.addArea(5, 6, 43, new Target(0, 6, 2, 4));
 
 		// balcony
 		this.addArea(2, 3, 46, new Target(1, 3, 2, 7), new Target(0, -3));
@@ -94,13 +94,13 @@ export class MovementPointManager {
 		this.addArea(2, 5, 55, new Target(0, 3), new Target(0, -3, 2, 2));
 
 		// billboard
-		this.addArea(7, 7, 52, new Target(1, 3, 2, 7), new Target(2, -3, 4, 4));
-		this.addArea(8, 10, 52, new Target(1, 3, 2, 7));
+		this.addArea(7, 7, 52, new Target(1, 3, 2, 8), new Target(2, -3, 4, 4));
+		this.addArea(8, 10, 52, new Target(1, 3, 2, 8));
 
 		// balcony
 		this.addArea(2, 10, 58, new Target(0, 3), new Target(0, -3, 2, 8));
 		this.addArea(10, 18, 58, new Target(0, 3));
-		this.addArea(2, 19, 61, undefined, new Target(0, -3, 2, 17));
+		this.addArea(2, 19, 61, undefined, new Target(0, -3, 2, 1));
 	}
 
 	addArea(xStart: number, xEnd: number, y: number, downTarget?: Target, upTarget?: Target) {

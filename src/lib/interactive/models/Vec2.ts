@@ -2,12 +2,24 @@ export class Vec2 {
 	x: number;
 	y: number;
 
-	static readonly ZERO = new Vec2(0, 0);
-	static readonly ONE = new Vec2(0, 0);
-	static readonly UP = new Vec2(0, 1);
-	static readonly DOWN = new Vec2(0, -1);
-	static readonly LEFT = new Vec2(-1, 0);
-	static readonly RIGHT = new Vec2(1, 0);
+	static zero(): Vec2 {
+		return new Vec2(0, 0);
+	}
+	static one(): Vec2 {
+		return new Vec2(1, 1);
+	}
+	static up(): Vec2 {
+		return new Vec2(0, 1);
+	}
+	static down(): Vec2 {
+		return new Vec2(0, -1);
+	}
+	static left(): Vec2 {
+		return new Vec2(-1, 0);
+	}
+	static right(): Vec2 {
+		return new Vec2(1, 0);
+	}
 
 	constructor(x: number, y: number) {
 		this.x = x;

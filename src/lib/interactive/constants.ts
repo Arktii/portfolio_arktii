@@ -6,16 +6,16 @@ export const CANVAS_SIZE = {
 	PADDING: 0.9
 };
 
-const SCALE_MULTIPLIER = 3;
+// const SCALE_MULTIPLIER = 3;
 
 export const BUILDING_SIZE = {
-	WIDTH: 240 * SCALE_MULTIPLIER,
-	HEIGHT: 700 * SCALE_MULTIPLIER,
+	WIDTH: 240,
+	HEIGHT: 700,
 	ASPECT_RATIO: 240 / 700
 };
 
 export const WORLD_SIZE = {
-	REFERENCE_WIDTH: 720
+	REFERENCE_WIDTH: 240
 };
 
 export const PHYSICS = {
@@ -23,40 +23,40 @@ export const PHYSICS = {
 };
 
 export const PLAYER = {
-	SPRITE_WIDTH: 32 * SCALE_MULTIPLIER,
-	SPRITE_HEIGHT: 32 * SCALE_MULTIPLIER,
+	SPRITE_WIDTH: 32,
+	SPRITE_HEIGHT: 32,
 
-	WIDTH: 24 * SCALE_MULTIPLIER,
-	HEIGHT: 16 * SCALE_MULTIPLIER,
-	SPEED: 300,
+	WIDTH: 24,
+	HEIGHT: 16,
+	SPEED: 100,
 
 	EDGE_CHECK: 0.1,
 
-	DOWN_JUMP_SPEED: 400,
-	UP_JUMP_SPEED: 300,
+	DOWN_JUMP_SPEED: 150,
+	UP_JUMP_SPEED: 100,
 	DOWN_LAUNCH_ANGLE: 0.349066, // 20 degrees
 	UP_LAUNCH_ANGLE: 1.0472 // 60 degrees
 };
 
 export const COLLISION_SPACE = {
-	CELL_SIZE: 10 * SCALE_MULTIPLIER
+	CELL_SIZE: 10
 };
 
 export const INDICATORS = {
-	MAX_OFFSET: 3,
-	MOVE_SPEED: 20,
-	WIDTH: 16,
-	HEIGHT: 16,
-	SPACING: 4,
+	MAX_OFFSET: 1,
+	MOVE_SPEED: 4,
+	WIDTH: 16 / 3,
+	HEIGHT: 16 / 3,
+	SPACING: 1,
 	Z_INDEX: 5
 };
 
 export const POT = {
-	SPRITE_WIDTH: 12 * SCALE_MULTIPLIER,
-	SPRITE_HEIGHT: 12 * SCALE_MULTIPLIER,
-	WIDTH: 8 * SCALE_MULTIPLIER,
-	HEIGHT: 6 * SCALE_MULTIPLIER,
-	FALLING_VELOCITY: 100 // if y velocity exceeds this amount, the pot will be considered falling, and will break on impact
+	SPRITE_WIDTH: 12,
+	SPRITE_HEIGHT: 12,
+	WIDTH: 8,
+	HEIGHT: 6,
+	FALLING_VELOCITY: 35 // if y velocity exceeds this amount, the pot will be considered falling, and will break on impact
 };
 
 export const POT_COMPUTED = {

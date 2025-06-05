@@ -5,9 +5,10 @@
 	import type p5 from 'p5';
 
 	import building from '$lib/images/building.png';
+	import buildingForeground from '$lib/images/building-foreground.png';
 	import playerImg from '$lib/images/player.png';
 	import {
-		BUILDING_SIZE,
+		BUILDING,
 		COLLISION_SPACE as COL_SPACE,
 		makeColliderGrid,
 		PLAYER as PLAYER,
@@ -23,6 +24,7 @@
 	import { ShovableManager } from '$lib/interactive/systems/ShovableManager';
 
 	let buildingImage: p5.Image;
+	let buildingFgImage: p5.Image;
 	let playerImage: p5.Image;
 
 	let context: Context;
@@ -31,6 +33,8 @@
 	let drawing: Drawing;
 	let player: Player;
 
+	let testButton: p5.Element;
+
 	let eventBus: EventBus;
 
 	let moveAreaManager: MoveAreaManager;
@@ -38,6 +42,7 @@
 
 	async function preload(p5: import('p5')) {
 		buildingImage = await p5.loadImage(building);
+		buildingFgImage = await p5.loadImage(buildingForeground);
 		playerImage = await p5.loadImage(playerImg);
 	}
 
@@ -48,8 +53,8 @@
 		drawing = new Drawing();
 		eventBus = new EventBus();
 		colSpace = new CollisionSpace(
-			Math.ceil(BUILDING_SIZE.WIDTH / COL_SPACE.CELL_SIZE),
-			Math.ceil(BUILDING_SIZE.HEIGHT / COL_SPACE.CELL_SIZE),
+			Math.ceil(BUILDING.WIDTH / COL_SPACE.CELL_SIZE),
+			Math.ceil(BUILDING.HEIGHT / COL_SPACE.CELL_SIZE),
 			COL_SPACE.CELL_SIZE
 		);
 		colSpace.colliderGrid = makeColliderGrid();
@@ -72,7 +77,7 @@
 		eventBus.subscribe('update', moveAreaManager.update.bind(moveAreaManager));
 		eventBus.subscribe('update', shovableManager.update.bind(shovableManager));
 
-		p5.resizeCanvas(p5.width, p5.width / BUILDING_SIZE.ASPECT_RATIO);
+		p5.resizeCanvas(p5.width, p5.width / BUILDING.ASPECT_RATIO);
 		world.resizeRatio = p5.width / WORLD_SIZE.REFERENCE_WIDTH;
 	}
 
@@ -83,7 +88,16 @@
 	}
 
 	function display(p5: import('p5')) {
-		drawing.image(buildingImage, 0, 0, BUILDING_SIZE.WIDTH, BUILDING_SIZE.HEIGHT);
+		drawing.image(buildingImage, 0, 0, BUILDING.WIDTH, BUILDING.HEIGHT);
+		drawing.image(
+			buildingFgImage,
+			0,
+			0,
+			BUILDING.WIDTH,
+			BUILDING.HEIGHT,
+			false,
+			BUILDING.FOREGROUND_Z_INDEX
+		);
 
 		// draw colliders
 		// for (let y = 0; y < colSpace.gridHeight; y++) {
@@ -136,7 +150,7 @@
 	function windowResized(p5: import('p5')) {
 		world.resizeRatio = p5.width / WORLD_SIZE.REFERENCE_WIDTH;
 
-		p5.resizeCanvas(p5.width, world.toCanvas(BUILDING_SIZE.HEIGHT));
+		p5.resizeCanvas(p5.width, world.toCanvas(BUILDING.HEIGHT));
 	}
 
 	function keyPressed(p5: import('p5')) {

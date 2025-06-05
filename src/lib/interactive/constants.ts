@@ -8,10 +8,12 @@ export const CANVAS_SIZE = {
 
 // const SCALE_MULTIPLIER = 3;
 
-export const BUILDING_SIZE = {
+export const BUILDING = {
 	WIDTH: 240,
 	HEIGHT: 700,
-	ASPECT_RATIO: 240 / 700
+	ASPECT_RATIO: 240 / 700,
+
+	FOREGROUND_Z_INDEX: 10
 };
 
 export const WORLD_SIZE = {
@@ -53,7 +55,7 @@ export const INDICATORS = {
 	WIDTH: 16 / 3,
 	HEIGHT: 16 / 3,
 	SPACING: 1,
-	Z_INDEX: 5
+	Z_INDEX: 15
 };
 
 export const POT = {
@@ -70,8 +72,8 @@ export const POT_COMPUTED = {
 	HEIGHT_DIFF: POT.SPRITE_HEIGHT - POT.HEIGHT
 };
 
-let gridWidth = Math.ceil(BUILDING_SIZE.WIDTH / COLLISION_SPACE.CELL_SIZE);
-let gridHeight = Math.ceil(BUILDING_SIZE.HEIGHT / COLLISION_SPACE.CELL_SIZE);
+let gridWidth = Math.ceil(BUILDING.WIDTH / COLLISION_SPACE.CELL_SIZE);
+let gridHeight = Math.ceil(BUILDING.HEIGHT / COLLISION_SPACE.CELL_SIZE);
 
 // TODO: consider other solutions?
 export function makeColliderGrid() {

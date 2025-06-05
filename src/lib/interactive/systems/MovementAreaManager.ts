@@ -40,8 +40,8 @@ export class MovementPointManager {
 		this.addArea(2, 11, 9, new Target(1, 4, 2, 19), new Target(1, -3, 2, 10));
 
 		// pipe
-		this.addArea(2, 11, 13, new Target(1, 5, 4, 20), new Target(1, -4, 2, 10));
-		this.addArea(12, 20, 13, new Target(1, 5, 4, 20));
+		this.addArea(2, 12, 13, new Target(1, 5, 4, 20), new Target(1, -4, 2, 10));
+		this.addArea(13, 20, 13, new Target(1, 5, 4, 20));
 
 		// ledge
 		this.addArea(17, 21, 18, new Target(1, 3, 18, 20), new Target(2, -5, 2, 19));
@@ -63,7 +63,7 @@ export class MovementPointManager {
 		this.addArea(19, 21, 29, new Target(2, 4, 2, 18), new Target(0, -4));
 
 		// ledge
-		this.addArea(17, 19, 33, new Target(1, 5, 18, 20), new Target(1, -5, 18, 20));
+		this.addArea(17, 19, 33, new Target(1, 5, 18, 20), new Target(1, -4, 18, 20));
 		this.addArea(2, 16, 33, new Target(0, 3, 2, 14));
 
 		// pipe

@@ -58,7 +58,7 @@
 
 		// setup player
 		player = new Player(new Vec2(WORLD_SIZE.REFERENCE_WIDTH / 2, 0));
-		player.setup(context);
+		await player.setup(context);
 
 		// setup movement points
 		moveAreaManager = new MoveAreaManager(colSpace, player);

@@ -8,8 +8,12 @@ import { BoundingBox } from './BoundingBox';
 import { Tween } from '../systems/Tween';
 import { AnimatedSprite } from './AnimatedSprite';
 
-import playerIdleSheet from '$lib/images/player-idle.png';
-import playerWalkSheet from '$lib/images/player-walk.png';
+import idleSheet from '$lib/images/player-idle.png';
+import walkSheet from '$lib/images/player-walk.png';
+import jumpUpStartSheet from '$lib/images/player-jump-up-start.png';
+import jumpUpHoldSheet from '$lib/images/player-jump-up-hold.png';
+import jumpUpFallSheet from '$lib/images/player-jump-up-fall.png';
+import jumpUpLandSheet from '$lib/images/player-jump-up-land.png';
 import { SpriteAnimation } from './SpriteAnimation';
 
 export class Player {
@@ -29,11 +33,6 @@ export class Player {
 	#idletime: number = 0;
 
 	// animation
-	#idleSpriteSheet: any;
-	#walkSpriteSheet: any;
-	#jumpUpSpriteSheet: any;
-	#jumpDownSpriteSheet: any;
-
 	#animatedSprite: AnimatedSprite;
 
 	constructor(position: Vec2) {
@@ -47,7 +46,8 @@ export class Player {
 
 		this.#animatedSprite = new AnimatedSprite(
 			position,
-			new Vec2(-(PLAYER.SPRITE_WIDTH - PLAYER.WIDTH) / 2, -(PLAYER.SPRITE_HEIGHT - PLAYER.HEIGHT))
+			new Vec2(-(PLAYER.SPRITE_WIDTH - PLAYER.WIDTH) / 2, -(PLAYER.SPRITE_HEIGHT - PLAYER.HEIGHT)),
+			3
 		);
 	}
 
@@ -68,16 +68,31 @@ export class Player {
 	}
 
 	async setup(context: Context) {
-		this.#idleSpriteSheet = await context.p5.loadImage(playerIdleSheet);
-		this.#walkSpriteSheet = await context.p5.loadImage(playerWalkSheet);
+		let p5 = context.p5;
 
 		this.#animatedSprite
-			.addAnim('idle', new SpriteAnimation(this.#idleSpriteSheet, 32, 32, 4, 1, 4, 0.2, 3))
-			.addAnim('walk', new SpriteAnimation(this.#walkSpriteSheet, 32, 32, 8, 1, 8, 0.125, 3));
-
-		this.#animatedSprite.play('idle');
+			.addAnim('idle', new SpriteAnimation(await p5.loadImage(idleSheet), 32, 32, 4, 1, 4, 0.2))
+			.addAnim('walk', new SpriteAnimation(await p5.loadImage(walkSheet), 32, 32, 8, 1, 8, 0.125))
+			.addAnim(
+				'jump-up-start',
+				new SpriteAnimation(await p5.loadImage(jumpUpStartSheet), 32, 32, 2, 1, 2, 0.125)
+			)
+			.addAnim(
+				'jump-up-hold',
+				new SpriteAnimation(await p5.loadImage(jumpUpHoldSheet), 32, 32, 2, 1, 2, 0.125)
+			)
+			.addAnim(
+				'jump-up-fall',
+				new SpriteAnimation(await p5.loadImage(jumpUpFallSheet), 32, 32, 1, 1, 1, 0.125)
+			)
+			.addAnim(
+				'jump-up-land',
+				new SpriteAnimation(await p5.loadImage(jumpUpLandSheet), 32, 32, 1, 1, 1, 0.125)
+			);
 
 		// TODO: add other animations
+
+		this.#animatedSprite.play('idle');
 	}
 
 	update(context: Context, deltaSecs: number) {
@@ -98,12 +113,12 @@ export class Player {
 			// update animation (should be after edge protection to avoid "walking" without moving)
 			if (this.velocity.x == 0) {
 				this.#idletime += deltaSecs;
-			} else {
+			} else if (this.#animatedSprite.queueLength === 0) {
 				this.#idletime = 0;
 				this.#animatedSprite.play('walk');
 			}
 
-			if (this.#idletime > PLAYER.IDLETIME_THRESHOLD) {
+			if (this.#idletime > PLAYER.IDLETIME_THRESHOLD && this.#animatedSprite.queueLength === 0) {
 				this.#animatedSprite.play('idle');
 			}
 		}
@@ -215,6 +230,10 @@ export class Player {
 			return -5 * Math.pow(x / (adjustedSpeed * cos), 2) + x * tan;
 		}
 
+		this.#animatedSprite.clearQueue();
+		this.#animatedSprite.play('jump-up-start');
+		this.#animatedSprite.enqueue('jump-up-hold');
+
 		let tween = new Tween(0, 1, duration)
 			.setUpdateFunction((t) => {
 				this.updateJumpPosition(start, target, t, calcDeltaY);
@@ -223,6 +242,10 @@ export class Player {
 				this.position = target;
 				this.#tween = undefined;
 				this.#inputIsLocked = false;
+
+				this.#animatedSprite.clearQueue();
+				this.#animatedSprite.play('jump-up-land');
+				this.#animatedSprite.enqueue('idle');
 			});
 
 		this.#tween = tween;

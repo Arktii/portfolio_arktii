@@ -100,7 +100,7 @@ export class MovementPointManager {
 		// balcony
 		this.addArea(2, 10, 58, new Target(0, 3), new Target(0, -3, 2, 8));
 		this.addArea(10, 18, 58, new Target(0, 3));
-		this.addArea(2, 19, 61, undefined, new Target(0, -3, 2, 1));
+		this.addArea(2, 19, 61, undefined, new Target(0, -3, 2, 17));
 	}
 
 	addArea(xStart: number, xEnd: number, y: number, downTarget?: Target, upTarget?: Target) {

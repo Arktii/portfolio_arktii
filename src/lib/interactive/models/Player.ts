@@ -10,10 +10,11 @@ import { AnimatedSprite } from './AnimatedSprite';
 
 import idleSheet from '$lib/images/player-idle.png';
 import walkSheet from '$lib/images/player-walk.png';
+import jumpLandSheet from '$lib/images/player-jump-land.png';
 import jumpUpStartSheet from '$lib/images/player-jump-up-start.png';
 import jumpUpHoldSheet from '$lib/images/player-jump-up-hold.png';
-import jumpUpFallSheet from '$lib/images/player-jump-up-fall.png';
-import jumpUpLandSheet from '$lib/images/player-jump-up-land.png';
+import jumpDownStartSheet from '$lib/images/player-jump-down-start.png';
+import jumpDownHoldSheet from '$lib/images/player-jump-down-hold.png';
 import { SpriteAnimation } from './SpriteAnimation';
 
 export class Player {
@@ -74,20 +75,24 @@ export class Player {
 			.addAnim('idle', new SpriteAnimation(await p5.loadImage(idleSheet), 32, 32, 4, 1, 4, 0.2))
 			.addAnim('walk', new SpriteAnimation(await p5.loadImage(walkSheet), 32, 32, 8, 1, 8, 0.125))
 			.addAnim(
+				'jump-land',
+				new SpriteAnimation(await p5.loadImage(jumpLandSheet), 32, 32, 3, 1, 3, 0.125)
+			)
+			.addAnim(
 				'jump-up-start',
 				new SpriteAnimation(await p5.loadImage(jumpUpStartSheet), 32, 32, 2, 1, 2, 0.125)
 			)
 			.addAnim(
 				'jump-up-hold',
-				new SpriteAnimation(await p5.loadImage(jumpUpHoldSheet), 32, 32, 2, 1, 2, 0.125)
+				new SpriteAnimation(await p5.loadImage(jumpUpHoldSheet), 32, 32, 2, 1, 2, 0.1)
 			)
 			.addAnim(
-				'jump-up-fall',
-				new SpriteAnimation(await p5.loadImage(jumpUpFallSheet), 32, 32, 1, 1, 1, 0.125)
+				'jump-down-start',
+				new SpriteAnimation(await p5.loadImage(jumpDownStartSheet), 32, 32, 1, 1, 1, 0.125)
 			)
 			.addAnim(
-				'jump-up-land',
-				new SpriteAnimation(await p5.loadImage(jumpUpLandSheet), 32, 32, 1, 1, 1, 0.125)
+				'jump-down-hold',
+				new SpriteAnimation(await p5.loadImage(jumpDownHoldSheet), 32, 32, 2, 1, 2, 0.125)
 			);
 
 		// TODO: add other animations
@@ -212,6 +217,13 @@ export class Player {
 			this.setDirection(1);
 		}
 
+		let yDirection = '';
+		if (target.y > this.position.y) {
+			yDirection = 'down';
+		} else {
+			yDirection = 'up';
+		}
+
 		let launchAngle =
 			target.y < this.position.y ? PLAYER.UP_LAUNCH_ANGLE : PLAYER.DOWN_LAUNCH_ANGLE;
 		let jumpSpeed = target.y < this.position.y ? PLAYER.UP_JUMP_SPEED : PLAYER.DOWN_JUMP_SPEED;
@@ -231,8 +243,8 @@ export class Player {
 		}
 
 		this.#animatedSprite.clearQueue();
-		this.#animatedSprite.play('jump-up-start');
-		this.#animatedSprite.enqueue('jump-up-hold');
+		this.#animatedSprite.play(`jump-${yDirection}-start`);
+		this.#animatedSprite.enqueue(`jump-${yDirection}-hold`);
 
 		let tween = new Tween(0, 1, duration)
 			.setUpdateFunction((t) => {
@@ -244,7 +256,7 @@ export class Player {
 				this.#inputIsLocked = false;
 
 				this.#animatedSprite.clearQueue();
-				this.#animatedSprite.play('jump-up-land');
+				this.#animatedSprite.play(`jump-land`);
 				this.#animatedSprite.enqueue('idle');
 			});
 

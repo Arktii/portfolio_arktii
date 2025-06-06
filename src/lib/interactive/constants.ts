@@ -79,7 +79,10 @@ export const INTERACTION = {
 	STROKE_WEIGHT: 1.25,
 	FILL_COLOR: 'rgba(255, 255, 255, 0.2)',
 	STROKE_COLOR: 'rgb(187, 228, 255)',
-	GLOW_COLOR: 'rgb(128, 184, 236)'
+	GLOW_COLOR: 'rgb(128, 184, 236)',
+
+	SECONDARY_STROKE_COLOR: 'rgba(187, 228, 255, 0.5)',
+	SECONDARY_GLOW_COLOR: 'rgba(245, 195, 139, 0.5)'
 };
 
 // TODO: consider other solutions?

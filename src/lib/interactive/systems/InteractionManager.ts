@@ -15,6 +15,10 @@ export class InteractionManager {
 
 	#colSpace: CollisionSpace;
 
+	#prevMouseClickArea: ClickArea | null = null;
+	primaryClickArea: ClickArea | null = null;
+	secondaryClickArea: ClickArea | null = null;
+
 	constructor(colSpace: CollisionSpace) {
 		this.#colSpace = colSpace;
 	}
@@ -26,7 +30,6 @@ export class InteractionManager {
 		this.addClickArea(new BoundingBox(121.5, 148.5, 81.5, 108.5), 'Dart');
 		this.addClickArea(new BoundingBox(151.5, 178.5, 81.5, 108.5), 'JavaScript/TypeScript');
 
-		
 		var clickArea = this.addClickArea(new BoundingBox(33.5, 89.5, 111.5, 138.5), 'Unity');
 		var clickArea = this.addClickArea(new BoundingBox(92.5, 148.5, 111.5, 138.5), 'Godot');
 		var clickArea = this.addClickArea(new BoundingBox(151.5, 207.5, 111.5, 138.5), 'Bevy');
@@ -65,11 +68,13 @@ export class InteractionManager {
 	}
 
 	update(context: Context, deltaSecs: number) {
-		// TODO: handle conflicting interact area and click area (store last hovered for each? if same, then replace with new)
-
 		if (context.player.inputIsLocked) {
+			this.#prevMouseClickArea = null;
 			return;
 		}
+
+		let playerClickArea: ClickArea | null = null;
+		let mouseClickArea: ClickArea | null = null;
 
 		let p5 = context.p5;
 
@@ -78,10 +83,7 @@ export class InteractionManager {
 		for (let i = 0; i < this.#interactAreas.length; i++) {
 			let interactArea = this.#interactAreas[i];
 			if (interactArea.aabb.colliding(playerAABB)) {
-				// TODO: handle logic
-
-				// this.drawIndicator(context, target, false);
-
+				// Handle Interact Key Pressed
 				// @ts-ignore (typescript definitions aren't up to date with p5 version)
 				if (context.inputs.keyJustPressed('e')) {
 					if (interactArea.clickArea) {
@@ -93,23 +95,12 @@ export class InteractionManager {
 				}
 
 				if (interactArea.clickArea) {
-					interactArea.clickArea.hover(context);
+					playerClickArea = interactArea.clickArea;
 				}
 
 				break;
 			}
 		}
-
-		// draw interaction areas
-		// this.#clickAreas.forEach((clickArea) => {
-		// 	context.drawing.rect(
-		// 		clickArea.aabb.left,
-		// 		clickArea.aabb.top,
-		// 		clickArea.aabb.right - clickArea.aabb.left,
-		// 		clickArea.aabb.bottom - clickArea.aabb.top,
-		// 		0
-		// 	);
-		// });
 
 		// check click areas
 		let worldMousePos = new Vec2(
@@ -120,8 +111,9 @@ export class InteractionManager {
 			let clickArea = this.#clickAreas[i];
 
 			if (clickArea.aabb.contains(worldMousePos)) {
-				clickArea.hover(context);
+				mouseClickArea = clickArea;
 
+				// Handle Click
 				if (context.inputs.mouseJustClicked()) {
 					clickArea.click();
 				}
@@ -129,5 +121,38 @@ export class InteractionManager {
 				break;
 			}
 		}
+
+		if (mouseClickArea && playerClickArea) {
+			// Note: if both are changed, player is prioritized
+			// Player moving (but not mouse moving) counts as a change
+			if (Math.abs(context.player.velocity.x) > 0) {
+				this.primaryClickArea = playerClickArea;
+				this.secondaryClickArea = mouseClickArea;
+			}
+			// Mouse moves a lot, so unless it leaves the area, it does not count as a change
+			else if (mouseClickArea !== this.#prevMouseClickArea) {
+				this.primaryClickArea = mouseClickArea;
+				this.secondaryClickArea = playerClickArea;
+			}
+		} else if (mouseClickArea) {
+			this.primaryClickArea = mouseClickArea;
+			this.secondaryClickArea = null;
+		} else if (playerClickArea) {
+			this.primaryClickArea = playerClickArea;
+			this.secondaryClickArea = null;
+		} else {
+			this.primaryClickArea = null;
+			this.secondaryClickArea = null;
+		}
+
+		if (this.primaryClickArea) {
+			this.primaryClickArea.hover(context);
+		}
+
+		if (this.secondaryClickArea) {
+			this.secondaryClickArea.secondaryHover(context);
+		}
+
+		this.#prevMouseClickArea = mouseClickArea;
 	}
 }

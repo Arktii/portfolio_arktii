@@ -35,6 +35,21 @@ export class ClickArea {
 			.glow(context.p5.color(INTERACTION.GLOW_COLOR), 25);
 	}
 
+	secondaryHover(context: Context) {
+		context.drawing
+			.rect(
+				this.aabb.left,
+				this.aabb.top,
+				this.aabb.right - this.aabb.left,
+				this.aabb.bottom - this.aabb.top,
+				0
+			)
+			.radius(1)
+			.fillColor(context.p5.color(INTERACTION.FILL_COLOR))
+			.stroke(context.p5.color('rgb(61, 80, 133)'), 1.25)
+			.glow(context.p5.color('rgba(245, 195, 139, 1)'), 12);
+	}
+
 	click() {
 		console.log('CLICK');
 		if (this.onClick) {

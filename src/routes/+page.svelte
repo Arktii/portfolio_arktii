@@ -23,12 +23,14 @@
 	import { Context } from '$lib/interactive/core/Context';
 	import { ShovableManager } from '$lib/interactive/systems/ShovableManager';
 	import { InteractionManager } from '$lib/interactive/systems/InteractionManager';
+	import { Inputs } from '$lib/interactive/core/Inputs';
 
 	let buildingImage: p5.Image;
 	let buildingFgImage: p5.Image;
 	let playerImage: p5.Image;
 
 	let context: Context;
+	let inputs: Inputs;
 	let world: World;
 	let colSpace: CollisionSpace;
 	let drawing: Drawing;
@@ -52,6 +54,7 @@
 		// testPriorityQueue();
 
 		world = new World();
+		inputs = new Inputs();
 		drawing = new Drawing();
 		eventBus = new EventBus();
 		colSpace = new CollisionSpace(
@@ -64,7 +67,7 @@
 		interactionManager = new InteractionManager(colSpace);
 		shovableManager = new ShovableManager();
 
-		context = new Context(p5, world, drawing, colSpace, eventBus, player);
+		context = new Context(p5, world, inputs, drawing, colSpace, eventBus, player);
 
 		// setup components
 		colSpace.colliderGrid = makeColliderGrid();
@@ -92,6 +95,8 @@
 
 	function update(p5: import('p5'), deltaSecs: number) {
 		eventBus.publish('update', context, deltaSecs);
+
+		inputs.newFrame();
 
 		display(p5);
 	}
@@ -162,33 +167,23 @@
 		p5.resizeCanvas(p5.width, world.toCanvas(BUILDING.HEIGHT));
 	}
 
+	function mouseClicked(p5: import('p5')) {
+		inputs.setMouseClicked();
+	}
+
 	function keyPressed(p5: import('p5')) {
-		// Keycodes are used instead of properties like p5.ARROW_LEFT because those seem to be automatically cast into strings
-		// if (p5.keyCode == 38 || p5.key == 'w') {
-		// 	console.log('UP');
-		// } else if (p5.keyCode == 40 || p5.key == 's') {
-		// 	console.log('DOWN');
-		// } else if (p5.key == ' ') {
-		// 	console.log('Interact Button Pressed');
-		// }
+		inputs.setKeyJustPressed(p5.key);
 	}
 
 	function keyReleased(p5: import('p5')) {
-		// console.log('Released: ', p5.key);
-		// if (p5.keyCode == 38 || p5.key == 'w') {
-		// 	console.log('UP');
-		// } else if (p5.keyCode == 40 || p5.key == 's') {
-		// 	console.log('DOWN');
-		// } else if (p5.key == ' ') {
-		// 	console.log('Interact Button Released');
-		// }
+		inputs.setKeyJustReleased(p5.key);
 	}
 </script>
 
 <p>Top of the screen</p>
 
 <div class="mx-auto w-fit">
-	<Canvas {preload} {setup} {update} {windowResized} {keyPressed} {keyReleased} />
+	<Canvas {preload} {setup} {update} {windowResized} {mouseClicked} {keyPressed} {keyReleased} />
 </div>
 
 <p>Bottom of the screen</p>

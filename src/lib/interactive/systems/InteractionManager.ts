@@ -72,7 +72,7 @@ export class InteractionManager {
 				// this.drawIndicator(context, target, false);
 
 				// @ts-ignore (typescript definitions aren't up to date with p5 version)
-				if (p5.keyIsDown('e')) {
+				if (context.inputs.keyJustPressed('e')) {
 					if (interactArea.clickArea) {
 						interactArea.clickArea.click();
 					} else if (interactArea.onClick) {
@@ -111,8 +111,7 @@ export class InteractionManager {
 			if (clickArea.aabb.contains(worldMousePos)) {
 				clickArea.hover();
 
-				if (p5.mouseButton == p5.LEFT) {
-					console.log('CLICKED');
+				if (context.inputs.mouseJustClicked()) {
 					clickArea.click();
 				}
 

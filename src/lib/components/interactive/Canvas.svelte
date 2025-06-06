@@ -7,6 +7,7 @@
 	export let setup = async (p5: import('p5')) => {};
 	export let update = (p5: import('p5'), deltaSecs: number) => {};
 	export let windowResized = (p5: import('p5')) => {};
+	export let mouseClicked = (p5: import('p5')) => {};
 	export let mouseMoved = (p5: import('p5')) => {};
 	export let keyPressed = (p5: import('p5')) => {};
 	export let keyReleased = (p5: import('p5')) => {};
@@ -43,6 +44,7 @@
 		setup={canvasSetup}
 		{draw}
 		windowResized={canvasWindowResized}
+		{mouseClicked}
 		{mouseMoved}
 		{keyPressed}
 		{keyReleased}

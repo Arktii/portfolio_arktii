@@ -47,15 +47,6 @@ class WorldTarget {
 }
 
 export class MoveArea {
-	/**
-	 * x position only
-	 */
-	xStart: number;
-	/**
-	 * x position only
-	 */
-	xend: number;
-	y: number;
 	downTarget?: WorldTarget;
 	upTarget?: WorldTarget;
 
@@ -63,16 +54,12 @@ export class MoveArea {
 
 	constructor(
 		cellSize: number,
-		start: number,
-		end: number,
+		xStart: number,
+		xEnd: number,
 		y: number,
 		downGridTarget?: Target,
 		upGridTarget?: Target
 	) {
-		this.xStart = start;
-		this.xend = end;
-		this.y = y;
-
 		if (downGridTarget) {
 			this.downTarget = new WorldTarget(downGridTarget, cellSize);
 		}
@@ -80,6 +67,6 @@ export class MoveArea {
 			this.upTarget = new WorldTarget(upGridTarget, cellSize);
 		}
 
-		this.aabb = BoundingBox.fromGrid(this.xStart, this.y, this.xend, this.y, cellSize);
+		this.aabb = BoundingBox.fromGrid(xStart, y, xEnd, y, cellSize);
 	}
 }

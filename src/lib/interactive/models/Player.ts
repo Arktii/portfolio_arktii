@@ -64,6 +64,8 @@ export class Player {
 		return this.#direction;
 	}
 
+	// TODO: add interaction Area (which is the head part of the cat, and is also relatively small [this will need to flip with direction])
+
 	calculateAABB(): BoundingBox {
 		return BoundingBox.fromRect(this.position.x, this.position.y, PLAYER.WIDTH, PLAYER.HEIGHT);
 	}

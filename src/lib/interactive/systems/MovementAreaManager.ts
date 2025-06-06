@@ -10,10 +10,11 @@ import downKeyImg from '$lib/images/keyS.png';
 import hereArrowImg from '$lib/images/hereArrow.png';
 
 export class MovementPointManager {
-	moveAreas: MoveArea[] = [];
-
 	colSpace: CollisionSpace;
 	player: Player;
+	// TODO: add player to Context and get player from context
+
+	#moveAreas: MoveArea[] = [];
 
 	#hereArrowImage?: import('p5').Image;
 	#upKeyImage?: import('p5').Image;
@@ -104,7 +105,7 @@ export class MovementPointManager {
 	}
 
 	addArea(xStart: number, xEnd: number, y: number, downTarget?: Target, upTarget?: Target) {
-		this.moveAreas.push(
+		this.#moveAreas.push(
 			new MoveArea(this.colSpace.cellSize, xStart, xEnd, y, downTarget, upTarget)
 		);
 	}
@@ -118,8 +119,8 @@ export class MovementPointManager {
 		let playerAABB = this.player.calculateAABB();
 
 		// detect player
-		for (let i = 0; i < this.moveAreas.length; i++) {
-			let moveArea = this.moveAreas[i];
+		for (let i = 0; i < this.#moveAreas.length; i++) {
+			let moveArea = this.#moveAreas[i];
 			if (moveArea.aabb.colliding(playerAABB)) {
 				if (moveArea.downTarget) {
 					let target = this.calculateTarget(

@@ -1,3 +1,5 @@
+import type { Vec2 } from './Vec2';
+
 export class BoundingBox {
 	left: number;
 	right: number;
@@ -31,6 +33,12 @@ export class BoundingBox {
 			this.right > other.left &&
 			this.bottom > other.top &&
 			this.top < other.bottom
+		);
+	}
+
+	contains(point: Vec2): boolean {
+		return (
+			point.y > this.top && point.y < this.bottom && point.x > this.left && point.x < this.right
 		);
 	}
 }

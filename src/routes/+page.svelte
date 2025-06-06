@@ -22,6 +22,7 @@
 	import { Drawing } from '$lib/interactive/core/Drawing';
 	import { Context } from '$lib/interactive/core/Context';
 	import { ShovableManager } from '$lib/interactive/systems/ShovableManager';
+	import { InteractionManager } from '$lib/interactive/systems/InteractionManager';
 
 	let buildingImage: p5.Image;
 	let buildingFgImage: p5.Image;
@@ -39,6 +40,7 @@
 
 	let moveAreaManager: MoveAreaManager;
 	let shovableManager: ShovableManager;
+	let interactionManager: InteractionManager;
 
 	async function preload(p5: import('p5')) {
 		buildingImage = await p5.loadImage(building);
@@ -65,9 +67,13 @@
 		player = new Player(new Vec2(WORLD_SIZE.REFERENCE_WIDTH / 2, 0));
 		await player.setup(context);
 
-		// setup movement points
+		// setup movement areas
 		moveAreaManager = new MoveAreaManager(colSpace, player);
 		await moveAreaManager.setup(context);
+
+		// setup interaction areas
+		interactionManager = new InteractionManager(colSpace, player);
+		await interactionManager.setup(context);
 
 		// setup pots
 		shovableManager = new ShovableManager(player);
@@ -75,6 +81,7 @@
 
 		eventBus.subscribe('update', player.update.bind(player));
 		eventBus.subscribe('update', moveAreaManager.update.bind(moveAreaManager));
+		eventBus.subscribe('update', interactionManager.update.bind(interactionManager));
 		eventBus.subscribe('update', shovableManager.update.bind(shovableManager));
 
 		p5.resizeCanvas(p5.width, p5.width / BUILDING.ASPECT_RATIO);
@@ -88,7 +95,7 @@
 	}
 
 	function display(p5: import('p5')) {
-		drawing.image(buildingImage, 0, 0, BUILDING.WIDTH, BUILDING.HEIGHT);
+		drawing.image(buildingImage, 0, 0, BUILDING.WIDTH, BUILDING.HEIGHT, false, BUILDING.Z_INDEX);
 		drawing.image(
 			buildingFgImage,
 			0,
@@ -144,7 +151,7 @@
 		let worldX = world.toCanvas(gridX * colSpace.cellSize);
 		let worldY = world.toCanvas(gridY * colSpace.cellSize);
 		p5.rect(worldX, worldY, displayCellSize, displayCellSize);
-		p5.text(gridX + ',' + gridY, worldX, worldY + world.toWorld(colSpace.cellSize / 2));
+		p5.text(gridX + ',' + gridY, worldX, worldY + world.toCanvas(5));
 	}
 
 	function windowResized(p5: import('p5')) {

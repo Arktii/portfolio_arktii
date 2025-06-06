@@ -1,5 +1,7 @@
 import { PriorityQueue } from '$lib/collections/PriorityQueue';
-import { Drawable, GridRectangle, Img, Rectangle, Text } from '../models/Drawable';
+import type { BoundingBox } from '../models/BoundingBox';
+import { Curve, Drawable, GridRectangle, Img, Rectangle, Tail, Text } from '../models/Drawable';
+import type { Vec2 } from '../models/Vec2';
 import type { Context } from './Context';
 
 /**
@@ -51,5 +53,27 @@ export class Drawing {
 		this.#renderQueue.insert(newText);
 
 		return newText;
+	}
+
+	curve(
+		x1: number,
+		y1: number,
+		x2: number,
+		y2: number,
+		x3: number,
+		y3: number,
+		x4: number,
+		y4: number,
+		zIndex: number = 0
+	) {
+		let drawable = new Curve(x1, y1, x2, y2, x3, y3, x4, y4, zIndex, this.#renderQueue.size);
+		this.#renderQueue.insert(drawable);
+
+		return drawable;
+	}
+
+	// !INCOMPLETE
+	tail(point: Vec2, rect: BoundingBox, width: number, zIndex: number) {
+		this.#renderQueue.insert(new Tail(point, rect, width, zIndex, this.#renderQueue.size));
 	}
 }

@@ -213,7 +213,7 @@ export class InteractionManager {
 			}
 		}
 
-		if (this.secondaryClickArea) {
+		if (this.secondaryClickArea && this.secondaryClickArea !== this.primaryClickArea) {
 			this.secondaryClickArea.secondaryHover(context);
 		}
 

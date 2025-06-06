@@ -1,4 +1,7 @@
+import { clamp } from '$lib/utils/Math';
 import type { Context } from '../core/Context';
+import { BoundingBox } from './BoundingBox';
+import { Vec2 } from './Vec2';
 
 export abstract class Drawable implements Ord {
 	callOrder: number;
@@ -280,5 +283,127 @@ export class Text extends Drawable {
 		);
 
 		context.p5.pop();
+	}
+}
+
+export class Curve extends Drawable {
+	#x1: number;
+	#y1: number;
+	#x2: number;
+	#y2: number;
+	#x3: number;
+	#y3: number;
+	#x4: number;
+	#y4: number;
+
+	#color?: import('p5').Color;
+	#weight?: number;
+
+	constructor(
+		x1: number,
+		y1: number,
+		x2: number,
+		y2: number,
+		x3: number,
+		y3: number,
+		x4: number,
+		y4: number,
+		zIndex: number = 0,
+		callOrder: number
+	) {
+		super(zIndex, callOrder);
+
+		this.#x1 = x1;
+		this.#y1 = y1;
+
+		this.#x2 = x2;
+		this.#y2 = y2;
+
+		this.#x3 = x3;
+		this.#y3 = y3;
+
+		this.#x4 = x4;
+		this.#y4 = y4;
+	}
+
+	stroke(color?: import('p5').Color, weight?: number): this {
+		this.#color = color;
+		this.#weight = weight;
+
+		return this;
+	}
+
+	draw(context: Context): void {
+		context.p5.push();
+
+		context.p5.noFill();
+
+		if (this.#color) {
+			context.p5.stroke(this.#color);
+		}
+
+		if (this.#weight) {
+			context.p5.strokeWeight(this.#weight);
+		}
+
+		context.p5.bezier(
+			context.world.toCanvas(this.#x1),
+			context.world.toCanvas(this.#y1),
+			context.world.toCanvas(this.#x2),
+			context.world.toCanvas(this.#y2),
+			context.world.toCanvas(this.#x3),
+			context.world.toCanvas(this.#y3),
+			context.world.toCanvas(this.#x4),
+			context.world.toCanvas(this.#y4)
+		);
+
+		context.p5.pop();
+	}
+}
+
+//! INCOMPLETE
+export class Tail extends Drawable {
+	#point: Vec2;
+	#width: number;
+	/**
+	 * the box the tail is connected to
+	 */
+	#box: BoundingBox;
+
+	constructor(point: Vec2, box: BoundingBox, width: number, zIndex: number, callOrder: number) {
+		super(zIndex, callOrder);
+
+		this.#point = point;
+		this.#box = box;
+		this.#width = width;
+	}
+
+	draw(context: Context): void {
+		let p5 = context.p5;
+
+		let point = new Vec2(
+			context.world.toCanvas(this.#point.x),
+			context.world.toCanvas(this.#point.y)
+		);
+		let box = new BoundingBox(
+			context.world.toCanvas(this.#box.left),
+			context.world.toCanvas(this.#box.right),
+			context.world.toCanvas(this.#box.top),
+			context.world.toCanvas(this.#box.bottom)
+		);
+		let width = context.world.toCanvas(this.#width);
+
+		p5.push();
+
+		p5.beginShape();
+		p5.vertex(point.x, point.y);
+		p5.vertex(
+			box.left + width,
+			box.bottom // End point
+		);
+		p5.vertex(box.left, box.bottom);
+		p5.endShape();
+
+		p5.pop();
 	}
 }

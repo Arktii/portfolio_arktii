@@ -170,15 +170,15 @@
 	}
 
 	function mouseClicked(p5: import('p5')) {
-		inputs.setMouseClicked();
+		inputs?.setMouseClicked();
 	}
 
 	function keyPressed(p5: import('p5')) {
-		inputs.setKeyJustPressed(p5.key);
+		inputs?.setKeyJustPressed(p5.key);
 	}
 
 	function keyReleased(p5: import('p5')) {
-		inputs.setKeyJustReleased(p5.key);
+		inputs?.setKeyJustReleased(p5.key);
 	}
 </script>
 

@@ -87,7 +87,7 @@
 		eventBus.subscribe('update', player.update.bind(player));
 		eventBus.subscribe('update', moveAreaManager.update.bind(moveAreaManager));
 		eventBus.subscribe('update', interactionManager.update.bind(interactionManager));
-		// eventBus.subscribe('update', shovableManager.update.bind(shovableManager));
+		eventBus.subscribe('update', shovableManager.update.bind(shovableManager));
 
 		p5.resizeCanvas(p5.width, p5.width / BUILDING.ASPECT_RATIO);
 		world.resizeRatio = p5.width / WORLD_SIZE.REFERENCE_WIDTH;

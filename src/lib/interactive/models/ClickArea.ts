@@ -1,3 +1,5 @@
+import { INTERACTION } from '../constants';
+import type { Context } from '../core/Context';
 import type { BoundingBox } from './BoundingBox';
 
 export class ClickArea {
@@ -13,15 +15,28 @@ export class ClickArea {
 		this.hoverText = hoverText;
 	}
 
-	hover() {
+	hover(context: Context) {
 		// TODO: fire event via event bus so player can have thought bubble for hover text
 		// TODO: handle highlighting
 
 		console.log(this.hoverText);
+
+		context.drawing
+			.rect(
+				this.aabb.left,
+				this.aabb.top,
+				this.aabb.right - this.aabb.left,
+				this.aabb.bottom - this.aabb.top,
+				0
+			)
+			.radius(1)
+			.fillColor(context.p5.color(INTERACTION.FILL_COLOR))
+			.stroke(context.p5.color(INTERACTION.STROKE_COLOR), INTERACTION.STROKE_WEIGHT)
+			.glow(context.p5.color(INTERACTION.GLOW_COLOR), 25);
 	}
 
 	click() {
-		console.log("CLICK");
+		console.log('CLICK');
 		if (this.onClick) {
 			this.onClick();
 		}

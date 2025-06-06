@@ -6,8 +6,6 @@ export const CANVAS_SIZE = {
 	PADDING: 0.9
 };
 
-// const SCALE_MULTIPLIER = 3;
-
 export const BUILDING = {
 	WIDTH: 240,
 	HEIGHT: 700,
@@ -36,7 +34,7 @@ export const PLAYER = {
 	EDGE_CHECK: 0.1,
 
 	DOWN_JUMP_SPEED: 150,
-	UP_JUMP_SPEED: 70,
+	UP_JUMP_SPEED: 85,
 	DOWN_LAUNCH_ANGLE: 0.349066, // 20 degrees
 	UP_LAUNCH_ANGLE: 1.0472, // 60 degrees
 	// UP_LAUNCH_ANGLE: 1.22173, // 70 degrees
@@ -75,6 +73,14 @@ export const POT_COMPUTED = {
 
 let gridWidth = Math.ceil(BUILDING.WIDTH / COLLISION_SPACE.CELL_SIZE);
 let gridHeight = Math.ceil(BUILDING.HEIGHT / COLLISION_SPACE.CELL_SIZE);
+
+export const INTERACTION = {
+	BORDER_RADIUS: 2,
+	STROKE_WEIGHT: 1.25,
+	FILL_COLOR: 'rgba(255, 255, 255, 0.2)',
+	STROKE_COLOR: 'rgb(187, 228, 255)',
+	GLOW_COLOR: 'rgb(128, 184, 236)'
+};
 
 // TODO: consider other solutions?
 export function makeColliderGrid() {

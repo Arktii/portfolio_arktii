@@ -148,7 +148,7 @@ export class MovementPointManager {
 					this.drawIndicator(context, target, true);
 
 					// @ts-ignore (typescript definitions aren't up to date with p5 version)
-					if (p5.keyIsDown('w') && !this.player.inputIsLocked) {
+					if (p5.keyIsDown('w') && !context.player.inputIsLocked) {
 						context.player.jump(target);
 						break;
 					}

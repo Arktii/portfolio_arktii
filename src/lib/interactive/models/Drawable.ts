@@ -30,11 +30,35 @@ export abstract class Drawable implements Ord {
 	abstract draw(context: Context): void;
 }
 
-export class Rectangle extends Drawable {
-	x: number;
-	y: number;
-	width: number;
-	height: number;
+export abstract class Glowable extends Drawable {
+	protected glowColor?: import('p5').Color;
+	protected blur: number = 20;
+
+	glow(color: import('p5').Color, blurriness: number = 20): this {
+		this.glowColor = color;
+		this.blur = blurriness;
+
+		return this;
+	}
+
+	/**
+	 * should be called by children to setup the glow
+	 */
+	protected addGlow(p5: import('p5')) {
+		p5.drawingContext.shadowBlur = this.blur;
+		p5.drawingContext.shadowColor = this.glowColor;
+	}
+}
+
+export class Rectangle extends Glowable {
+	#x: number;
+	#y: number;
+	#width: number;
+	#height: number;
+	#color?: import('p5').Color;
+	#strokeColor?: import('p5').Color;
+	#strokeWeight?: number;
+	#borderRadius: number = 0;
 
 	constructor(
 		x: number,
@@ -46,21 +70,56 @@ export class Rectangle extends Drawable {
 	) {
 		super(zIndex, callOrder);
 
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
+		this.#x = x;
+		this.#y = y;
+		this.#width = width;
+		this.#height = height;
+	}
+
+	radius(r: number): this {
+		this.#borderRadius = r;
+		return this;
+	}
+
+	stroke(color?: import('p5').Color, weight?: number): this {
+		this.#strokeColor = color;
+		this.#strokeWeight = weight;
+		return this;
+	}
+
+	fillColor(color: import('p5').Color): this {
+		this.#color = color;
+		return this;
 	}
 
 	draw(context: Context): void {
-		let world = context.world;
+		context.p5.push();
+
+		if (this.#strokeColor) {
+			context.p5.stroke(this.#strokeColor);
+		}
+
+		if (this.#strokeWeight) {
+			context.p5.strokeWeight(context.world.toCanvas(this.#strokeWeight));
+		}
+
+		if (this.#color) {
+			context.p5.fill(this.#color);
+		}
+
+		if (this.glowColor) {
+			this.addGlow(context.p5);
+		}
 
 		context.p5.rect(
-			world.toCanvas(this.x),
-			world.toCanvas(this.y),
-			world.toCanvas(this.width),
-			world.toCanvas(this.height)
+			context.world.toCanvas(this.#x),
+			context.world.toCanvas(this.#y),
+			context.world.toCanvas(this.#width),
+			context.world.toCanvas(this.#height),
+			context.world.toCanvas(this.#borderRadius)
 		);
+
+		context.p5.pop();
 	}
 }
 

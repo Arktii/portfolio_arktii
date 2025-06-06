@@ -33,9 +33,29 @@ export class Drawing {
 		);
 	}
 
-	rect(x: number, y: number, width: number, height: number, zIndex: number = 0) {
-		this.#renderQueue.insert(new Rectangle(x, y, width, height, zIndex, this.#renderQueue.size));
+	rect(x: number, y: number, width: number, height: number, zIndex: number = 0): Rectangle {
+		let rectangle = new Rectangle(x, y, width, height, zIndex, this.#renderQueue.size);
+		this.#renderQueue.insert(rectangle);
+
+		return rectangle;
 	}
+
+	// glowRect(
+	// 	x: number,
+	// 	y: number,
+	// 	width: number,
+	// 	height: number,
+	// 	color: import('p5').Color | undefined,
+	// 	glowColor: import('p5').Color,
+	// 	zIndex: number = 0
+	// ): Rectangle {
+	// 	let rectangle = new Rectangle(x, y, width, height, color, zIndex, this.#renderQueue.size).glow(
+	// 		glowColor
+	// 	);
+	// 	this.#renderQueue.insert(rectangle);
+
+	// 	return rectangle;
+	// }
 
 	gridRect(x: number, y: number, width: number, height: number, zIndex: number = 0) {
 		this.#renderQueue.insert(

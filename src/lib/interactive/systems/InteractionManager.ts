@@ -20,7 +20,18 @@ export class InteractionManager {
 	}
 
 	async setup(context: Context) {
-		let clickArea = this.addClickArea(new BoundingBox(41, 98, 161, 189), 'Hovering');
+		this.addClickArea(new BoundingBox(121.5, 148.5, 51.5, 78.5), 'C#');
+		this.addClickArea(new BoundingBox(151.5, 178.5, 51.5, 78.5), 'Python');
+		this.addClickArea(new BoundingBox(181.5, 208.5, 51.5, 78.5), 'Rust');
+		this.addClickArea(new BoundingBox(121.5, 148.5, 81.5, 108.5), 'Dart');
+		this.addClickArea(new BoundingBox(151.5, 178.5, 81.5, 108.5), 'JavaScript/TypeScript');
+
+		
+		var clickArea = this.addClickArea(new BoundingBox(33.5, 89.5, 111.5, 138.5), 'Unity');
+		var clickArea = this.addClickArea(new BoundingBox(92.5, 148.5, 111.5, 138.5), 'Godot');
+		var clickArea = this.addClickArea(new BoundingBox(151.5, 207.5, 111.5, 138.5), 'Bevy');
+
+		var clickArea = this.addClickArea(new BoundingBox(41.5, 97.5, 161.5, 188.5), 'DOST');
 		this.addInteractArea(4, 9, 18, clickArea);
 	}
 
@@ -82,7 +93,7 @@ export class InteractionManager {
 				}
 
 				if (interactArea.clickArea) {
-					interactArea.clickArea.hover();
+					interactArea.clickArea.hover(context);
 				}
 
 				break;
@@ -90,15 +101,15 @@ export class InteractionManager {
 		}
 
 		// draw interaction areas
-		this.#clickAreas.forEach((clickArea) => {
-			context.drawing.rect(
-				clickArea.aabb.left,
-				clickArea.aabb.top,
-				clickArea.aabb.right - clickArea.aabb.left,
-				clickArea.aabb.bottom - clickArea.aabb.top,
-				0
-			);
-		});
+		// this.#clickAreas.forEach((clickArea) => {
+		// 	context.drawing.rect(
+		// 		clickArea.aabb.left,
+		// 		clickArea.aabb.top,
+		// 		clickArea.aabb.right - clickArea.aabb.left,
+		// 		clickArea.aabb.bottom - clickArea.aabb.top,
+		// 		0
+		// 	);
+		// });
 
 		// check click areas
 		let worldMousePos = new Vec2(
@@ -109,7 +120,7 @@ export class InteractionManager {
 			let clickArea = this.#clickAreas[i];
 
 			if (clickArea.aabb.contains(worldMousePos)) {
-				clickArea.hover();
+				clickArea.hover(context);
 
 				if (context.inputs.mouseJustClicked()) {
 					clickArea.click();

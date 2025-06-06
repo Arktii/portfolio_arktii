@@ -1,4 +1,4 @@
-import { PHYSICS, PLAYER } from '../constants';
+import { PHYSICS, PLAYER, PLAYER_COMPUTED } from '../constants';
 import type { CollisionSpace } from '../core/CollisionSpace';
 import type { Context } from '../core/Context';
 
@@ -64,10 +64,30 @@ export class Player {
 		return this.#direction;
 	}
 
-	// TODO: add interaction Area (which is the head part of the cat, and is also relatively small [this will need to flip with direction])
-
 	calculateAABB(): BoundingBox {
 		return BoundingBox.fromRect(this.position.x, this.position.y, PLAYER.WIDTH, PLAYER.HEIGHT);
+	}
+
+	/**
+	 * the hitbox for interactions
+	 */
+	calculateInteractAABB(): BoundingBox {
+		// i think this more explicit form is a bit easier to read than adding in an offset
+		if (this.direction > 0) {
+			return BoundingBox.fromRect(
+				this.position.x + PLAYER_COMPUTED.INTERACT_WIDTH_DIFF,
+				this.position.y,
+				PLAYER.INTERACT_WIDTH,
+				PLAYER.HEIGHT
+			);
+		} else {
+			return BoundingBox.fromRect(
+				this.position.x,
+				this.position.y,
+				PLAYER.INTERACT_WIDTH,
+				PLAYER.HEIGHT
+			);
+		}
 	}
 
 	async setup(context: Context) {

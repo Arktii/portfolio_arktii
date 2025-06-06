@@ -26,32 +26,50 @@ export class InteractionManager {
 	}
 
 	async setup(context: Context) {
-		this.addClickArea(
+		// TODO: move this out? it's very long
+		// languages
+		var clickArea = this.addClickArea(
 			new BoundingBox(121.5, 148.5, 51.5, 78.5),
 			'C#',
 			InteractionManager.makeSpeechBubbleFunc('Console.Log("Meow")')
 		);
-		this.addClickArea(
+		this.addInteractArea(12, 13, 3, clickArea);
+
+		var clickArea = this.addClickArea(
+			new BoundingBox(136.5, 163.5, 81.5, 108.5),
+			'Dart',
+			InteractionManager.makeSpeechBubbleFunc('print("Meow")')
+		);
+		this.addInteractArea(14, 14.5, 3, clickArea);
+
+		var clickArea = this.addClickArea(
 			new BoundingBox(151.5, 178.5, 51.5, 78.5),
 			'Python',
 			InteractionManager.makeSpeechBubbleFunc('print("Meow")')
 		);
-		this.addClickArea(
+		this.addInteractArea(15.5, 16.5, 3, clickArea);
+
+		var clickArea = this.addClickArea(
+			new BoundingBox(166.5, 193.5, 81.5, 108.5),
+			'JavaScript / TypeScript',
+			InteractionManager.makeSpeechBubbleFunc('console.log("Meow")')
+		);
+		this.addInteractArea(17.5, 18, 3, clickArea);
+
+		var clickArea = this.addClickArea(
 			new BoundingBox(181.5, 208.5, 51.5, 78.5),
 			'Rust',
 			InteractionManager.makeSpeechBubbleFunc('print!("Meow")')
 		);
-		this.addClickArea(
-			new BoundingBox(121.5, 148.5, 81.5, 108.5),
-			'Dart',
-			InteractionManager.makeSpeechBubbleFunc('print("Meow")')
-		);
-		this.addClickArea(
-			new BoundingBox(151.5, 178.5, 81.5, 108.5),
-			'JavaScript / TypeScript',
-			InteractionManager.makeSpeechBubbleFunc('console.log("Meow")')
-		);
+		this.addInteractArea(19, 20, 3, clickArea);
 
+		var clickArea = this.addClickArea(
+			new BoundingBox(221.5, 233.5, 46.5, 90.5),
+			'More Languages (will redirect)'
+		);
+		this.addInteractArea(21, 21, 3, clickArea);
+
+		// engines
 		var clickArea = this.addClickArea(new BoundingBox(33.5, 89.5, 111.5, 138.5), 'Unity');
 		var clickArea = this.addClickArea(new BoundingBox(92.5, 148.5, 111.5, 138.5), 'Godot');
 		var clickArea = this.addClickArea(new BoundingBox(151.5, 207.5, 111.5, 138.5), 'Bevy');
@@ -113,7 +131,7 @@ export class InteractionManager {
 		let p5 = context.p5;
 
 		// check interact areas
-		let playerAABB = context.player.calculateAABB();
+		let playerAABB = context.player.calculateInteractAABB();
 		for (let i = 0; i < this.#interactAreas.length; i++) {
 			let interactArea = this.#interactAreas[i];
 			if (interactArea.aabb.colliding(playerAABB)) {

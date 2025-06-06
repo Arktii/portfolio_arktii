@@ -128,7 +128,7 @@
 
 		drawing.render(context);
 
-		let playerAABB = player.calculateAABB();
+		let playerAABB = player.calculateInteractAABB();
 		p5.line(
 			world.toCanvas(playerAABB.left),
 			world.toCanvas(playerAABB.top),

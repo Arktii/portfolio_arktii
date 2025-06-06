@@ -113,7 +113,7 @@ export class MoveAreaManager {
 		}
 
 		let p5 = context.p5;
-		let playerAABB = context.player.calculateAABB();
+		let playerAABB = context.player.calculateInteractAABB();
 
 		// detect player
 		for (let i = 0; i < this.#moveAreas.length; i++) {

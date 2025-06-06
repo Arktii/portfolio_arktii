@@ -31,8 +31,9 @@ export const PLAYER = {
 
 	WIDTH: 20,
 	HEIGHT: 16,
-	SPEED: 100,
+	INTERACT_WIDTH: 6,
 
+	SPEED: 100,
 	EDGE_CHECK: 0.1,
 
 	DOWN_JUMP_SPEED: 150,
@@ -42,6 +43,15 @@ export const PLAYER = {
 	// UP_LAUNCH_ANGLE: 1.22173, // 70 degrees
 
 	IDLETIME_THRESHOLD: 0.05 // how long the player needs to be idle to enter idle animation (to prevent switching between walking and idling too rapidly)
+};
+
+export const PLAYER_COMPUTED = {
+	HALF_WIDTH: PLAYER.WIDTH / 2,
+	WIDTH_DIFF: PLAYER.SPRITE_WIDTH - PLAYER.WIDTH,
+	HALF_WIDTH_DIFF: (PLAYER.SPRITE_WIDTH - PLAYER.WIDTH) / 2,
+	HEIGHT_DIFF: PLAYER.SPRITE_HEIGHT - PLAYER.HEIGHT,
+
+	INTERACT_WIDTH_DIFF: PLAYER.WIDTH - PLAYER.INTERACT_WIDTH
 };
 
 // TODO: PLAYER_COMPUTED, which contains commonly used things like SPRITE_WIDTH - WIDTH

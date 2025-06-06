@@ -99,7 +99,7 @@ export class Rectangle extends Glowable {
 			context.p5.stroke(this.#strokeColor);
 		}
 
-		if (this.#strokeWeight) {
+		if (this.#strokeWeight !== undefined) {
 			context.p5.strokeWeight(context.world.toCanvas(this.#strokeWeight));
 		}
 
@@ -202,5 +202,83 @@ export class GridRectangle extends Drawable {
 			this.width * canvasCellSize,
 			this.height * canvasCellSize
 		);
+	}
+}
+
+export class Text extends Drawable {
+	#x: number;
+	#y: number;
+	#width?: number;
+	#height?: number;
+	#color?: import('p5').Color;
+	#text: string;
+	#fontSize: number;
+	#horizontalAlign?: import('p5').HORIZ_ALIGN;
+	#verticalAlign?: import('p5').VERT_ALIGN;
+
+	constructor(
+		x: number,
+		y: number,
+		text: string,
+		fontSize: number = 10,
+		zIndex: number,
+		callOrder: number
+	) {
+		super(zIndex, callOrder);
+
+		this.#x = x;
+		this.#y = y;
+		this.#text = text;
+		this.#fontSize = fontSize;
+	}
+
+	width(width: number): this {
+		this.#width = width;
+
+		return this;
+	}
+
+	height(height: number): this {
+		this.#height = height;
+
+		return this;
+	}
+
+	textAlign(horizontal?: import('p5').HORIZ_ALIGN, vertical?: import('p5').VERT_ALIGN): this {
+		this.#horizontalAlign = horizontal;
+		this.#verticalAlign = vertical;
+
+		return this;
+	}
+
+	textColor(color: import('p5').Color) {
+		this.#color = color;
+	}
+
+	draw(context: Context): void {
+		context.p5.push();
+		context.p5.textSize(context.world.toCanvas(this.#fontSize));
+		context.p5.textAlign(
+			this.#horizontalAlign ?? context.p5.CENTER,
+			this.#verticalAlign ?? context.p5.CENTER
+		);
+
+		if (this.#color) {
+			context.p5.fill(this.#color);
+		}
+
+		if (this.#width) {
+			context.p5.textWrap(context.p5.WORD);
+		}
+
+		context.p5.text(
+			this.#text,
+			context.world.toCanvas(this.#x),
+			context.world.toCanvas(this.#y),
+			this.#width ? context.world.toCanvas(this.#width) : undefined,
+			this.#height ? context.world.toCanvas(this.#height) : undefined
+		);
+
+		context.p5.pop();
 	}
 }

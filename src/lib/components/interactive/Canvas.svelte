@@ -2,6 +2,9 @@
 	// TODO? combine this with P5 component
 	import P5 from '$lib/components/P5.svelte';
 	import { CANVAS_SIZE } from '$lib/interactive/constants';
+	import Fredoka from '$lib/fonts/Fredoka-Regular.ttf';
+
+	let defaultFont;
 
 	export let preload = async (p5: import('p5')) => {};
 	export let setup = async (p5: import('p5')) => {};
@@ -18,6 +21,10 @@
 		p5.createCanvas(p5.windowWidth, p5.windowHeight);
 		p5.pixelDensity(1);
 		p5.noSmooth();
+
+		defaultFont = await p5.loadFont(Fredoka);
+
+		p5.textFont(defaultFont);
 
 		const width = p5.constrain(p5.windowWidth * 0.9, CANVAS_SIZE.MIN_WIDTH, CANVAS_SIZE.MAX_WIDTH);
 		p5.resizeCanvas(width, p5.windowHeight);

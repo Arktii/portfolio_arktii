@@ -1,3 +1,5 @@
+import { Vec2 } from './models/Vec2';
+
 export const FLOAT_TOLERANCE = 0.001;
 
 export const CANVAS_SIZE = {
@@ -82,7 +84,29 @@ export const INTERACTION = {
 	GLOW_COLOR: 'rgb(128, 184, 236)',
 
 	SECONDARY_STROKE_COLOR: 'rgba(187, 228, 255, 0.5)',
-	SECONDARY_GLOW_COLOR: 'rgba(245, 195, 139, 0.5)'
+	SECONDARY_GLOW_COLOR: 'rgba(245, 195, 139, 0.5)',
+
+	THOUGHT_BUBBLE_DURATION: 1.5,
+	SPEECH_BUBBLE_DURATION: 1.75
+};
+
+export const WORD_BUBBLE = {
+	BORDER_RADIUS: 1,
+	STROKE_WIDTH: 0,
+
+	OFFSET_X: 7,
+	OFFSET_Y: -12,
+
+	WIDTH: 60,
+	HEIGHT: 20,
+
+	FONT_SIZE: 5,
+	FILL_COLOR: 'rgb(250, 228, 186)',
+	FILL_ALPHA: 255 * 0.8,
+	TEXT_COLOR: 'rgb(19, 15, 13)',
+	TEXT_ALPHA: 255,
+
+	Z_INDEX: INDICATORS.Z_INDEX + 1
 };
 
 // TODO: consider other solutions?

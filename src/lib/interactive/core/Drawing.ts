@@ -1,5 +1,5 @@
 import { PriorityQueue } from '$lib/collections/PriorityQueue';
-import { Drawable, GridRectangle, Img, Rectangle } from '../models/Drawable';
+import { Drawable, GridRectangle, Img, Rectangle, Text } from '../models/Drawable';
 import type { Context } from './Context';
 
 /**
@@ -40,26 +40,16 @@ export class Drawing {
 		return rectangle;
 	}
 
-	// glowRect(
-	// 	x: number,
-	// 	y: number,
-	// 	width: number,
-	// 	height: number,
-	// 	color: import('p5').Color | undefined,
-	// 	glowColor: import('p5').Color,
-	// 	zIndex: number = 0
-	// ): Rectangle {
-	// 	let rectangle = new Rectangle(x, y, width, height, color, zIndex, this.#renderQueue.size).glow(
-	// 		glowColor
-	// 	);
-	// 	this.#renderQueue.insert(rectangle);
-
-	// 	return rectangle;
-	// }
-
 	gridRect(x: number, y: number, width: number, height: number, zIndex: number = 0) {
 		this.#renderQueue.insert(
 			new GridRectangle(x, y, width, height, zIndex, this.#renderQueue.size)
 		);
+	}
+
+	text(x: number, y: number, text: string, fontSize: number, zIndex: number = 0): Text {
+		let newText = new Text(x, y, text, fontSize, zIndex, this.#renderQueue.size);
+		this.#renderQueue.insert(newText);
+
+		return newText;
 	}
 }

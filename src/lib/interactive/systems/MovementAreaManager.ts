@@ -9,7 +9,7 @@ import upKeyImg from '$lib/images/keyW.png';
 import downKeyImg from '$lib/images/keyS.png';
 import hereArrowImg from '$lib/images/hereArrow.png';
 
-export class MovementPointManager {
+export class MoveAreaManager {
 	colSpace: CollisionSpace;
 
 	#moveAreas: MoveArea[] = [];

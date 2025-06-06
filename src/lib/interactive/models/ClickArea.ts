@@ -1,26 +1,30 @@
 import { INTERACTION } from '../constants';
 import type { Context } from '../core/Context';
 import type { BoundingBox } from './BoundingBox';
+import { WordBubble, WordBubbleType } from './WordBubble';
 
 export class ClickArea {
 	aabb: BoundingBox;
 	hoverText: string;
 
-	onClick?: () => void;
+	onClick?: (context: Context) => void;
 
-	constructor(aabb: BoundingBox, hoverText: string = '', onClick?: () => void) {
+	constructor(aabb: BoundingBox, hoverText: string = '', onClick?: (context: Context) => void) {
 		this.aabb = aabb;
 
 		this.onClick = onClick;
 		this.hoverText = hoverText;
 	}
 
+	startHover(context: Context) {
+		context.eventBus.publish(
+			'wordBubble',
+			context,
+			new WordBubble(WordBubbleType.THOUGHT, this.hoverText, INTERACTION.THOUGHT_BUBBLE_DURATION, 0)
+		);
+	}
+
 	hover(context: Context) {
-		// TODO: fire event via event bus so player can have thought bubble for hover text
-		// TODO: handle highlighting
-
-		console.log(this.hoverText);
-
 		context.drawing
 			.rect(
 				this.aabb.left,
@@ -50,10 +54,10 @@ export class ClickArea {
 			.glow(context.p5.color('rgba(245, 195, 139, 1)'), 12);
 	}
 
-	click() {
+	click(context: Context) {
 		console.log('CLICK');
 		if (this.onClick) {
-			this.onClick();
+			this.onClick(context);
 		}
 	}
 }

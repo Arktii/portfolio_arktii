@@ -1,3 +1,4 @@
+import type { Context } from '../core/Context';
 import { BoundingBox } from './BoundingBox';
 import type { ClickArea } from './ClickArea';
 
@@ -6,7 +7,7 @@ export class InteractArea {
 
 	clickArea?: ClickArea;
 
-	onClick?: () => void; // optional, because if a clickable area is available, that function can be used instead
+	onClick?: (context: Context) => void; // optional, because if a clickable area is available, that function can be used instead
 	whileInside?: () => void;
 
 	constructor(
@@ -15,7 +16,7 @@ export class InteractArea {
 		xEnd: number,
 		y: number,
 		clickArea?: ClickArea,
-		onClick?: () => void,
+		onClick?: (context: Context) => void,
 		whileInside?: () => void
 	) {
 		this.clickArea = clickArea;

@@ -11,19 +11,22 @@
 		BUILDING,
 		COLLISION_SPACE as COL_SPACE,
 		makeColliderGrid,
-		PLAYER as PLAYER,
 		WORLD_SIZE
 	} from '$lib/interactive/constants';
+
 	import { Player } from '$lib/interactive/models/Player';
-	import { World } from '$lib/interactive/core/World';
 	import { Vec2 } from '$lib/interactive/models/Vec2';
+
+	import { World } from '$lib/interactive/core/World';
 	import { EventBus } from '$lib/interactive/core/EventBus';
-	import { MovementPointManager as MoveAreaManager } from '$lib/interactive/systems/MovementAreaManager';
 	import { Drawing } from '$lib/interactive/core/Drawing';
 	import { Context } from '$lib/interactive/core/Context';
+	import { Inputs } from '$lib/interactive/core/Inputs';
+
+	import { MoveAreaManager } from '$lib/interactive/systems/MovementAreaManager';
 	import { ShovableManager } from '$lib/interactive/systems/ShovableManager';
 	import { InteractionManager } from '$lib/interactive/systems/InteractionManager';
-	import { Inputs } from '$lib/interactive/core/Inputs';
+	import { WordBubbleManager } from '$lib/interactive/systems/WordBubbleManager';
 
 	let buildingImage: p5.Image;
 	let buildingFgImage: p5.Image;
@@ -43,6 +46,7 @@
 	let moveAreaManager: MoveAreaManager;
 	let shovableManager: ShovableManager;
 	let interactionManager: InteractionManager;
+	let wordBubbleManager: WordBubbleManager;
 
 	async function preload(p5: import('p5')) {
 		buildingImage = await p5.loadImage(building);
@@ -66,28 +70,26 @@
 		moveAreaManager = new MoveAreaManager(colSpace);
 		interactionManager = new InteractionManager(colSpace);
 		shovableManager = new ShovableManager();
+		wordBubbleManager = new WordBubbleManager();
 
 		context = new Context(p5, world, inputs, drawing, colSpace, eventBus, player);
 
 		// setup components
 		colSpace.colliderGrid = makeColliderGrid();
 
-		// setup player
 		await player.setup(context);
-
-		// setup movement areas
 		await moveAreaManager.setup(context);
-
-		// setup interaction areas
 		await interactionManager.setup(context);
-
-		// setup pots
 		await shovableManager.setup(context);
+		await wordBubbleManager.setup(context);
 
 		eventBus.subscribe('update', player.update.bind(player));
 		eventBus.subscribe('update', moveAreaManager.update.bind(moveAreaManager));
 		eventBus.subscribe('update', interactionManager.update.bind(interactionManager));
 		eventBus.subscribe('update', shovableManager.update.bind(shovableManager));
+		eventBus.subscribe('update', wordBubbleManager.update.bind(wordBubbleManager));
+
+		eventBus.subscribe('wordBubble', wordBubbleManager.receiveWordBubble.bind(wordBubbleManager));
 
 		p5.resizeCanvas(p5.width, p5.width / BUILDING.ASPECT_RATIO);
 		world.resizeRatio = p5.width / WORLD_SIZE.REFERENCE_WIDTH;

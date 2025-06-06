@@ -121,10 +121,10 @@ export class CollisionSpace {
 		yEnd = Math.min(this.gridHeight - 1, yEnd);
 
 		if (xStart > xEnd) {
-			return Vec2.ZERO;
+			return Vec2.zero();
 		}
 		if (yStart > yEnd) {
-			return Vec2.ZERO;
+			return Vec2.zero();
 		}
 
 		let displacement = new Vec2(0, 0);
@@ -166,10 +166,10 @@ export class CollisionSpace {
 		yEnd = Math.min(this.gridHeight - 1, yEnd);
 
 		if (xStart > xEnd) {
-			return Vec2.ZERO;
+			return Vec2.zero();
 		}
 		if (yStart > yEnd) {
-			return Vec2.ZERO;
+			return Vec2.zero();
 		}
 
 		let overlap = new Vec2(0, 0);

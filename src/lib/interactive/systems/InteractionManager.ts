@@ -14,11 +14,8 @@ export class InteractionManager {
 	#clickAreas: ClickArea[] = [];
 
 	#colSpace: CollisionSpace;
-	#player: Player;
-	// TODO: move player out to Context
 
-	constructor(colSpace: CollisionSpace, player: Player) {
-		this.#player = player;
+	constructor(colSpace: CollisionSpace) {
 		this.#colSpace = colSpace;
 	}
 
@@ -59,14 +56,14 @@ export class InteractionManager {
 	update(context: Context, deltaSecs: number) {
 		// TODO: handle conflicting interact area and click area (store last hovered for each? if same, then replace with new)
 
-		if (this.#player.inputIsLocked) {
+		if (context.player.inputIsLocked) {
 			return;
 		}
 
 		let p5 = context.p5;
 
 		// check interact areas
-		let playerAABB = this.#player.calculateAABB();
+		let playerAABB = context.player.calculateAABB();
 		for (let i = 0; i < this.#interactAreas.length; i++) {
 			let interactArea = this.#interactAreas[i];
 			if (interactArea.aabb.colliding(playerAABB)) {
@@ -99,7 +96,7 @@ export class InteractionManager {
 				clickArea.aabb.top,
 				clickArea.aabb.right - clickArea.aabb.left,
 				clickArea.aabb.bottom - clickArea.aabb.top,
-				10
+				0
 			);
 		});
 

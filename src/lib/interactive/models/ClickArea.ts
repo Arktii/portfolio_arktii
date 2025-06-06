@@ -21,6 +21,7 @@ export class ClickArea {
 	}
 
 	click() {
+		console.log("CLICK");
 		if (this.onClick) {
 			this.onClick();
 		}

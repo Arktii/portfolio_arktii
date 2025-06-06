@@ -11,8 +11,6 @@ import hereArrowImg from '$lib/images/hereArrow.png';
 
 export class MovementPointManager {
 	colSpace: CollisionSpace;
-	player: Player;
-	// TODO: add player to Context and get player from context
 
 	#moveAreas: MoveArea[] = [];
 
@@ -23,9 +21,8 @@ export class MovementPointManager {
 	#indicatorOffset: number = 0;
 	#indicatorDirection: -1 | 1 = -1;
 
-	constructor(collisionSpace: CollisionSpace, player: Player) {
+	constructor(collisionSpace: CollisionSpace) {
 		this.colSpace = collisionSpace;
-		this.player = player;
 	}
 
 	async setup(context: Context) {
@@ -111,12 +108,12 @@ export class MovementPointManager {
 	}
 
 	update(context: Context, deltaSecs: number) {
-		if (this.player.inputIsLocked) {
+		if (context.player.inputIsLocked) {
 			return;
 		}
 
 		let p5 = context.p5;
-		let playerAABB = this.player.calculateAABB();
+		let playerAABB = context.player.calculateAABB();
 
 		// detect player
 		for (let i = 0; i < this.#moveAreas.length; i++) {
@@ -124,6 +121,7 @@ export class MovementPointManager {
 			if (moveArea.aabb.colliding(playerAABB)) {
 				if (moveArea.downTarget) {
 					let target = this.calculateTarget(
+						context.player,
 						moveArea.downTarget.offset,
 						moveArea.downTarget.xLimitStart,
 						moveArea.downTarget.xLimitEnd,
@@ -133,13 +131,14 @@ export class MovementPointManager {
 					this.drawIndicator(context, target, false);
 
 					// @ts-ignore (typescript definitions aren't up to date with p5 version)
-					if (p5.keyIsDown('s') && !this.player.inputIsLocked) {
-						this.player.jump(new Vec2(target.x, target.y));
+					if (p5.keyIsDown('s') && !context.player.inputIsLocked) {
+						context.player.jump(new Vec2(target.x, target.y));
 						break;
 					}
 				}
 				if (moveArea.upTarget) {
 					let target = this.calculateTarget(
+						context.player,
 						moveArea.upTarget.offset,
 						moveArea.upTarget.xLimitStart,
 						moveArea.upTarget.xLimitEnd,
@@ -150,7 +149,7 @@ export class MovementPointManager {
 
 					// @ts-ignore (typescript definitions aren't up to date with p5 version)
 					if (p5.keyIsDown('w') && !this.player.inputIsLocked) {
-						this.player.jump(target);
+						context.player.jump(target);
 						break;
 					}
 				}
@@ -172,17 +171,15 @@ export class MovementPointManager {
 	}
 
 	private calculateTarget(
+		player: Player,
 		offset: Vec2,
 		xLimitStart: number | undefined,
 		xLimitEnd: number | undefined,
 		multiplyXByDirection: boolean
 	): Vec2 {
-		let direction = multiplyXByDirection ? this.player.direction : 1;
+		let direction = multiplyXByDirection ? player.direction : 1;
 
-		let target = new Vec2(
-			this.player.position.x + offset.x * direction,
-			this.player.position.y + offset.y
-		);
+		let target = new Vec2(player.position.x + offset.x * direction, player.position.y + offset.y);
 
 		if (xLimitStart !== undefined) target.x = Math.max(target.x, xLimitStart);
 		if (xLimitEnd !== undefined) target.x = Math.min(target.x, xLimitEnd);

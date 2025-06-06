@@ -59,30 +59,32 @@
 			Math.ceil(BUILDING.HEIGHT / COL_SPACE.CELL_SIZE),
 			COL_SPACE.CELL_SIZE
 		);
+		player = new Player(new Vec2(WORLD_SIZE.REFERENCE_WIDTH / 2, 0));
+		moveAreaManager = new MoveAreaManager(colSpace);
+		interactionManager = new InteractionManager(colSpace);
+		shovableManager = new ShovableManager();
+
+		context = new Context(p5, world, drawing, colSpace, eventBus, player);
+
+		// setup components
 		colSpace.colliderGrid = makeColliderGrid();
 
-		context = new Context(p5, world, drawing, colSpace, eventBus);
-
 		// setup player
-		player = new Player(new Vec2(WORLD_SIZE.REFERENCE_WIDTH / 2, 0));
 		await player.setup(context);
 
 		// setup movement areas
-		moveAreaManager = new MoveAreaManager(colSpace, player);
 		await moveAreaManager.setup(context);
 
 		// setup interaction areas
-		interactionManager = new InteractionManager(colSpace, player);
 		await interactionManager.setup(context);
 
 		// setup pots
-		shovableManager = new ShovableManager(player);
 		await shovableManager.setup(context);
 
 		eventBus.subscribe('update', player.update.bind(player));
 		eventBus.subscribe('update', moveAreaManager.update.bind(moveAreaManager));
 		eventBus.subscribe('update', interactionManager.update.bind(interactionManager));
-		eventBus.subscribe('update', shovableManager.update.bind(shovableManager));
+		// eventBus.subscribe('update', shovableManager.update.bind(shovableManager));
 
 		p5.resizeCanvas(p5.width, p5.width / BUILDING.ASPECT_RATIO);
 		world.resizeRatio = p5.width / WORLD_SIZE.REFERENCE_WIDTH;

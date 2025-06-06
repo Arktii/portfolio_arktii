@@ -1,24 +1,17 @@
 import { calculateSingleDisplacementX } from '$lib/utils/Collisions';
-import { PHYSICS, POT, POT_COMPUTED, WORLD_SIZE } from '../constants';
+import { PHYSICS, POT, POT_COMPUTED } from '../constants';
 import type { CollisionSpace } from '../core/CollisionSpace';
 import type { Context } from '../core/Context';
 import type { BoundingBox } from '../models/BoundingBox';
-import type { Player } from '../models/Player';
 import { Shovable } from '../models/Shovable';
 import { Vec2 } from '../models/Vec2';
 
 const potImageCount = 6;
 
 export class ShovableManager {
-	#player: Player;
-
 	#potImages: import('p5').Image[] = [];
 
 	#active: Shovable[] = [];
-
-	constructor(player: Player) {
-		this.#player = player;
-	}
 
 	async setup(context: Context) {
 		for (let i = 1; i <= potImageCount; i++) {
@@ -50,7 +43,7 @@ export class ShovableManager {
 	}
 
 	update(context: Context, deltaSecs: number) {
-		let playerAABB = this.#player.calculateAABB();
+		let playerAABB = context.player.calculateAABB();
 
 		for (let i = this.#active.length - 1; i >= 0; i--) {
 			let item = this.#active[i];

@@ -19,8 +19,4 @@ export class Shovable {
 	calculateAABB(): BoundingBox {
 		return BoundingBox.fromRect(this.position.x, this.position.y, this.width, this.height);
 	}
-
-	break(): void {
-		console.log('BROKEN');
-	}
 }

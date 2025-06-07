@@ -25,6 +25,10 @@ export class AnimatedSprite {
 		return this.#queue.length;
 	}
 
+	get finished(): boolean {
+		return this.#currentAnimation?.finished ?? false;
+	}
+
 	addAnim(name: string, animation: SpriteAnimation): AnimatedSprite {
 		this.#animations[name] = animation;
 		return this;

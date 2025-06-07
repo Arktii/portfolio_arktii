@@ -15,7 +15,8 @@ export class SpriteAnimation {
 		public columns: number,
 		public rows: number,
 		public frameCount: number,
-		public frameDuration: number
+		public frameDuration: number,
+		public loop: boolean = true
 	) {
 		for (let y = 0; y < rows; y++) {
 			for (let x = 0; x < columns; x++) {
@@ -41,6 +42,10 @@ export class SpriteAnimation {
 	}
 
 	update(deltaSecs: number) {
+		if (this.#finished && !this.loop) {
+			return;
+		}
+
 		this.#elapsed += deltaSecs;
 
 		if (this.#elapsed > this.frameDuration) {
@@ -49,7 +54,12 @@ export class SpriteAnimation {
 
 			if (this.currentFrame >= this.frameCount) {
 				this.#finished = true;
-				this.currentFrame = 0;
+
+				if (this.loop) {
+					this.currentFrame = 0;
+				} else {
+					this.currentFrame = this.#frames.length - 1;
+				}
 			}
 		}
 	}

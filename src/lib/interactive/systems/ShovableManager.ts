@@ -4,21 +4,27 @@ import type { CollisionSpace } from '../core/CollisionSpace';
 import type { Context } from '../core/Context';
 import type { BoundingBox } from '../models/BoundingBox';
 import { Shovable } from '../models/Shovable';
+import { SpriteAnimation } from '../models/SpriteAnimation';
 import { Vec2 } from '../models/Vec2';
+import potShatter from '$lib/images/pot-shatter.png';
+import { AnimatedSprite } from '../models/AnimatedSprite';
 
 const potImageCount = 6;
 
 export class ShovableManager {
 	#potImages: import('p5').Image[] = [];
+	#shatterSheet?: import('p5').Image;
 
 	#active: Shovable[] = [];
+	#shattering: AnimatedSprite[] = [];
 
 	async setup(context: Context) {
 		for (let i = 1; i <= potImageCount; i++) {
-			let something = await import(`$lib/images/pot${i}.png`);
-			const img = await context.p5.loadImage(something.default);
+			let imported = await import(`$lib/images/pot${i}.png`);
+			const img = await context.p5.loadImage(imported.default);
 			this.#potImages.push(img);
 		}
+		this.#shatterSheet = await context.p5.loadImage(potShatter);
 
 		this.addShovable(context, 20, 3, 5);
 		this.addShovable(context, 4, 9, 0);
@@ -61,15 +67,46 @@ export class ShovableManager {
 					item.falling = true;
 				}
 			} else {
-				// todo: rotate and play shatter animation
 				let aabb = item.calculateAABB();
 
 				if (context.colSpace.checkForCollision(item.calculateAABB())) {
 					let overlap = context.colSpace.calculateOverlap(aabb);
 					// if overlap.y is less than overlap.x, that means the collision is in the y-axis, so shatter
 					if (overlap.y < overlap.x) {
+						// push pot out of ground
+						item.position.y -= overlap.y;
+
 						this.#active.splice(i, 1);
-						item.break();
+
+						// shatter pot
+						if (this.#shatterSheet) {
+							let shatterAnimatedSprite = new AnimatedSprite(
+								new Vec2(
+									item.position.x - (POT.SHATTER_CELL_WIDTH - POT.WIDTH) / 2,
+									item.position.y - (POT.SHATTER_CELL_HEIGHT - POT.HEIGHT)
+								),
+								Vec2.zero(),
+								POT.Z_INDEX
+							);
+
+							shatterAnimatedSprite.addAnim(
+								'shatter',
+								new SpriteAnimation(
+									this.#shatterSheet,
+									POT.SHATTER_CELL_WIDTH,
+									POT.SHATTER_CELL_HEIGHT,
+									8,
+									1,
+									8,
+									0.1,
+									false
+								)
+							);
+
+							shatterAnimatedSprite.play('shatter');
+
+							this.#shattering.push(shatterAnimatedSprite);
+						}
 					}
 				}
 			}
@@ -84,6 +121,17 @@ export class ShovableManager {
 				false,
 				2
 			);
+		}
+
+		for (let i = this.#shattering.length - 1; i >= 0; i--) {
+			let animated = this.#shattering[i];
+
+			animated.update(deltaSecs);
+			animated.draw(context);
+
+			if (animated.finished) {
+				this.#shattering.splice(i, 1);
+			}
 		}
 	}
 

@@ -1,32 +1,44 @@
 <script lang="ts">
+	// import components
 	import Canvas from '$lib/components/interactive/Canvas.svelte';
 	import { CollisionSpace } from '$lib/interactive/core/CollisionSpace';
 
 	import type p5 from 'p5';
 
+	// import images
 	import building from '$lib/images/building.png';
 	import buildingForeground from '$lib/images/building-foreground.png';
 	import playerImg from '$lib/images/player.png';
+	import beastBonds from '$lib/images/projects/beast-bonds.png';
+	import chasmsCall from '$lib/images/projects/chasms-call.png';
+	import flickeringFlame from '$lib/images/projects/flickering-flame.png';
+	import timeflowers from '$lib/images/projects/timeflowers.png';
+	import wreckingWhiskers from '$lib/images/projects/wrecking-whiskers.png';
+
 	import {
 		BUILDING,
 		COLLISION_SPACE as COL_SPACE,
 		makeColliderGrid,
+		TV,
 		WORLD_SIZE
 	} from '$lib/interactive/constants';
 
-	import { Player } from '$lib/interactive/models/Player';
-	import { Vec2 } from '$lib/interactive/models/Vec2';
-
+	// import core
 	import { World } from '$lib/interactive/core/World';
 	import { EventBus } from '$lib/interactive/core/EventBus';
 	import { Drawing } from '$lib/interactive/core/Drawing';
 	import { Context } from '$lib/interactive/core/Context';
 	import { Inputs } from '$lib/interactive/core/Inputs';
 
-	import { MoveAreaManager } from '$lib/interactive/systems/MovementAreaManager';
-	import { ShovableManager } from '$lib/interactive/systems/ShovableManager';
+	// import systems & models
+	import { TvScreen } from '$lib/interactive/models/TvScreen';
 	import { InteractionManager } from '$lib/interactive/systems/InteractionManager';
+	import { MoveAreaManager } from '$lib/interactive/systems/MovementAreaManager';
+	import { Player } from '$lib/interactive/models/Player';
+	import { ShovableManager } from '$lib/interactive/systems/ShovableManager';
+	import { Vec2 } from '$lib/interactive/models/Vec2';
 	import { WordBubbleManager } from '$lib/interactive/systems/WordBubbleManager';
+	import { TvDisplay } from '$lib/interactive/models/TvDisplay';
 
 	let buildingImage: p5.Image;
 	let buildingFgImage: p5.Image;
@@ -39,14 +51,14 @@
 	let drawing: Drawing;
 	let player: Player;
 
-	let testButton: p5.Element;
-
 	let eventBus: EventBus;
 
 	let moveAreaManager: MoveAreaManager;
 	let shovableManager: ShovableManager;
 	let interactionManager: InteractionManager;
 	let wordBubbleManager: WordBubbleManager;
+
+	let others: any[] = [];
 
 	async function preload(p5: import('p5')) {
 		buildingImage = await p5.loadImage(building);
@@ -74,6 +86,20 @@
 
 		context = new Context(p5, world, inputs, drawing, colSpace, eventBus, player);
 
+		// TODO: Move duration out to constants
+		others.push(
+			new TvScreen(
+				[
+					new TvDisplay(54, 210, 101, 80, TV.GLOW_GROW),
+					new TvDisplay(40, 303, 40, 32, TV.GLOW_GROW_SMALL),
+					new TvDisplay(85, 303, 40, 32, TV.GLOW_GROW_SMALL),
+					new TvDisplay(130, 303, 40, 32, TV.GLOW_GROW_SMALL)
+				],
+				[chasmsCall, flickeringFlame, wreckingWhiskers, timeflowers, beastBonds],
+				5
+			)
+		);
+
 		// setup components
 		colSpace.colliderGrid = makeColliderGrid();
 
@@ -83,6 +109,7 @@
 		await shovableManager.setup(context);
 		await wordBubbleManager.setup(context);
 
+		// TODO: consider moving all update functions to their respective setups
 		eventBus.subscribe('update', player.update.bind(player));
 		eventBus.subscribe('update', moveAreaManager.update.bind(moveAreaManager));
 		eventBus.subscribe('update', interactionManager.update.bind(interactionManager));
@@ -90,6 +117,18 @@
 		eventBus.subscribe('update', wordBubbleManager.update.bind(wordBubbleManager));
 
 		eventBus.subscribe('wordBubble', wordBubbleManager.receiveWordBubble.bind(wordBubbleManager));
+
+		// setup and subscribe to update loop for all additional things
+		for (let i = 0; i < others.length; i++) {
+			let item = others[i];
+			if (item.setup) {
+				await item.setup(context);
+			}
+
+			if (item.update) {
+				eventBus.subscribe('update', item.update.bind(item));
+			}
+		}
 
 		p5.resizeCanvas(p5.width, p5.width / BUILDING.ASPECT_RATIO);
 		world.resizeRatio = p5.width / WORLD_SIZE.REFERENCE_WIDTH;

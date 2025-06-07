@@ -42,7 +42,9 @@ export const PLAYER = {
 	UP_LAUNCH_ANGLE: 1.0472, // 60 degrees
 	// UP_LAUNCH_ANGLE: 1.22173, // 70 degrees
 
-	IDLETIME_THRESHOLD: 0.05 // how long the player needs to be idle to enter idle animation (to prevent switching between walking and idling too rapidly)
+	IDLETIME_THRESHOLD: 0.05, // how long the player needs to be idle to enter idle animation (to prevent switching between walking and idling too rapidly)
+
+	Z_INDEX: 5
 };
 
 export const PLAYER_COMPUTED = {
@@ -105,6 +107,23 @@ export const INTERACTION = {
 
 	THOUGHT_BUBBLE_DURATION: 1.5,
 	SPEECH_BUBBLE_DURATION: 1.75
+};
+
+export const TV = {
+	BG_FILL_COLOR: 'rgba(255, 255, 255, 0.06)',
+	FG_FILL_COLOR: 'rgba(255, 255, 255, 0.04)',
+	STROKE_COLOR: 'rgb(187, 228, 255)',
+	GLOW_COLOR: 'rgb(255, 160, 207)',
+	GLOW_BLUR: 45,
+
+	GLOW_GROW: 7.5,
+	GLOW_GROW_SMALL: 3,
+
+	IMAGE_DURATION: 5,
+
+	BG_GLOW_INDEX: 0,
+	IMAGE_Z_INDEX: 1,
+	FRONT_GLOW_Z_INDEX: PLAYER.Z_INDEX + 1
 };
 
 export const WORD_BUBBLE = {

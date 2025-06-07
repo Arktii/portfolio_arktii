@@ -36,10 +36,12 @@ export abstract class Drawable implements Ord {
 export abstract class Glowable extends Drawable {
 	protected glowColor?: import('p5').Color;
 	protected blur: number = 20;
+	protected intensity: number = 1;
 
-	glow(color: import('p5').Color, blurriness: number = 20): this {
+	glow(color: import('p5').Color, blurriness: number = 20, intensity: number = 1): this {
 		this.glowColor = color;
 		this.blur = blurriness;
+		this.intensity = intensity;
 
 		return this;
 	}
@@ -114,13 +116,15 @@ export class Rectangle extends Glowable {
 			this.addGlow(context.p5);
 		}
 
-		context.p5.rect(
-			context.world.toCanvas(this.#x),
-			context.world.toCanvas(this.#y),
-			context.world.toCanvas(this.#width),
-			context.world.toCanvas(this.#height),
-			context.world.toCanvas(this.#borderRadius)
-		);
+		let x = context.world.toCanvas(this.#x);
+		let y = context.world.toCanvas(this.#y);
+		let width = context.world.toCanvas(this.#width);
+		let height = context.world.toCanvas(this.#height);
+		let borderRadius = context.world.toCanvas(this.#borderRadius);
+
+		for (let i = 0; i < this.intensity; i++) {
+			context.p5.rect(x, y, width, height, borderRadius);
+		}
 
 		context.p5.pop();
 	}

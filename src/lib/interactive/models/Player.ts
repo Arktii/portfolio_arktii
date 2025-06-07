@@ -48,7 +48,7 @@ export class Player {
 		this.#animatedSprite = new AnimatedSprite(
 			position,
 			new Vec2(-(PLAYER.SPRITE_WIDTH - PLAYER.WIDTH) / 2, -(PLAYER.SPRITE_HEIGHT - PLAYER.HEIGHT)),
-			3
+			PLAYER.Z_INDEX
 		);
 	}
 

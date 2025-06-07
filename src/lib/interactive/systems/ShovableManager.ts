@@ -28,7 +28,9 @@ export class ShovableManager {
 
 		this.addShovable(context, 20, 3, 5);
 		this.addShovable(context, 4, 9, 0);
-		this.addShovable(context, 8, 43, 1);
+		this.addShovable(context, 17, 33, 3);
+		this.addShovable(context, 18, 38, 4);
+		this.addShovable(context, 5, 43, 1);
 		this.addShovable(context, 3, 49, 2);
 		this.addShovable(context, 7, 55, 3);
 		this.addShovable(context, 13, 61, 4);

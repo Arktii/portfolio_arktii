@@ -66,7 +66,7 @@ export class MoveAreaManager {
 		// - to ledge / billboard
 		this.addArea(18, 18, 29, new Target(3, 4, 2, 18), new Target(3, -1, 4, 15));
 		// - to ledge / machine
-		this.addArea(19, 21, 29, new Target(3, 3, 2, 18), new Target(0, -4));
+		this.addArea(19, 21, 29, new Target(3, 4, 2, 18), new Target(0, -4));
 
 		// ledge
 		// - to pipe / machine

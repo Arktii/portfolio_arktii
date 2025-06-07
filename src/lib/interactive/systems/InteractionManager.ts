@@ -70,9 +70,9 @@ export class InteractionManager {
 		this.addInteractArea(21, 21, 3, clickArea);
 
 		// engines
-		var clickArea = this.addClickArea(new BoundingBox(33.5, 89.5, 111.5, 138.5), 'Unity');
-		var clickArea = this.addClickArea(new BoundingBox(92.5, 148.5, 111.5, 138.5), 'Godot');
-		var clickArea = this.addClickArea(new BoundingBox(151.5, 207.5, 111.5, 138.5), 'Bevy');
+		var clickArea = this.addClickArea(new BoundingBox(33.5, 89.5, 110.5, 137.5), 'Unity');
+		var clickArea = this.addClickArea(new BoundingBox(92.5, 148.5, 110.5, 137.5), 'Godot');
+		var clickArea = this.addClickArea(new BoundingBox(151.5, 207.5, 110.5, 137.5), 'Bevy');
 
 		var clickArea = this.addClickArea(new BoundingBox(41.5, 97.5, 161.5, 188.5), 'DOST');
 		this.addInteractArea(4, 9, 18, clickArea);

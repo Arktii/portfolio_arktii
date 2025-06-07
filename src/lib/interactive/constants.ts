@@ -156,22 +156,26 @@ export function makeColliderGrid() {
 	fillX(grid, 18, 21, 30);
 	fillX(grid, 18, 21, 39);
 
-	fillX(grid, 4, 16, 28);
+	// billboard
+	fillX(grid, 4, 16, 29);
+
+	// ledge
 	fillX(grid, 2, 19, 34);
 
-	//pipe
+	// pipe
 	fillX(grid, 2, 15, 37);
 	fillY(grid, 38, 42, 15);
 	fillX(grid, 15, 21, 43);
 	fillY(grid, 43, 61, 21);
 
-	fillX(grid, 7, 19, 53);
+	// billboard
+	fillX(grid, 9, 19, 53);
 
 	// balcony things
 	fillX(grid, 2, 3, 41);
-	fillX(grid, 2, 9, 44);
+	fillX(grid, 2, 7, 44);
 	fillX(grid, 2, 3, 47);
-	fillX(grid, 2, 5, 50);
+	fillX(grid, 2, 7, 50);
 	fillX(grid, 2, 3, 53);
 	fillX(grid, 2, 9, 56);
 	fillX(grid, 2, 18, 59);

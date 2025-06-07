@@ -30,6 +30,8 @@ export class MoveAreaManager {
 		this.#downKeyImage = await context.p5.loadImage(downKeyImg);
 		this.#hereArrowImage = await context.p5.loadImage(hereArrowImg);
 
+		// NOTE: for consistency, keep cat max. upwards jump at 5 and max. drop at 7
+
 		// roof
 		this.addArea(2, 12, 3, new Target(2, 3, 2, 10));
 
@@ -49,26 +51,38 @@ export class MoveAreaManager {
 		this.addArea(18, 21, 21, new Target(0, 4, 18, 20), new Target(0, -3));
 
 		// machine
-		this.addArea(18, 18, 25, new Target(3, 2, 4, 15), new Target(0, -4));
+		// - to billboard / machine
+		this.addArea(18, 18, 25, new Target(3, 3, 4, 15), new Target(0, -4));
+		// - to machine / machine
 		this.addArea(18, 21, 25, new Target(0, 4), new Target(0, -4));
 
 		// billboard
-		this.addArea(16, 16, 27, new Target(0, 2, 18, 19), new Target(0, -2, 18, 19));
-		this.addArea(4, 15, 27, new Target(0, 6));
+		// - to machine / machine
+		this.addArea(16, 16, 28, new Target(4, 1, 18, 20), new Target(4, -3, 18, 20));
+		// - to ledge
+		this.addArea(4, 15, 28, new Target(0, 5));
 
 		// machine
-		this.addArea(18, 18, 29, new Target(3, 4, 2, 18), new Target(3, -2, 4, 15));
-		this.addArea(19, 21, 29, new Target(3, 4, 2, 18), new Target(0, -4));
+		// - to ledge / billboard
+		this.addArea(18, 18, 29, new Target(3, 4, 2, 18), new Target(3, -1, 4, 15));
+		// - to ledge / machine
+		this.addArea(19, 21, 29, new Target(3, 3, 2, 18), new Target(0, -4));
 
 		// ledge
+		// - to pipe / machine
 		this.addArea(17, 19, 33, new Target(1, 5, 18, 20), new Target(1, -4, 18, 20));
-		this.addArea(2, 16, 33, new Target(0, 3, 2, 14));
+		// - to pipe / billboard
+		this.addArea(2, 16, 33, new Target(0, 3, 2, 14), new Target(0, -5, 4, 15));
 
 		// pipe
+		// - to rail / ledge
 		this.addArea(2, 3, 36, new Target(0, 4, 2, 2), new Target(0, -3));
-		this.addArea(4, 10, 36, new Target(0, 7, 2, 8), new Target(0, -3));
+		// - to balcony / ledge
+		this.addArea(4, 8, 36, new Target(0, 7, 2, 6), new Target(0, -3));
+		// - to pipe / ledge
 		this.addArea(15, 15, 36, new Target(3, 2, 18, 18), new Target(0, -3));
-		this.addArea(11, 14, 36, new Target(2, 7, 2, 8), new Target(0, -3));
+		// - to _ / ledge
+		this.addArea(9, 14, 36, undefined, new Target(0, -3));
 
 		// machine
 		this.addArea(18, 21, 38, new Target(0, 4), new Target(1, -2, 2, 14));
@@ -79,12 +93,15 @@ export class MoveAreaManager {
 		// balcony
 		this.addArea(2, 3, 40, new Target(1, 3, 2, 7), new Target(0, -4));
 		this.addArea(2, 4, 43, new Target(0, 3, 2, 2), new Target(0, -3, 2, 2));
-		this.addArea(5, 6, 43, new Target(0, 6, 2, 4));
+		this.addArea(5, 7, 43, new Target(0, 6, 2, 6));
 
 		// balcony
 		this.addArea(2, 3, 46, new Target(1, 3, 2, 7), new Target(0, -3));
-		this.addArea(5, 5, 49, new Target(2, 3, 7, 9, false));
+		// - to billboard
+		this.addArea(7, 7, 49, new Target(3, 3, 9, undefined, false));
 		this.addArea(2, 4, 49, new Target(0, 3, 2, 2), new Target(0, -3, 2, 2));
+		// - to balcony
+		this.addArea(5, 7, 49, new Target(0, 6, 2, 8));
 
 		// balcony
 		this.addArea(2, 3, 52, new Target(1, 3, 2, 7), new Target(0, -4));
@@ -92,8 +109,7 @@ export class MoveAreaManager {
 		this.addArea(2, 5, 55, new Target(0, 3), new Target(0, -3, 2, 2));
 
 		// billboard
-		this.addArea(7, 7, 52, new Target(1, 3, 2, 8), new Target(2, -3, 4, 4));
-		this.addArea(8, 10, 52, new Target(1, 3, 2, 8));
+		this.addArea(9, 10, 52, new Target(1, 3, 2, 8), new Target(2, -3, 4, 6));
 
 		// balcony
 		this.addArea(2, 10, 58, new Target(0, 3), new Target(0, -3, 2, 8));

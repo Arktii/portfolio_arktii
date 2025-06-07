@@ -115,7 +115,7 @@
 			BUILDING.FOREGROUND_Z_INDEX
 		);
 
-		// draw colliders
+		// // draw colliders
 		// for (let y = 0; y < colSpace.gridHeight; y++) {
 		// 	for (let x = 0; x < colSpace.gridWidth; x++) {
 		// 		if (colSpace.colliderGrid[x][y] === true) {

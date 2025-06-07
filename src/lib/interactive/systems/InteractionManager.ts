@@ -76,6 +76,36 @@ export class InteractionManager {
 
 		var clickArea = this.addClickArea(new BoundingBox(41.5, 97.5, 161.5, 188.5), 'DOST');
 		this.addInteractArea(4, 9, 18, clickArea);
+
+		// personal projects TVs
+		var clickArea = this.addClickArea(
+			new BoundingBox(53.5, 155.5, 209.5, 290.5),
+			'TV',
+			(context) => {
+				context.eventBus.publish('tvClick', context, 0);
+			}
+		);
+		var clickArea = this.addClickArea(
+			new BoundingBox(39.5, 80.5, 302.5, 335.5),
+			'TV',
+			(context) => {
+				context.eventBus.publish('tvClick', context, 1);
+			}
+		);
+		var clickArea = this.addClickArea(
+			new BoundingBox(84.5, 125.5, 302.5, 335.5),
+			'TV',
+			(context) => {
+				context.eventBus.publish('tvClick', context, 2);
+			}
+		);
+		var clickArea = this.addClickArea(
+			new BoundingBox(129.5, 170.5, 302.5, 335.5),
+			'TV',
+			(context) => {
+				context.eventBus.publish('tvClick', context, 3);
+			}
+		);
 	}
 
 	addInteractArea(

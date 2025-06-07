@@ -1,27 +1,36 @@
-import { TV } from '../constants';
+import { INTERACTION, TV } from '../constants';
 import type { Context } from '../core/Context';
 import type { Rect } from './Rect';
 import type { TvDisplay } from './TvDisplay';
+import { TvImage, type TvImageInfo } from './TvImage';
+import { WordBubble, WordBubbleType } from './WordBubble';
 
 export class TvScreen {
 	#duration: number; // the duration for each image
 
 	#displays: TvDisplay[] = [];
-	#imagesToLoad: string[] = [];
-	#images: import('p5').Image[] = [];
+	#imagesToLoad: TvImageInfo[] = [];
+	tvImages: TvImage[] = [];
 
 	anchorIndex: number = 0;
 	#elapsed: number = 0;
 
-	constructor(displays: TvDisplay[], imagesToLoad: string[], duration: number) {
+	constructor(displays: TvDisplay[], imagesToLoad: TvImageInfo[], duration: number) {
 		this.#displays = displays;
 		this.#imagesToLoad = imagesToLoad;
 		this.#duration = duration;
 	}
 
 	async setup(context: Context) {
+		context.eventBus.subscribe('tvClick', this.onTvClick.bind(this));
+
 		for (let i = 0; i < this.#imagesToLoad.length; i++) {
-			this.#images.push(await context.p5.loadImage(this.#imagesToLoad[i]));
+			this.tvImages.push(
+				new TvImage(
+					await context.p5.loadImage(this.#imagesToLoad[i].imagePath),
+					this.#imagesToLoad[i].hoverText
+				)
+			);
 		}
 	}
 
@@ -30,19 +39,23 @@ export class TvScreen {
 
 		if (this.#elapsed > this.#duration) {
 			this.#elapsed -= this.#duration;
-			this.anchorIndex = (this.anchorIndex + 1) % this.#images.length;
+			this.anchorIndex = (this.anchorIndex + 1) % this.tvImages.length;
 		}
 
 		for (let i = 0; i < this.#displays.length; i++) {
-			let imageIndex = (this.anchorIndex + i) % this.#images.length;
+			let imageIndex = this.imageIndex(i);
 
 			this.show(context, this.#displays[i], imageIndex);
 		}
 	}
 
+	private imageIndex(displayIndex: number) {
+		return (this.anchorIndex + displayIndex) % this.tvImages.length;
+	}
+
 	private show(context: Context, display: TvDisplay, imageIndex: number) {
 		context.drawing.image(
-			this.#images[imageIndex],
+			this.tvImages[imageIndex].image,
 			display.x,
 			display.y,
 			display.width,
@@ -69,8 +82,29 @@ export class TvScreen {
 			.glow(context.p5.color(TV.GLOW_COLOR), TV.GLOW_BLUR);
 	}
 
+	onTvClick(context: Context, id: number) {
+		for (let i = 0; i < this.#displays.length; i++) {
+			if (this.#displays[i].id == id) {
+				let tvImage = this.tvImages[this.imageIndex(i)];
+
+				context.eventBus.publish(
+					'wordBubble',
+					context,
+					new WordBubble(
+						WordBubbleType.SPEECH,
+						tvImage.hoverText,
+						INTERACTION.SPEECH_BUBBLE_DURATION,
+						1
+					)
+				);
+				console.log(tvImage.hoverText);
+				break;
+			}
+		}
+	}
+
 	next() {
-		this.anchorIndex = (this.anchorIndex + 1) % this.#images.length;
+		this.anchorIndex = (this.anchorIndex + 1) % this.tvImages.length;
 		this.#elapsed = 0;
 	}
 }

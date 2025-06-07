@@ -39,6 +39,7 @@
 	import { Vec2 } from '$lib/interactive/models/Vec2';
 	import { WordBubbleManager } from '$lib/interactive/systems/WordBubbleManager';
 	import { TvDisplay } from '$lib/interactive/models/TvDisplay';
+	import { TvImageInfo } from '$lib/interactive/models/TvImage';
 
 	let buildingImage: p5.Image;
 	let buildingFgImage: p5.Image;
@@ -90,12 +91,18 @@
 		others.push(
 			new TvScreen(
 				[
-					new TvDisplay(54, 210, 101, 80, TV.GLOW_GROW),
-					new TvDisplay(40, 303, 40, 32, TV.GLOW_GROW_SMALL),
-					new TvDisplay(85, 303, 40, 32, TV.GLOW_GROW_SMALL),
-					new TvDisplay(130, 303, 40, 32, TV.GLOW_GROW_SMALL)
+					new TvDisplay(0, 54, 210, 101, 80, TV.GLOW_GROW),
+					new TvDisplay(1, 40, 303, 40, 32, TV.GLOW_GROW_SMALL),
+					new TvDisplay(2, 85, 303, 40, 32, TV.GLOW_GROW_SMALL),
+					new TvDisplay(3, 130, 303, 40, 32, TV.GLOW_GROW_SMALL)
 				],
-				[chasmsCall, flickeringFlame, wreckingWhiskers, timeflowers, beastBonds],
+				[
+					new TvImageInfo(chasmsCall, "Chasm's Call, made in Godot"),
+					new TvImageInfo(flickeringFlame, 'Flickering Flame, made in Bevy'),
+					new TvImageInfo(wreckingWhiskers, 'Wrecking Whiskers, made in Godot'),
+					new TvImageInfo(timeflowers, 'Timeflowers, made in Unity'),
+					new TvImageInfo(beastBonds, 'Beast Bonds, made in Unity')
+				],
 				5
 			)
 		);

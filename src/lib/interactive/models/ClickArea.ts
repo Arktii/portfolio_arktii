@@ -31,7 +31,7 @@ export class ClickArea {
 				this.aabb.top,
 				this.aabb.right - this.aabb.left,
 				this.aabb.bottom - this.aabb.top,
-				0
+				INTERACTION.Z_INDEX
 			)
 			.radius(1)
 			.fillColor(context.p5.color(INTERACTION.FILL_COLOR))
@@ -46,7 +46,7 @@ export class ClickArea {
 				this.aabb.top,
 				this.aabb.right - this.aabb.left,
 				this.aabb.bottom - this.aabb.top,
-				0
+				INTERACTION.Z_INDEX
 			)
 			.radius(1)
 			.fillColor(context.p5.color(INTERACTION.FILL_COLOR))

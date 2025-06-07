@@ -40,7 +40,7 @@ export class WordBubbleManager {
 				}
 
 				bubbleX = clamp(bubbleX, 0, WORLD_SIZE.REFERENCE_WIDTH - WORD_BUBBLE.WIDTH);
-				bubbleY = clamp(bubbleY, 0, WORLD_SIZE.REFERENCE_WIDTH - WORD_BUBBLE.HEIGHT);
+				bubbleY = Math.max(bubbleY, 0);
 
 				// TODO: differentiate between thought and speech bubbles
 

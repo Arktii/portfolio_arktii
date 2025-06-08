@@ -83,7 +83,7 @@ export const POT = {
 	SHATTER_CELL_WIDTH: 36,
 	SHATTER_CELL_HEIGHT: 36,
 
-	Z_INDEX: 1
+	Z_INDEX: PLAYER.Z_INDEX,
 };
 
 export const POT_COMPUTED = {

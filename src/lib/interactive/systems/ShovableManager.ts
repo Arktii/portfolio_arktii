@@ -15,7 +15,7 @@ export class ShovableManager {
 	#potImages: import('p5').Image[] = [];
 	#shatterSheet?: import('p5').Image;
 
-	#active: Shovable[] = [];
+	#active: { [y: number]: Shovable[] } = [];
 	#shattering: AnimatedSprite[] = [];
 
 	async setup(context: Context) {
@@ -33,11 +33,18 @@ export class ShovableManager {
 		this.addShovable(context, 5, 43, 1);
 		this.addShovable(context, 3, 49, 2);
 		this.addShovable(context, 7, 55, 3);
-		this.addShovable(context, 13, 61, 4);
+		this.addShovable(context, 4, 61, 5);
+		this.addShovable(context, 8, 61, 4);
+		this.addShovable(context, 12, 61, 1);
+		this.addShovable(context, 16, 61, 0);
 	}
 
 	private addShovable(context: Context, gridX: number, gridY: number, imageIndex: number) {
-		this.#active.push(
+		if (!this.#active[gridY]) {
+			this.#active[gridY] = [];
+		}
+
+		this.#active[gridY].push(
 			new Shovable(
 				new Vec2(
 					context.colSpace.cellSize * gridX,
@@ -53,76 +60,87 @@ export class ShovableManager {
 	update(context: Context, deltaSecs: number) {
 		let playerAABB = context.player.calculateAABB();
 
-		for (let i = this.#active.length - 1; i >= 0; i--) {
-			let item = this.#active[i];
+		for (const y in this.#active) {
+			let sameLevelShovables = this.#active[y];
 
-			// gravity
-			item.yVelocity += PHYSICS.GRAVITY * deltaSecs;
-			item.position.y += item.yVelocity * deltaSecs;
+			for (let i = sameLevelShovables.length - 1; i >= 0; i--) {
+				let item = sameLevelShovables[i];
 
-			if (!item.falling) {
-				this.handlePlayerCollisions(playerAABB, item);
+				// gravity
+				item.yVelocity += PHYSICS.GRAVITY * deltaSecs;
+				item.position.y += item.yVelocity * deltaSecs;
 
-				this.handleEnvironmentCollisions(context.colSpace, item);
+				if (!item.falling) {
+					this.handleShovableCollisions(sameLevelShovables, item);
 
-				if (item.yVelocity > POT.FALLING_VELOCITY) {
-					item.falling = true;
-				}
-			} else {
-				let aabb = item.calculateAABB();
+					this.handlePlayerCollisions(playerAABB, item);
 
-				if (context.colSpace.checkForCollision(item.calculateAABB())) {
-					let overlap = context.colSpace.calculateOverlap(aabb);
-					// if overlap.y is less than overlap.x, that means the collision is in the y-axis, so shatter
-					if (overlap.y < overlap.x) {
-						// push pot out of ground
-						item.position.y -= overlap.y;
+					this.handleEnvironmentCollisions(context.colSpace, item);
 
-						this.#active.splice(i, 1);
+					if (item.yVelocity > POT.FALLING_VELOCITY) {
+						item.falling = true;
+					}
+				} else {
+					let aabb = item.calculateAABB();
 
-						// shatter pot
-						if (this.#shatterSheet) {
-							let shatterAnimatedSprite = new AnimatedSprite(
-								new Vec2(
-									item.position.x - (POT.SHATTER_CELL_WIDTH - POT.WIDTH) / 2,
-									item.position.y - (POT.SHATTER_CELL_HEIGHT - POT.HEIGHT)
-								),
-								Vec2.zero(),
-								POT.Z_INDEX
-							);
+					if (context.colSpace.checkForCollision(item.calculateAABB())) {
+						let overlap = context.colSpace.calculateOverlap(aabb);
+						// if overlap.y is less than overlap.x, that means the collision is in the y-axis, so shatter
+						if (overlap.y < overlap.x) {
+							// push pot out of ground
+							item.position.y -= overlap.y;
 
-							shatterAnimatedSprite.addAnim(
-								'shatter',
-								new SpriteAnimation(
-									this.#shatterSheet,
-									POT.SHATTER_CELL_WIDTH,
-									POT.SHATTER_CELL_HEIGHT,
-									8,
-									1,
-									8,
-									0.1,
-									false
-								)
-							);
+							// if only one element left, delete the entry
+							if (sameLevelShovables.length == 1) {
+								delete this.#active[y];
+							} else {
+								sameLevelShovables.splice(i, 1);
+							}
 
-							shatterAnimatedSprite.play('shatter');
+							// shatter pot
+							if (this.#shatterSheet) {
+								let shatterAnimatedSprite = new AnimatedSprite(
+									new Vec2(
+										item.position.x - (POT.SHATTER_CELL_WIDTH - POT.WIDTH) / 2,
+										item.position.y - (POT.SHATTER_CELL_HEIGHT - POT.HEIGHT)
+									),
+									Vec2.zero(),
+									POT.Z_INDEX
+								);
 
-							this.#shattering.push(shatterAnimatedSprite);
+								shatterAnimatedSprite.addAnim(
+									'shatter',
+									new SpriteAnimation(
+										this.#shatterSheet,
+										POT.SHATTER_CELL_WIDTH,
+										POT.SHATTER_CELL_HEIGHT,
+										8,
+										1,
+										8,
+										0.1,
+										false
+									)
+								);
+
+								shatterAnimatedSprite.play('shatter');
+
+								this.#shattering.push(shatterAnimatedSprite);
+							}
 						}
 					}
 				}
-			}
 
-			// draw
-			context.drawing.image(
-				item.image,
-				item.position.x - (POT.SPRITE_WIDTH - item.width) / 2,
-				item.position.y - POT_COMPUTED.HEIGHT_DIFF,
-				POT.SPRITE_WIDTH,
-				POT.SPRITE_HEIGHT,
-				false,
-				2
-			);
+				// draw
+				context.drawing.image(
+					item.image,
+					item.position.x - (POT.SPRITE_WIDTH - item.width) / 2,
+					item.position.y - POT_COMPUTED.HEIGHT_DIFF,
+					POT.SPRITE_WIDTH,
+					POT.SPRITE_HEIGHT,
+					false,
+					2
+				);
+			}
 		}
 
 		for (let i = this.#shattering.length - 1; i >= 0; i--) {
@@ -144,6 +162,24 @@ export class ShovableManager {
 			let collisionDisplacement = calculateSingleDisplacementX(playerAABB, collisionBox);
 
 			item.position.x += collisionDisplacement.x;
+		}
+	}
+
+	private handleShovableCollisions(itemsAtSameY: Shovable[], item: Shovable) {
+		let collisionBox = item.calculateAABB();
+
+		for (const other of itemsAtSameY) {
+			if (other === item) {
+				continue;
+			}
+
+			let otherAABB = other.calculateAABB();
+
+			if (otherAABB.colliding(collisionBox)) {
+				let collisionDisplacement = calculateSingleDisplacementX(otherAABB, collisionBox);
+
+				item.position.x += collisionDisplacement.x;
+			}
 		}
 	}
 

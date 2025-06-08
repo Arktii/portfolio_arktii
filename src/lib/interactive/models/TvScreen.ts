@@ -1,9 +1,8 @@
 import { INTERACTION, TV } from '../constants';
 import type { Context } from '../core/Context';
-import type { Rect } from './Rect';
 import type { TvDisplay } from './TvDisplay';
 import { TvImage, type TvImageInfo } from './TvImage';
-import { WordBubble, WordBubbleType } from './WordBubble';
+import { WordBubble } from './WordBubble';
 
 export class TvScreen {
 	#duration: number; // the duration for each image
@@ -91,12 +90,7 @@ export class TvScreen {
 				context.eventBus.publish(
 					'wordBubble',
 					context,
-					new WordBubble(
-						WordBubbleType.SPEECH,
-						tvImage.hoverText,
-						INTERACTION.SPEECH_BUBBLE_DURATION,
-						1
-					)
+					new WordBubble(tvImage.hoverText, INTERACTION.SPEECH_BUBBLE_DURATION, 1)
 				);
 				console.log(tvImage.hoverText);
 				break;

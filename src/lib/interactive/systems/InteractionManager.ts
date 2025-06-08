@@ -5,7 +5,7 @@ import { BoundingBox } from '../models/BoundingBox';
 import { ClickArea } from '../models/ClickArea';
 import { InteractArea } from '../models/InteractArea';
 import { Vec2 } from '../models/Vec2';
-import { WordBubble, WordBubbleType } from '../models/WordBubble';
+import { WordBubble } from '../models/WordBubble';
 
 /**
  * a class to handle both in-world buttons and interaction areas
@@ -71,7 +71,7 @@ export class InteractionManager {
 			c.eventBus.publish(
 				'wordBubble',
 				c,
-				new WordBubble(WordBubbleType.SPEECH, text, INTERACTION.SPEECH_BUBBLE_DURATION, 2)
+				new WordBubble(text, INTERACTION.SPEECH_BUBBLE_DURATION, 2)
 			);
 	}
 
@@ -203,7 +203,7 @@ export class InteractionManager {
 
 		var clickArea = this.addClickArea(
 			new BoundingBox(221.5, 233.5, 46.5, 90.5),
-			'More (will redirect)'
+			'More\n(redirect)'
 		);
 		this.addInteractArea(21, 21, 3, clickArea);
 

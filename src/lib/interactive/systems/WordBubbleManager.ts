@@ -1,9 +1,8 @@
 import { clamp } from '$lib/utils/Math';
-import { PLAYER, PLAYER_COMPUTED, WORD_BUBBLE, WORLD_SIZE } from '../constants';
+import { PLAYER, WORD_BUBBLE, WORLD_SIZE } from '../constants';
 import type { Context } from '../core/Context';
-import { BoundingBox } from '../models/BoundingBox';
 import { Vec2 } from '../models/Vec2';
-import { WordBubbleType, type WordBubble } from '../models/WordBubble';
+import { WordBubble } from '../models/WordBubble';
 import { EasingFunctions, Tween } from './Tween';
 
 export class WordBubbleManager {
@@ -126,18 +125,11 @@ export class WordBubbleManager {
 			this.#currentWordBubble = wordBubble;
 			this.#elapsed = 0;
 
-			let easing;
-			if (wordBubble.bubbleType == WordBubbleType.SPEECH) {
-				easing = EasingFunctions.easeInQuartic;
-			} else {
-				easing = EasingFunctions.easeInCubic;
-			}
-
 			this.#fillTween = new Tween(
 				WORD_BUBBLE.FILL_ALPHA,
 				0,
 				this.#currentWordBubble.duration,
-				easing
+				EasingFunctions.easeInCubic
 			);
 
 			this.#textColorTween = new Tween(

@@ -387,8 +387,10 @@ export class IconText extends Drawable {
 
 	// TODO: move to enums?
 	#xAlign: 'center' | 'left' | 'right' = 'center';
+	// TODO?: yAlign?
 
 	#gap: number = 1;
+	#clampToCanvas: boolean = true;
 
 	constructor(
 		x: number,
@@ -437,13 +439,16 @@ export class IconText extends Drawable {
 		return this;
 	}
 
+	clampToCanvas(clamp: boolean): this {
+		this.#clampToCanvas = clamp;
+		return this;
+	}
+
 	xAlign(xAlign: 'center' | 'left' | 'right'): this {
 		this.#xAlign = xAlign;
 
 		return this;
 	}
-
-	// TODO: add additional alignments, for now CENTER, CENTER is the only one needed
 
 	draw(context: Context) {
 		const x = context.world.toCanvas(this.#x);
@@ -453,6 +458,8 @@ export class IconText extends Drawable {
 		const gap = context.world.toCanvas(this.#gap);
 		const iconWidth = context.world.toCanvas(this.#iconWidth);
 		const iconHeight = context.world.toCanvas(this.#iconHeight);
+		const strokeWeight =
+			this.#strokeWeight === undefined ? 0 : context.world.toCanvas(this.#strokeWeight);
 
 		const centerY = y + height / 2;
 
@@ -465,7 +472,7 @@ export class IconText extends Drawable {
 
 		const textWidth = context.p5.textWidth(this.#text);
 
-		const totalWidth = textWidth + iconWidth + gap;
+		const totalWidth = textWidth + iconWidth + gap + strokeWeight;
 
 		var iconStartX;
 		if (this.#xAlign === 'left') {
@@ -477,14 +484,17 @@ export class IconText extends Drawable {
 			iconStartX = centerX - totalWidth / 2;
 		}
 
+		if (this.#clampToCanvas) {
+			iconStartX = clamp(iconStartX, 0, context.p5.width - totalWidth);
+		}
+
 		const iconStartY = centerY - iconHeight / 2;
 		const textStartX = iconStartX + iconWidth + gap;
 
 		context.p5.image(this.#icon, iconStartX, iconStartY, iconWidth, iconHeight);
 
-		if (this.#strokeWeight) {
-			context.p5.strokeWeight(context.world.toCanvas(this.#strokeWeight));
-		}
+		context.p5.strokeWeight(strokeWeight);
+
 		if (this.#strokeColor) {
 			context.p5.stroke(this.#strokeColor);
 		}

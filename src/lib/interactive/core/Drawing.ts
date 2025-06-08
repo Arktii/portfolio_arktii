@@ -1,6 +1,6 @@
 import { PriorityQueue } from '$lib/collections/PriorityQueue';
 import type { BoundingBox } from '../models/BoundingBox';
-import { Curve, Drawable, GridRectangle, Img, Rectangle, Tail, Text } from '../models/Drawable';
+import { Curve, Drawable, GridRectangle, IconText, Img, Rectangle, Text } from '../models/Drawable';
 import type { Vec2 } from '../models/Vec2';
 import type { Context } from './Context';
 
@@ -72,8 +72,34 @@ export class Drawing {
 		return drawable;
 	}
 
-	// !INCOMPLETE
-	tail(point: Vec2, rect: BoundingBox, width: number, zIndex: number) {
-		this.#renderQueue.insert(new Tail(point, rect, width, zIndex, this.#renderQueue.size));
+	iconText(
+		x: number,
+		y: number,
+		width: number,
+		height: number,
+		icon: import('p5').Image,
+		iconWidth: number,
+		iconHeight: number,
+		text: string,
+		fontSize: number,
+		zIndex: number
+	) {
+		let toDraw = new IconText(
+			x,
+			y,
+			width,
+			height,
+			icon,
+			iconWidth,
+			iconHeight,
+			text,
+			fontSize,
+			zIndex,
+			this.#renderQueue.size
+		);
+
+		this.#renderQueue.insert(toDraw);
+
+		return toDraw;
 	}
 }

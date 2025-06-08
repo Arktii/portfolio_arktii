@@ -5,9 +5,9 @@ import { MoveArea, Target } from '../models/MoveArea';
 import type { Player } from '../models/Player';
 import { Vec2 } from '../models/Vec2';
 
-import upKeyImg from '$lib/images/keyW.png';
-import downKeyImg from '$lib/images/keyS.png';
-import hereArrowImg from '$lib/images/hereArrow.png';
+import upKeyImg from '$lib/images/icons/keyW.png';
+import downKeyImg from '$lib/images/icons/keyS.png';
+import hereArrowImg from '$lib/images/icons/hereArrow.png';
 
 export class MoveAreaManager {
 	colSpace: CollisionSpace;

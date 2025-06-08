@@ -67,10 +67,10 @@ export const COLLISION_SPACE = {
 export const INDICATORS = {
 	MAX_OFFSET: 1,
 	MOVE_SPEED: 4,
-	WIDTH: 16 / 3,
-	HEIGHT: 16 / 3,
+	WIDTH: 8,
+	HEIGHT: 8,
 	SPACING: 1,
-	Z_INDEX: 15
+	Z_INDEX: PLAYER.Z_INDEX - 1
 };
 
 export const POT = {
@@ -150,7 +150,7 @@ export const WORD_BUBBLE = {
 	TEXT_COLOR: 'rgb(19, 15, 13)',
 	TEXT_ALPHA: 255,
 
-	Z_INDEX: INDICATORS.Z_INDEX + 1
+	Z_INDEX: 15,
 };
 
 // TODO: consider other solutions?

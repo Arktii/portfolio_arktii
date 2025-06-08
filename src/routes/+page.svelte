@@ -9,11 +9,25 @@
 	import building from '$lib/images/building.png';
 	import buildingForeground from '$lib/images/building-foreground.png';
 	import playerImg from '$lib/images/player.png';
+
+	import keyW from '$lib/images/icons/keyW.png';
+	import keyA from '$lib/images/icons/keyA.png';
+	import keyS from '$lib/images/icons/keyS.png';
+	import keyD from '$lib/images/icons/keyD.png';
+	import keyE from '$lib/images/icons/keyE.png';
+	import keyQ from '$lib/images/icons/keyQ.png';
+	import mouse1 from '$lib/images/icons/mouse1.png';
+	import mouse2 from '$lib/images/icons/mouse2.png';
+
 	import beastBonds from '$lib/images/projects/beast-bonds.png';
 	import chasmsCall from '$lib/images/projects/chasms-call.png';
 	import flickeringFlame from '$lib/images/projects/flickering-flame.png';
 	import timeflowers from '$lib/images/projects/timeflowers.png';
 	import wreckingWhiskers from '$lib/images/projects/wrecking-whiskers.png';
+
+	// import fonts
+	import aldritch from '$lib/fonts/Aldrich-Regular.ttf';
+	import russoOne from '$lib/fonts/RussoOne-Regular.ttf';
 
 	import {
 		BUILDING,
@@ -41,6 +55,7 @@
 	import { TvDisplay } from '$lib/interactive/models/TvDisplay';
 	import { TvImageInfo } from '$lib/interactive/models/TvImage';
 	import { UpdateRunner } from '$lib/interactive/models/UpdateRunner';
+	import { Preloads } from '$lib/interactive/core/Preloads';
 
 	let buildingImage: p5.Image;
 	let buildingFgImage: p5.Image;
@@ -52,6 +67,7 @@
 	let colSpace: CollisionSpace;
 	let drawing: Drawing;
 	let player: Player;
+	let preloads: Preloads;
 
 	let eventBus: EventBus;
 
@@ -81,12 +97,13 @@
 			COL_SPACE.CELL_SIZE
 		);
 		player = new Player(new Vec2(WORLD_SIZE.REFERENCE_WIDTH / 2, 0));
+		preloads = new Preloads();
 		moveAreaManager = new MoveAreaManager(colSpace);
 		interactionManager = new InteractionManager(colSpace);
 		shovableManager = new ShovableManager();
 		wordBubbleManager = new WordBubbleManager();
 
-		context = new Context(p5, world, inputs, drawing, colSpace, eventBus, player);
+		context = new Context(p5, world, inputs, drawing, colSpace, eventBus, player, preloads);
 
 		// TODO: Move duration out to constants
 		objects.push(player);
@@ -146,6 +163,18 @@
 
 		// setup components
 		colSpace.colliderGrid = makeColliderGrid();
+
+		await preloads.loadImage(p5, 'keyW', keyW);
+		await preloads.loadImage(p5, 'keyA', keyA);
+		await preloads.loadImage(p5, 'keyS', keyS);
+		await preloads.loadImage(p5, 'keyD', keyD);
+		await preloads.loadImage(p5, 'keyE', keyE);
+		await preloads.loadImage(p5, 'keyQ', keyQ);
+		await preloads.loadImage(p5, 'mouse1', mouse1);
+		await preloads.loadImage(p5, 'mouse2', mouse2);
+
+		await preloads.loadFont(p5, 'Aldritch', aldritch);
+		await preloads.loadFont(p5, 'Russo One', russoOne);
 
 		// await player.setup(context);
 		// await moveAreaManager.setup(context);

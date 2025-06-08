@@ -365,49 +365,118 @@ export class Curve extends Drawable {
 	}
 }
 
-//! INCOMPLETE
-export class Tail extends Drawable {
-	#point: Vec2;
+/**
+ * draws text with an icon
+ */
+export class IconText extends Drawable {
+	#x: number;
+	#y: number;
 	#width: number;
-	/**
-	 * the box the tail is connected to
-	 */
-	#box: BoundingBox;
+	#height: number;
 
-	constructor(point: Vec2, box: BoundingBox, width: number, zIndex: number, callOrder: number) {
+	#icon: import('p5').Image;
+	#iconWidth: number;
+	#iconHeight: number;
+
+	#text: string;
+	#fontSize: number;
+	#font?: import('p5').Font;
+	#textColor?: import('p5').Color;
+	#strokeColor?: import('p5').Color;
+	#strokeWeight?: number;
+
+	#gap: number = 1;
+
+	constructor(
+		x: number,
+		y: number,
+		width: number,
+		height: number,
+		icon: import('p5').Image,
+		iconWidth: number,
+		iconHeight: number,
+		text: string,
+		fontSize: number,
+		zIndex: number,
+		callOrder: number
+	) {
 		super(zIndex, callOrder);
 
-		this.#point = point;
-		this.#box = box;
+		this.#x = x;
+		this.#y = y;
 		this.#width = width;
+		this.#height = height;
+		this.#icon = icon;
+		this.#iconWidth = iconWidth;
+		this.#iconHeight = iconHeight;
+		this.#text = text;
+		this.#fontSize = fontSize;
 	}
 
-	draw(context: Context): void {
-		let p5 = context.p5;
+	gap(gap: number): this {
+		this.#gap = gap;
+		return this;
+	}
 
-		let point = new Vec2(
-			context.world.toCanvas(this.#point.x),
-			context.world.toCanvas(this.#point.y)
-		);
-		let box = new BoundingBox(
-			context.world.toCanvas(this.#box.left),
-			context.world.toCanvas(this.#box.right),
-			context.world.toCanvas(this.#box.top),
-			context.world.toCanvas(this.#box.bottom)
-		);
-		let width = context.world.toCanvas(this.#width);
+	font(font: import('p5').Font): this {
+		this.#font = font;
+		return this;
+	}
 
-		p5.push();
+	textColor(color: import('p5').Color): this {
+		this.#textColor = color;
+		return this;
+	}
 
-		p5.beginShape();
-		p5.vertex(point.x, point.y);
-		p5.vertex(
-			box.left + width,
-			box.bottom // End point
-		);
-		p5.vertex(box.left, box.bottom);
-		p5.endShape();
+	stroke(color: import('p5').Color, weight: number): this {
+		this.#strokeColor = color;
+		this.#strokeWeight = weight;
+		return this;
+	}
 
-		p5.pop();
+	// TODO: add additional alignments, for now CENTER, CENTER is the only one needed
+
+	draw(context: Context) {
+		const x = context.world.toCanvas(this.#x);
+		const y = context.world.toCanvas(this.#y);
+		const width = context.world.toCanvas(this.#width);
+		const height = context.world.toCanvas(this.#height);
+		const gap = context.world.toCanvas(this.#gap);
+		const iconWidth = context.world.toCanvas(this.#iconWidth);
+		const iconHeight = context.world.toCanvas(this.#iconHeight);
+
+		const centerX = x + width / 2;
+		const centerY = y + height / 2;
+
+		context.p5.push();
+		if (this.#font) {
+			context.p5.textFont(this.#font);
+		}
+
+		context.p5.textSize(context.world.toCanvas(this.#fontSize));
+
+		const textWidth = context.p5.textWidth(this.#text);
+
+		const totalWidth = textWidth + iconWidth + gap;
+
+		const iconStartX = centerX - totalWidth / 2;
+		const iconStartY = centerY - iconHeight / 2;
+		const textStartX = iconStartX + iconWidth + gap;
+
+		context.p5.image(this.#icon, iconStartX, iconStartY, iconWidth, iconHeight);
+
+		if (this.#strokeWeight) {
+			context.p5.strokeWeight(context.world.toCanvas(this.#strokeWeight));
+		}
+		if (this.#strokeColor) {
+			context.p5.stroke(this.#strokeColor);
+		}
+		if (this.#textColor) {
+			context.p5.fill(this.#textColor);
+		}
+		context.p5.textAlign(context.p5.LEFT, context.p5.CENTER);
+		context.p5.text(this.#text, textStartX, centerY);
+
+		context.p5.pop();
 	}
 }

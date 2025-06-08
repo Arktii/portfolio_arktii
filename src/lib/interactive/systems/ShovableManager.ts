@@ -26,12 +26,14 @@ export class ShovableManager {
 		}
 		this.#shatterSheet = await context.p5.loadImage(potShatter);
 
-		this.addShovable(context, 20, 3, 5);
 		this.addShovable(context, 4, 9, 0);
+		this.addShovable(context, 9, 9, 5);
 		this.addShovable(context, 17, 33, 3);
 		this.addShovable(context, 18, 38, 4);
+		this.addShovable(context, 20, 21, 2);
 		this.addShovable(context, 5, 43, 1);
 		this.addShovable(context, 3, 49, 2);
+		this.addShovable(context, 3, 55, 0);
 		this.addShovable(context, 7, 55, 3);
 		this.addShovable(context, 4, 61, 5);
 		this.addShovable(context, 8, 61, 4);
@@ -77,7 +79,7 @@ export class ShovableManager {
 
 					this.handleEnvironmentCollisions(context.colSpace, item);
 
-					if (item.yVelocity > POT.FALLING_VELOCITY) {
+					if (item.yVelocity > POT.MIN_FALLING_VELOCITY) {
 						item.falling = true;
 					}
 				} else {

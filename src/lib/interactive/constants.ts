@@ -78,12 +78,12 @@ export const POT = {
 	SPRITE_HEIGHT: 12,
 	WIDTH: 8,
 	HEIGHT: 6,
-	FALLING_VELOCITY: 35, // if y velocity exceeds this amount, the pot will be considered falling, and will break on impact
+	MIN_FALLING_VELOCITY: 35, // if y velocity exceeds this amount, the pot will break on impact
 
 	SHATTER_CELL_WIDTH: 36,
 	SHATTER_CELL_HEIGHT: 36,
 
-	Z_INDEX: PLAYER.Z_INDEX,
+	Z_INDEX: PLAYER.Z_INDEX
 };
 
 export const POT_COMPUTED = {

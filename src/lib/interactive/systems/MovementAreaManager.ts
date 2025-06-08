@@ -105,7 +105,7 @@ export class MoveAreaManager {
 
 		// balcony
 		this.addArea(2, 3, 52, new Target(1, 3, 2, 7), new Target(0, -4));
-		this.addArea(6, 9, 55, new Target(0, 3), new Target(1, -3, 7));
+		this.addArea(6, 9, 55, new Target(0, 3), new Target(2, -3, 9));
 		this.addArea(2, 5, 55, new Target(0, 3), new Target(0, -3, 2, 2));
 
 		// billboard

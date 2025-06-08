@@ -40,6 +40,7 @@
 	import { WordBubbleManager } from '$lib/interactive/systems/WordBubbleManager';
 	import { TvDisplay } from '$lib/interactive/models/TvDisplay';
 	import { TvImageInfo } from '$lib/interactive/models/TvImage';
+	import { UpdateRunner } from '$lib/interactive/models/UpdateRunner';
 
 	let buildingImage: p5.Image;
 	let buildingFgImage: p5.Image;
@@ -59,7 +60,7 @@
 	let interactionManager: InteractionManager;
 	let wordBubbleManager: WordBubbleManager;
 
-	let others: any[] = [];
+	let objects: any[] = [];
 
 	async function preload(p5: import('p5')) {
 		buildingImage = await p5.loadImage(building);
@@ -88,7 +89,12 @@
 		context = new Context(p5, world, inputs, drawing, colSpace, eventBus, player);
 
 		// TODO: Move duration out to constants
-		others.push(
+		objects.push(player);
+		objects.push(moveAreaManager);
+		objects.push(interactionManager);
+		objects.push(shovableManager);
+		objects.push(wordBubbleManager);
+		objects.push(
 			new TvScreen(
 				[
 					new TvDisplay(0, 54, 210, 101, 80, TV.GLOW_GROW),
@@ -107,27 +113,58 @@
 			)
 		);
 
+		objects.push(
+			new UpdateRunner((context, deltaSecs) => {
+				// TODO: move out zIndex
+				context.drawing
+					.text(147, 157, 'INTERNSHIP', 10, 0)
+					.textAlign(context.p5.LEFT, context.p5.CENTER);
+			})
+		);
+		objects.push(
+			new UpdateRunner((context, deltaSecs) => {
+				// TODO: move out zIndex
+				context.drawing
+					.text(33, 205, 'PERSONAL PROJECTS', 10, 0)
+					.textAlign(context.p5.LEFT, context.p5.CENTER);
+			})
+		);
+		objects.push(
+			new UpdateRunner((context, deltaSecs) => {
+				// TODO: move out zIndex
+				context.drawing
+					.text(119, 359, 'SCHOOL PROJECTS', 10, 0)
+					.textAlign(context.p5.LEFT, context.p5.CENTER);
+			})
+		);
+		objects.push(
+			new UpdateRunner((context, deltaSecs) => {
+				// TODO: move out zIndex
+				context.drawing.text(30, 579, 'LINKS', 10, 0).textAlign(context.p5.LEFT, context.p5.CENTER);
+			})
+		);
+
 		// setup components
 		colSpace.colliderGrid = makeColliderGrid();
 
-		await player.setup(context);
-		await moveAreaManager.setup(context);
-		await interactionManager.setup(context);
-		await shovableManager.setup(context);
-		await wordBubbleManager.setup(context);
+		// await player.setup(context);
+		// await moveAreaManager.setup(context);
+		// await interactionManager.setup(context);
+		// await shovableManager.setup(context);
+		// await wordBubbleManager.setup(context);
 
 		// TODO: consider moving all update functions to their respective setups
-		eventBus.subscribe('update', player.update.bind(player));
-		eventBus.subscribe('update', moveAreaManager.update.bind(moveAreaManager));
-		eventBus.subscribe('update', interactionManager.update.bind(interactionManager));
-		eventBus.subscribe('update', shovableManager.update.bind(shovableManager));
-		eventBus.subscribe('update', wordBubbleManager.update.bind(wordBubbleManager));
+		// eventBus.subscribe('update', player.update.bind(player));
+		// eventBus.subscribe('update', moveAreaManager.update.bind(moveAreaManager));
+		// eventBus.subscribe('update', interactionManager.update.bind(interactionManager));
+		// eventBus.subscribe('update', shovableManager.update.bind(shovableManager));
+		// eventBus.subscribe('update', wordBubbleManager.update.bind(wordBubbleManager));
 
 		eventBus.subscribe('wordBubble', wordBubbleManager.receiveWordBubble.bind(wordBubbleManager));
 
-		// setup and subscribe to update loop for all additional things
-		for (let i = 0; i < others.length; i++) {
-			let item = others[i];
+		// setup and subscribe to update loop
+		for (let i = 0; i < objects.length; i++) {
+			let item = objects[i];
 			if (item.setup) {
 				await item.setup(context);
 			}

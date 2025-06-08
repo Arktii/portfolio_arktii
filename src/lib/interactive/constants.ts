@@ -58,8 +58,6 @@ export const PLAYER_COMPUTED = {
 	INTERACT_WIDTH_DIFF: PLAYER.WIDTH - PLAYER.INTERACT_WIDTH
 };
 
-// TODO: PLAYER_COMPUTED, which contains commonly used things like SPRITE_WIDTH - WIDTH
-
 export const COLLISION_SPACE = {
 	CELL_SIZE: 10
 };
@@ -67,10 +65,10 @@ export const COLLISION_SPACE = {
 export const INDICATORS = {
 	MAX_OFFSET: 1,
 	MOVE_SPEED: 4,
-	WIDTH: 8,
-	HEIGHT: 8,
+	WIDTH: 6.5,
+	HEIGHT: 6.5,
 	SPACING: 1,
-	Z_INDEX: PLAYER.Z_INDEX - 1
+	Z_INDEX: BUILDING.FOREGROUND_Z_INDEX + 1
 };
 
 export const POT = {
@@ -111,6 +109,17 @@ export const INTERACTION = {
 	Z_INDEX: PLAYER.Z_INDEX - 1
 };
 
+export const INTERACTION_DISPLAY = {
+	WIDTH: 6.5,
+	HEIGHT: 6.5,
+
+	PLAYER_OFFSET_Y: -4,
+	MULTIPLE_OPTIONS_GAP: 10,
+
+	PLAYER_HOVER_Z_INDEX: BUILDING.FOREGROUND_Z_INDEX + 1,
+	MOUSE_HOVER_Z_INDEX: PLAYER.Z_INDEX - 1
+};
+
 export const TV = {
 	BG_FILL_COLOR: 'rgba(255, 255, 255, 0.06)',
 	FG_FILL_COLOR: 'rgba(255, 255, 255, 0.04)',
@@ -121,7 +130,7 @@ export const TV = {
 	GLOW_GROW: 7.5,
 	GLOW_GROW_SMALL: 3,
 
-	IMAGE_DURATION: 5,
+	IMAGE_DURATION: 3,
 
 	BG_GLOW_INDEX: 0,
 	IMAGE_Z_INDEX: 1,
@@ -150,7 +159,7 @@ export const WORD_BUBBLE = {
 	TEXT_COLOR: 'rgb(19, 15, 13)',
 	TEXT_ALPHA: 255,
 
-	Z_INDEX: 15,
+	Z_INDEX: 15
 };
 
 // TODO: consider other solutions?

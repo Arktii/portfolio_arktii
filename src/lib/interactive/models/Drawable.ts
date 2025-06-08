@@ -385,6 +385,9 @@ export class IconText extends Drawable {
 	#strokeColor?: import('p5').Color;
 	#strokeWeight?: number;
 
+	// TODO: move to enums?
+	#xAlign: 'center' | 'left' | 'right' = 'center';
+
 	#gap: number = 1;
 
 	constructor(
@@ -434,6 +437,12 @@ export class IconText extends Drawable {
 		return this;
 	}
 
+	xAlign(xAlign: 'center' | 'left' | 'right'): this {
+		this.#xAlign = xAlign;
+
+		return this;
+	}
+
 	// TODO: add additional alignments, for now CENTER, CENTER is the only one needed
 
 	draw(context: Context) {
@@ -445,7 +454,6 @@ export class IconText extends Drawable {
 		const iconWidth = context.world.toCanvas(this.#iconWidth);
 		const iconHeight = context.world.toCanvas(this.#iconHeight);
 
-		const centerX = x + width / 2;
 		const centerY = y + height / 2;
 
 		context.p5.push();
@@ -459,7 +467,16 @@ export class IconText extends Drawable {
 
 		const totalWidth = textWidth + iconWidth + gap;
 
-		const iconStartX = centerX - totalWidth / 2;
+		var iconStartX;
+		if (this.#xAlign === 'left') {
+			iconStartX = x;
+		} else if (this.#xAlign === 'right') {
+			iconStartX = x + width - totalWidth;
+		} else {
+			const centerX = x + width / 2;
+			iconStartX = centerX - totalWidth / 2;
+		}
+
 		const iconStartY = centerY - iconHeight / 2;
 		const textStartX = iconStartX + iconWidth + gap;
 

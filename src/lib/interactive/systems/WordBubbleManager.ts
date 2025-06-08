@@ -94,7 +94,8 @@ export class WordBubbleManager {
 							targetX,
 							tailPosition.y,
 							targetX,
-							bubbleY + WORD_BUBBLE.HEIGHT + WORD_BUBBLE.TAIL_BOX_GAP
+							bubbleY + WORD_BUBBLE.HEIGHT + WORD_BUBBLE.TAIL_BOX_GAP,
+							WORD_BUBBLE.Z_INDEX
 						)
 						.stroke(tailColor, WORD_BUBBLE.TAIL_WIDTH);
 				}

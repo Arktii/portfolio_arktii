@@ -23,6 +23,7 @@ export class TvScreen {
 
 	async setup(context: Context) {
 		context.eventBus.subscribe('tvClick', this.onTvClick.bind(this));
+		context.eventBus.subscribe('tvNext', this.onTvNext.bind(this));
 
 		for (let i = 0; i < this.#imagesToLoad.length; i++) {
 			this.tvImages.push(
@@ -103,7 +104,18 @@ export class TvScreen {
 		}
 	}
 
+	onTvNext(id: number) {
+		for (let i = 0; i < this.#displays.length; i++) {
+			console.log(this.#displays[i].id, id);
+			if (this.#displays[i].id === id) {
+				this.next();
+				break;
+			}
+		}
+	}
+
 	next() {
+		console.log('HILO');
 		this.anchorIndex = (this.anchorIndex + 1) % this.tvImages.length;
 		this.#elapsed = 0;
 	}

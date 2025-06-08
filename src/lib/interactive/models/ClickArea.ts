@@ -1,27 +1,29 @@
-import { INDICATORS, INTERACTION } from '../constants';
+import { INDICATORS, INTERACTION, INTERACTION_DISPLAY, PLAYER } from '../constants';
 import type { Context } from '../core/Context';
 import type { BoundingBox } from './BoundingBox';
 
 export class ClickArea {
 	aabb: BoundingBox;
-	hoverText: string;
+	#mainText: string;
+	#secondaryText: string;
 
-	onClick?: (context: Context) => void;
+	#mainAction?: (context: Context) => void;
+	#secondaryAction?: (context: Context) => void;
 
-	constructor(aabb: BoundingBox, hoverText: string = '', onClick?: (context: Context) => void) {
+	constructor(
+		aabb: BoundingBox,
+		mainText: string = '',
+		mainAction?: (context: Context) => void,
+		secondaryText: string = '',
+		secondaryAction?: (context: Context) => void
+	) {
 		this.aabb = aabb;
 
-		this.onClick = onClick;
-		this.hoverText = hoverText;
+		this.#mainAction = mainAction;
+		this.#secondaryAction = secondaryAction;
+		this.#mainText = mainText;
+		this.#secondaryText = secondaryText;
 	}
-
-	// startHover(context: Context) {
-	// 	context.eventBus.publish(
-	// 		'wordBubble',
-	// 		context,
-	// 		new WordBubble(WordBubbleType.THOUGHT, this.hoverText, INTERACTION.THOUGHT_BUBBLE_DURATION, 0)
-	// 	);
-	// }
 
 	primaryHover(context: Context) {
 		context.drawing
@@ -54,7 +56,43 @@ export class ClickArea {
 	}
 
 	playerHover(context: Context) {
-		// TODO: show options above player
+		context.drawing
+			.iconText(
+				context.player.position.x,
+				context.player.position.y - PLAYER.HEIGHT,
+				PLAYER.SPRITE_WIDTH,
+				PLAYER.HEIGHT,
+				context.preloads.image('keyE'),
+				INTERACTION_DISPLAY.WIDTH,
+				INTERACTION_DISPLAY.HEIGHT,
+				this.#mainText,
+				5,
+				INTERACTION_DISPLAY.PLAYER_HOVER_Z_INDEX
+			)
+			.font(context.preloads.font('Aldrich'))
+			.textColor(context.p5.color('rgb(255, 255, 255)'))
+			.stroke(context.p5.color('rgb(0, 0, 0)'), 1)
+			.xAlign('left');
+
+		if (this.#secondaryAction) {
+			context.drawing
+				.iconText(
+					context.player.position.x,
+					context.player.position.y - PLAYER.HEIGHT - INTERACTION_DISPLAY.MULTIPLE_OPTIONS_GAP,
+					PLAYER.SPRITE_WIDTH,
+					PLAYER.HEIGHT,
+					context.preloads.image('keyQ'),
+					INTERACTION_DISPLAY.WIDTH,
+					INTERACTION_DISPLAY.HEIGHT,
+					this.#secondaryText,
+					5,
+					INTERACTION_DISPLAY.PLAYER_HOVER_Z_INDEX
+				)
+				.font(context.preloads.font('Aldrich'))
+				.textColor(context.p5.color('rgb(255, 255, 255)'))
+				.stroke(context.p5.color('rgb(0, 0, 0)'), 1)
+				.xAlign('left');
+		}
 	}
 
 	mouseHover(context: Context) {
@@ -65,21 +103,26 @@ export class ClickArea {
 				this.aabb.right - this.aabb.left,
 				this.aabb.bottom - this.aabb.top,
 				context.preloads.image('mouse1'),
-				INDICATORS.WIDTH,
-				INDICATORS.HEIGHT,
-				'Inspect',
+				INTERACTION_DISPLAY.WIDTH,
+				INTERACTION_DISPLAY.HEIGHT,
+				this.#mainText,
 				5,
-				INDICATORS.Z_INDEX
+				INTERACTION_DISPLAY.MOUSE_HOVER_Z_INDEX
 			)
 			.font(context.preloads.font('Aldrich'))
 			.textColor(context.p5.color('rgb(255, 255, 255)'))
 			.stroke(context.p5.color('rgb(0, 0, 0)'), 1);
 	}
 
-	click(context: Context) {
-		console.log('CLICK');
-		if (this.onClick) {
-			this.onClick(context);
+	mainInteract(context: Context) {
+		if (this.#mainAction) {
+			this.#mainAction(context);
+		}
+	}
+
+	secondaryInteract(context: Context) {
+		if (this.#secondaryAction) {
+			this.#secondaryAction(context);
 		}
 	}
 }

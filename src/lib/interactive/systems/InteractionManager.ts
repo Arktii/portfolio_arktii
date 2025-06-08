@@ -55,10 +55,12 @@ export class InteractionManager {
 
 	addClickArea(
 		aabb: BoundingBox,
-		hoverText: string = '',
-		onClick?: (context: Context) => void
+		mainText: string = '',
+		mainAction?: (context: Context) => void,
+		secondaryText: string = '',
+		secondaryAction?: (context: Context) => void
 	): ClickArea {
-		let newArea = new ClickArea(aabb, hoverText, onClick);
+		let newArea = new ClickArea(aabb, mainText, mainAction, secondaryText, secondaryAction);
 		this.#clickAreas.push(newArea);
 
 		return newArea;
@@ -92,11 +94,13 @@ export class InteractionManager {
 				// @ts-ignore (typescript definitions aren't up to date with p5 version)
 				if (context.inputs.keyJustPressed('e')) {
 					if (interactArea.clickArea) {
-						interactArea.clickArea.click(context);
+						interactArea.clickArea.mainInteract(context);
 					} else if (interactArea.onClick) {
 						interactArea.onClick(context);
 					}
 					break;
+				} else if (context.inputs.keyJustPressed('q')) {
+					interactArea.clickArea?.secondaryInteract(context);
 				}
 
 				if (interactArea.clickArea) {
@@ -120,7 +124,7 @@ export class InteractionManager {
 
 				// Handle Click
 				if (context.inputs.mouseJustClicked()) {
-					clickArea.click(context);
+					clickArea.mainInteract(context);
 				}
 
 				break;
@@ -164,42 +168,42 @@ export class InteractionManager {
 	private setupInteractionAreas() {
 		var clickArea = this.addClickArea(
 			new BoundingBox(120.5, 147.5, 52.5, 79.5),
-			'C#',
-			InteractionManager.makeSpeechBubbleFunc('Console.Log("Meow")')
+			'Inspect',
+			InteractionManager.makeSpeechBubbleFunc('C#\nConsole.Log("Meow")')
 		);
 		this.addInteractArea(12, 13, 3, clickArea);
 
 		var clickArea = this.addClickArea(
 			new BoundingBox(135.5, 162.5, 81.5, 108.5),
-			'Dart',
+			'Inspect',
 			InteractionManager.makeSpeechBubbleFunc('print("Meow")')
 		);
 		this.addInteractArea(14, 14.5, 3, clickArea);
 
 		var clickArea = this.addClickArea(
 			new BoundingBox(150.5, 177.5, 52.5, 79.5),
-			'Python',
+			'Inspect',
 			InteractionManager.makeSpeechBubbleFunc('print("Meow")')
 		);
 		this.addInteractArea(15.5, 16.5, 3, clickArea);
 
 		var clickArea = this.addClickArea(
 			new BoundingBox(165.5, 192.5, 81.5, 108.5),
-			'JavaScript / TypeScript',
+			'Inspect',
 			InteractionManager.makeSpeechBubbleFunc('console.log("Meow")')
 		);
 		this.addInteractArea(17.5, 18, 3, clickArea);
 
 		var clickArea = this.addClickArea(
 			new BoundingBox(180.5, 207.5, 52.5, 79.5),
-			'Rust',
+			'Inspect',
 			InteractionManager.makeSpeechBubbleFunc('print!("Meow")')
 		);
 		this.addInteractArea(19, 20, 3, clickArea);
 
 		var clickArea = this.addClickArea(
 			new BoundingBox(221.5, 233.5, 46.5, 90.5),
-			'More Languages (will redirect)'
+			'More (will redirect)'
 		);
 		this.addInteractArea(21, 21, 3, clickArea);
 
@@ -214,30 +218,48 @@ export class InteractionManager {
 		// personal projects TVs
 		var clickArea = this.addClickArea(
 			new BoundingBox(53.5, 155.5, 209.5, 290.5),
-			'TV',
+			'Inspect',
 			(context) => {
 				context.eventBus.publish('tvClick', context, 0);
+			},
+			'Next',
+			(context) => {
+				context.eventBus.publish('tvNext', 0);
 			}
 		);
+		this.addInteractArea(5, 15, 28, clickArea);
+
 		var clickArea = this.addClickArea(
 			new BoundingBox(39.5, 80.5, 302.5, 335.5),
-			'TV',
+			'Inspect',
 			(context) => {
 				context.eventBus.publish('tvClick', context, 1);
+			},
+			'Next',
+			(context) => {
+				context.eventBus.publish('tvNext', 1);
 			}
 		);
 		var clickArea = this.addClickArea(
 			new BoundingBox(84.5, 125.5, 302.5, 335.5),
-			'TV',
+			'Inspect',
 			(context) => {
 				context.eventBus.publish('tvClick', context, 2);
+			},
+			'Next',
+			(context) => {
+				context.eventBus.publish('tvNext', 2);
 			}
 		);
 		var clickArea = this.addClickArea(
 			new BoundingBox(129.5, 170.5, 302.5, 335.5),
-			'TV',
+			'Inspect',
 			(context) => {
 				context.eventBus.publish('tvClick', context, 3);
+			},
+			'Next',
+			(context) => {
+				context.eventBus.publish('tvNext', 3);
 			}
 		);
 	}

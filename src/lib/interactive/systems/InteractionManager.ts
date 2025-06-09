@@ -26,8 +26,6 @@ export class InteractionManager {
 	}
 
 	async setup(context: Context) {
-		// TODO: move this out? it's very long
-		// languages
 		this.setupInteractionAreas();
 	}
 
@@ -122,11 +120,11 @@ export class InteractionManager {
 			if (clickArea.aabb.contains(worldMousePos)) {
 				mouseClickArea = clickArea;
 
-				// TODO: handle right click too
-				// TODO?: move out the clicking functionality to buttons
 				// Handle Click
-				if (context.inputs.mouseJustClicked()) {
+				if (context.inputs.leftMouseClicked()) {
 					clickArea.mainInteract(context);
+				} else if (context.inputs.mouseJustClicked(context.p5.RIGHT)) {
+					clickArea.secondaryInteract(context);
 				}
 
 				break;

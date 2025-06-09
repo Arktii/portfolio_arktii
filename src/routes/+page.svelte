@@ -290,6 +290,14 @@
 		inputs?.setMouseClicked();
 	}
 
+	function mousePressed(p5: import('p5')) {
+		inputs?.setMouseJustPressed(p5.mouseButton);
+	}
+
+	function mouseReleased(p5: import('p5')) {
+		inputs?.setMouseJustReleased();
+	}
+
 	function keyPressed(p5: import('p5')) {
 		inputs?.setKeyJustPressed(p5.key);
 	}
@@ -309,6 +317,8 @@
 		{update}
 		{windowResized}
 		{mouseClicked}
+		{mousePressed}
+		{mouseReleased}
 		{keyPressed}
 		{keyReleased}
 	/>

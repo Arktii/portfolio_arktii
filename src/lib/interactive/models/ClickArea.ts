@@ -1,4 +1,4 @@
-import { INDICATORS, INTERACTION, INTERACTION_DISPLAY, PLAYER } from '../constants';
+import { INTERACTION, INTERACTION_DISPLAY, PLAYER } from '../constants';
 import type { Context } from '../core/Context';
 import type { BoundingBox } from './BoundingBox';
 
@@ -96,22 +96,52 @@ export class ClickArea {
 	}
 
 	mouseHover(context: Context) {
+		const width = this.aabb.right - this.aabb.left;
+		const height = this.aabb.bottom - this.aabb.top;
+
+		let mainY = this.aabb.top;
+		if (this.#secondaryAction) {
+			mainY = this.aabb.top - INTERACTION_DISPLAY.MULTIPLE_OPTIONS_GAP / 2;
+		}
+
 		context.drawing
 			.iconText(
 				this.aabb.left,
-				this.aabb.top,
-				this.aabb.right - this.aabb.left,
-				this.aabb.bottom - this.aabb.top,
+				mainY,
+				width,
+				height,
 				context.preloads.image('mouse1'),
 				INTERACTION_DISPLAY.WIDTH,
 				INTERACTION_DISPLAY.HEIGHT,
 				this.#mainText,
-				5,
+				INTERACTION_DISPLAY.FONT_SIZE,
 				INTERACTION_DISPLAY.MOUSE_HOVER_Z_INDEX
 			)
 			.font(context.preloads.font('Aldrich'))
-			.textColor(context.p5.color('rgb(255, 255, 255)'))
-			.stroke(context.p5.color('rgb(0, 0, 0)'), 1);
+			.textColor(context.p5.color(INTERACTION_DISPLAY.TEXT_COLOR))
+			.stroke(
+				context.p5.color(INTERACTION_DISPLAY.OUTLINE_COLOR),
+				INTERACTION_DISPLAY.OUTLINE_WEIGHT
+			);
+
+		if (this.#secondaryAction) {
+			context.drawing
+				.iconText(
+					this.aabb.left,
+					mainY + INTERACTION_DISPLAY.MULTIPLE_OPTIONS_GAP,
+					width,
+					height,
+					context.preloads.image('mouse2'),
+					INTERACTION_DISPLAY.WIDTH,
+					INTERACTION_DISPLAY.HEIGHT,
+					this.#secondaryText,
+					INTERACTION_DISPLAY.FONT_SIZE,
+					INTERACTION_DISPLAY.PLAYER_HOVER_Z_INDEX
+				)
+				.font(context.preloads.font('Aldrich'))
+				.textColor(context.p5.color('rgb(255, 255, 255)'))
+				.stroke(context.p5.color('rgb(0, 0, 0)'), INTERACTION_DISPLAY.OUTLINE_WEIGHT);
+		}
 	}
 
 	mainInteract(context: Context) {

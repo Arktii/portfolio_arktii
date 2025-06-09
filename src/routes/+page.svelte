@@ -240,14 +240,14 @@
 		});
 
 		addFixedRunner((context) => {
-			let gridX = context.colSpace.worldToGrid(context.p5.mouseX);
-			let gridY = context.colSpace.worldToGrid(context.p5.mouseY);
+			let gridX = context.colSpace.worldToGrid(context.world.toWorld(context.p5.mouseX));
+			let gridY = context.colSpace.worldToGrid(context.world.toWorld(context.p5.mouseY));
 
 			let worldX = context.colSpace.gridToWorldCenter(gridX);
 			let worldY = context.colSpace.gridToWorldCenter(gridY);
 
 			context.drawing.gridRect(gridX, gridY, 1, 1, 50);
-			context.drawing.text(worldX, worldY, `${gridX}, ${gridY}`, 1, 50);
+			context.drawing.text(worldX, worldY, `${gridX}, ${gridY}`, 3.5, 50);
 		});
 	}
 

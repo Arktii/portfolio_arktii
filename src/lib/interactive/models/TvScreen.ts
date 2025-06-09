@@ -92,7 +92,6 @@ export class TvScreen {
 					context,
 					new WordBubble(tvImage.hoverText, INTERACTION.SPEECH_BUBBLE_DURATION, 1)
 				);
-				console.log(tvImage.hoverText);
 				break;
 			}
 		}
@@ -100,7 +99,6 @@ export class TvScreen {
 
 	onTvNext(id: number) {
 		for (let i = 0; i < this.#displays.length; i++) {
-			console.log(this.#displays[i].id, id);
 			if (this.#displays[i].id === id) {
 				this.next();
 				break;
@@ -109,7 +107,6 @@ export class TvScreen {
 	}
 
 	next() {
-		console.log('HILO');
 		this.anchorIndex = (this.anchorIndex + 1) % this.tvImages.length;
 		this.#elapsed = 0;
 	}

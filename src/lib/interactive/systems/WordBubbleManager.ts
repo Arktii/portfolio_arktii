@@ -1,5 +1,5 @@
 import { clamp } from '$lib/utils/Math';
-import { PLAYER, WORD_BUBBLE, WORLD_SIZE } from '../constants';
+import { FIXED_DELTA_SECS, PLAYER, WORD_BUBBLE, WORLD_SIZE } from '../constants';
 import type { Context } from '../core/Context';
 import { Vec2 } from '../models/Vec2';
 import { WordBubble } from '../models/WordBubble';
@@ -12,9 +12,11 @@ export class WordBubbleManager {
 	#fillTween: Tween | null = null;
 	#textColorTween: Tween | null = null;
 
-	async setup(context: Context) {}
+	async setup(context: Context) {
+		context.eventBus.subscribe('wordBubble', this.receiveWordBubble.bind(this));
+	}
 
-	update(context: Context, deltaSecs: number) {
+	fixedUpdate(context: Context) {
 		if (this.#currentWordBubble) {
 			// if finished
 			if (this.#elapsed > this.#currentWordBubble.duration) {
@@ -24,9 +26,9 @@ export class WordBubbleManager {
 			}
 			// otherwise, update everything
 			else {
-				this.#elapsed += deltaSecs;
-				this.#fillTween?.update(deltaSecs);
-				this.#textColorTween?.update(deltaSecs);
+				this.#elapsed += FIXED_DELTA_SECS;
+				this.#fillTween?.update(FIXED_DELTA_SECS);
+				this.#textColorTween?.update(FIXED_DELTA_SECS);
 
 				let bubbleY = context.player.position.y - WORD_BUBBLE.HEIGHT + WORD_BUBBLE.OFFSET_Y;
 
@@ -40,8 +42,6 @@ export class WordBubbleManager {
 
 				bubbleX = clamp(bubbleX, 0, WORLD_SIZE.REFERENCE_WIDTH - WORD_BUBBLE.WIDTH);
 				bubbleY = Math.max(bubbleY, 0);
-
-				// TODO: differentiate between thought and speech bubbles
 
 				let bgColor = context.p5.color(WORD_BUBBLE.FILL_COLOR);
 				let tailColor = context.p5.color(WORD_BUBBLE.TAIL_COLOR);

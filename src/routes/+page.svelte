@@ -37,6 +37,7 @@
 		BUILDING,
 		COLLISION_SPACE as COL_SPACE,
 		makeColliderGrid,
+		PLAYER,
 		TV,
 		WORLD_SIZE
 	} from '$lib/interactive/constants';
@@ -58,7 +59,7 @@
 	import { WordBubbleManager } from '$lib/interactive/systems/WordBubbleManager';
 	import { TvDisplay } from '$lib/interactive/models/TvDisplay';
 	import { TvImageInfo } from '$lib/interactive/models/TvImage';
-	import { UpdateRunner } from '$lib/interactive/models/UpdateRunner';
+	import { FixedUpdateRunner } from '$lib/interactive/models/FixedUpdateRunner';
 	import { Preloads } from '$lib/interactive/core/Preloads';
 
 	let buildingImage: p5.Image;
@@ -81,6 +82,8 @@
 	let wordBubbleManager: WordBubbleManager;
 
 	let objects: any[] = [];
+
+	let hadFixedUpdateFrame: boolean = false;
 
 	async function preload(p5: import('p5')) {
 		buildingImage = await p5.loadImage(building);
@@ -148,36 +151,7 @@
 			)
 		);
 
-		objects.push(
-			new UpdateRunner((context, deltaSecs) => {
-				// TODO: move out zIndex
-				context.drawing
-					.text(147, 157, 'INTERNSHIP', 10, 0)
-					.textAlign(context.p5.LEFT, context.p5.CENTER);
-			})
-		);
-		objects.push(
-			new UpdateRunner((context, deltaSecs) => {
-				// TODO: move out zIndex
-				context.drawing
-					.text(33, 205, 'PERSONAL PROJECTS', 10, 0)
-					.textAlign(context.p5.LEFT, context.p5.CENTER);
-			})
-		);
-		objects.push(
-			new UpdateRunner((context, deltaSecs) => {
-				// TODO: move out zIndex
-				context.drawing
-					.text(119, 359, 'SCHOOL PROJECTS', 10, 0)
-					.textAlign(context.p5.LEFT, context.p5.CENTER);
-			})
-		);
-		objects.push(
-			new UpdateRunner((context, deltaSecs) => {
-				// TODO: move out zIndex
-				context.drawing.text(30, 579, 'LINKS', 10, 0).textAlign(context.p5.LEFT, context.p5.CENTER);
-			})
-		);
+		setupBuildingDrawers();
 
 		// setup components
 		colSpace.colliderGrid = makeColliderGrid();
@@ -194,21 +168,6 @@
 		await preloads.loadFont(p5, 'Aldritch', aldritch);
 		await preloads.loadFont(p5, 'Russo One', russoOne);
 
-		// await player.setup(context);
-		// await moveAreaManager.setup(context);
-		// await interactionManager.setup(context);
-		// await shovableManager.setup(context);
-		// await wordBubbleManager.setup(context);
-
-		// TODO: consider moving all update functions to their respective setups
-		// eventBus.subscribe('update', player.update.bind(player));
-		// eventBus.subscribe('update', moveAreaManager.update.bind(moveAreaManager));
-		// eventBus.subscribe('update', interactionManager.update.bind(interactionManager));
-		// eventBus.subscribe('update', shovableManager.update.bind(shovableManager));
-		// eventBus.subscribe('update', wordBubbleManager.update.bind(wordBubbleManager));
-
-		eventBus.subscribe('wordBubble', wordBubbleManager.receiveWordBubble.bind(wordBubbleManager));
-
 		// setup and subscribe to update loop
 		for (let i = 0; i < objects.length; i++) {
 			let item = objects[i];
@@ -216,8 +175,8 @@
 				await item.setup(context);
 			}
 
-			if (item.update) {
-				eventBus.subscribe('update', item.update.bind(item));
+			if (item.fixedUpdate) {
+				eventBus.subscribe('fixedUpdate', item.fixedUpdate.bind(item));
 			}
 		}
 
@@ -225,72 +184,100 @@
 		world.resizeRatio = p5.width / WORLD_SIZE.REFERENCE_WIDTH;
 	}
 
-	function update(p5: import('p5'), deltaSecs: number) {
-		eventBus.publish('update', context, deltaSecs);
+	function setupBuildingDrawers() {
+		addFixedRunner((context) => {
+			drawing.image(buildingImage, 0, 0, BUILDING.WIDTH, BUILDING.HEIGHT, false, BUILDING.Z_INDEX);
+			drawing.image(
+				buildingFgImage,
+				0,
+				0,
+				BUILDING.WIDTH,
+				BUILDING.HEIGHT,
+				false,
+				BUILDING.FOREGROUND_Z_INDEX
+			);
+		});
+
+		addFixedRunner((context) => {
+			// TODO: move out zIndex
+			context.drawing
+				.text(147, 157, 'INTERNSHIP', 10, 0)
+				.textAlign(context.p5.LEFT, context.p5.CENTER);
+		});
+
+		addFixedRunner((context) => {
+			// TODO: move out zIndex
+			context.drawing
+				.text(33, 205, 'PERSONAL PROJECTS', 10, 0)
+				.textAlign(context.p5.LEFT, context.p5.CENTER);
+		});
+
+		addFixedRunner((context) => {
+			// TODO: move out zIndex
+			context.drawing
+				.text(119, 359, 'SCHOOL PROJECTS', 10, 0)
+				.textAlign(context.p5.LEFT, context.p5.CENTER);
+		});
+
+		addFixedRunner((context) => {
+			// TODO: move out zIndex
+			context.drawing.text(30, 579, 'LINKS', 10, 0).textAlign(context.p5.LEFT, context.p5.CENTER);
+		});
+
+		// TODO: move out to dev functions or something similar
+		addFixedRunner((context) => {
+			let playerAABB = player.calculateInteractAABB();
+			context.drawing
+				.rect(
+					playerAABB.left,
+					playerAABB.top,
+					playerAABB.right - playerAABB.left,
+					playerAABB.bottom - playerAABB.top,
+					PLAYER.Z_INDEX + 1
+				)
+				.fillColor(context.p5.color('rgba(0, 0, 0, 0)'))
+				.stroke(context.p5.color('rgb(0, 0, 0)'), 0.5);
+		});
+
+		addFixedRunner((context) => {
+			let gridX = context.colSpace.worldToGrid(context.p5.mouseX);
+			let gridY = context.colSpace.worldToGrid(context.p5.mouseY);
+
+			let worldX = context.colSpace.gridToWorldCenter(gridX);
+			let worldY = context.colSpace.gridToWorldCenter(gridY);
+
+			context.drawing.gridRect(gridX, gridY, 1, 1, 50);
+			context.drawing.text(worldX, worldY, `${gridX}, ${gridY}`, 1, 50);
+		});
+	}
+
+	function addFixedRunner(toRun: (context: Context) => void) {
+		instantiate(new FixedUpdateRunner(toRun));
+	}
+
+	function instantiate(object: any) {
+		objects.push(object);
+	}
+
+	function fixedUpdate(p5: import('p5')) {
+		drawing.emptyQueue();
+
+		eventBus.publish('fixedUpdate', context);
+
+		hadFixedUpdateFrame = true;
 
 		inputs.newFrame();
+	}
 
+	function update(p5: import('p5'), deltaSecs: number) {
 		display(p5);
 	}
 
 	function display(p5: import('p5')) {
-		drawing.image(buildingImage, 0, 0, BUILDING.WIDTH, BUILDING.HEIGHT, false, BUILDING.Z_INDEX);
-		drawing.image(
-			buildingFgImage,
-			0,
-			0,
-			BUILDING.WIDTH,
-			BUILDING.HEIGHT,
-			false,
-			BUILDING.FOREGROUND_Z_INDEX
-		);
-
-		// // draw colliders
-		// for (let y = 0; y < colSpace.gridHeight; y++) {
-		// 	for (let x = 0; x < colSpace.gridWidth; x++) {
-		// 		if (colSpace.colliderGrid[x][y] === true) {
-		// 			drawing.gridRect(x, y, 1, 1);
-		// 		}
-		// 	}
-		// }
-
-		let displayCellSize = world.toCanvas(colSpace.cellSize);
-
-		drawing.render(context);
-
-		let playerAABB = player.calculateInteractAABB();
-		p5.line(
-			world.toCanvas(playerAABB.left),
-			world.toCanvas(playerAABB.top),
-			world.toCanvas(playerAABB.right),
-			world.toCanvas(playerAABB.top)
-		);
-		p5.line(
-			world.toCanvas(playerAABB.left),
-			world.toCanvas(playerAABB.bottom),
-			world.toCanvas(playerAABB.right),
-			world.toCanvas(playerAABB.bottom)
-		);
-		p5.line(
-			world.toCanvas(playerAABB.left),
-			world.toCanvas(playerAABB.top),
-			world.toCanvas(playerAABB.left),
-			world.toCanvas(playerAABB.bottom)
-		);
-		p5.line(
-			world.toCanvas(playerAABB.right),
-			world.toCanvas(playerAABB.top),
-			world.toCanvas(playerAABB.right),
-			world.toCanvas(playerAABB.bottom)
-		);
-
-		// TODO: add proper drawing methods to handle this
-		let gridX = Math.floor(world.toWorld(p5.mouseX) / colSpace.cellSize);
-		let gridY = Math.floor(world.toWorld(p5.mouseY) / colSpace.cellSize);
-		let worldX = world.toCanvas(gridX * colSpace.cellSize);
-		let worldY = world.toCanvas(gridY * colSpace.cellSize);
-		p5.rect(worldX, worldY, displayCellSize, displayCellSize);
-		p5.text(gridX + ',' + gridY, worldX, worldY + world.toCanvas(5));
+		if (hadFixedUpdateFrame) {
+			drawing.render(context);
+			hadFixedUpdateFrame = false;
+		}
 	}
 
 	function windowResized(p5: import('p5')) {
@@ -315,7 +302,16 @@
 <p>Top of the screen</p>
 
 <div class="mx-auto w-fit">
-	<Canvas {preload} {setup} {update} {windowResized} {mouseClicked} {keyPressed} {keyReleased} />
+	<Canvas
+		{preload}
+		{setup}
+		{fixedUpdate}
+		{update}
+		{windowResized}
+		{mouseClicked}
+		{keyPressed}
+		{keyReleased}
+	/>
 </div>
 
 <p>Bottom of the screen</p>

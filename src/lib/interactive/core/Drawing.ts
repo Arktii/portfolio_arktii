@@ -1,7 +1,5 @@
 import { PriorityQueue } from '$lib/collections/PriorityQueue';
-import type { BoundingBox } from '../models/BoundingBox';
 import { Curve, Drawable, GridRectangle, IconText, Img, Rectangle, Text } from '../models/Drawable';
-import type { Vec2 } from '../models/Vec2';
 import type { Context } from './Context';
 
 /**
@@ -14,7 +12,13 @@ export class Drawing {
 		this.#renderQueue = new PriorityQueue<Drawable>();
 	}
 
+	emptyQueue() {
+		this.#renderQueue.clear();
+	}
+
 	render(context: Context) {
+		context.p5.clear();
+
 		while (this.#renderQueue.isNotEmpty()) {
 			let nextDrawing = this.#renderQueue.pop();
 			nextDrawing?.draw(context);

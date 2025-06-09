@@ -1,4 +1,4 @@
-import { INDICATORS, PLAYER } from '../constants';
+import { FIXED_DELTA_SECS, INDICATORS, PLAYER } from '../constants';
 import type { CollisionSpace } from '../core/CollisionSpace';
 import type { Context } from '../core/Context';
 import { MoveArea, Target } from '../models/MoveArea';
@@ -123,7 +123,7 @@ export class MoveAreaManager {
 		);
 	}
 
-	update(context: Context, deltaSecs: number) {
+	fixedUpdate(context: Context) {
 		if (context.player.inputIsLocked) {
 			return;
 		}
@@ -176,7 +176,7 @@ export class MoveAreaManager {
 		}
 
 		// update indicator offset
-		this.#indicatorOffset += deltaSecs * INDICATORS.MOVE_SPEED * this.#indicatorDirection;
+		this.#indicatorOffset += FIXED_DELTA_SECS * INDICATORS.MOVE_SPEED * this.#indicatorDirection;
 		if (this.#indicatorOffset > INDICATORS.MAX_OFFSET) {
 			this.#indicatorOffset = INDICATORS.MAX_OFFSET;
 			this.#indicatorDirection = -1;

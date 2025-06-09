@@ -1,4 +1,4 @@
-import { INTERACTION, TV } from '../constants';
+import { FIXED_DELTA_SECS, INTERACTION, TV } from '../constants';
 import type { Context } from '../core/Context';
 import type { TvDisplay } from './TvDisplay';
 import { TvImage, type TvImageInfo } from './TvImage';
@@ -34,8 +34,8 @@ export class TvScreen {
 		}
 	}
 
-	update(context: Context, deltaSecs: number) {
-		this.#elapsed += deltaSecs;
+	fixedUpdate(context: Context) {
+		this.#elapsed += FIXED_DELTA_SECS;
 
 		if (this.#elapsed > this.#duration) {
 			this.#elapsed -= this.#duration;

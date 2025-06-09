@@ -75,7 +75,7 @@ export class InteractionManager {
 			);
 	}
 
-	update(context: Context, deltaSecs: number) {
+	fixedUpdate(context: Context) {
 		if (context.player.inputIsLocked) {
 			return;
 		}

@@ -58,6 +58,10 @@ export class CollisionSpace {
 		return gridCoordinate * this.cellSize;
 	}
 
+	gridToWorldCenter(gridCoordinate: number): number {
+		return (gridCoordinate + 0.5) * this.cellSize;
+	}
+
 	/**
 	 * converts a grid coordinate to the cell's bottom edge in the world
 	 */

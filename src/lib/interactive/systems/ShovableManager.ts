@@ -1,5 +1,5 @@
 import { calculateSingleDisplacementX } from '$lib/utils/Collisions';
-import { PHYSICS, POT, POT_COMPUTED } from '../constants';
+import { FIXED_DELTA_SECS, PHYSICS, POT, POT_COMPUTED } from '../constants';
 import type { CollisionSpace } from '../core/CollisionSpace';
 import type { Context } from '../core/Context';
 import type { BoundingBox } from '../models/BoundingBox';
@@ -59,7 +59,7 @@ export class ShovableManager {
 		);
 	}
 
-	update(context: Context, deltaSecs: number) {
+	fixedUpdate(context: Context) {
 		let playerAABB = context.player.calculateAABB();
 
 		for (const y in this.#active) {
@@ -69,8 +69,8 @@ export class ShovableManager {
 				let item = sameLevelShovables[i];
 
 				// gravity
-				item.yVelocity += PHYSICS.GRAVITY * deltaSecs;
-				item.position.y += item.yVelocity * deltaSecs;
+				item.yVelocity += PHYSICS.GRAVITY * FIXED_DELTA_SECS;
+				item.position.y += item.yVelocity * FIXED_DELTA_SECS;
 
 				if (!item.falling) {
 					this.handleShovableCollisions(sameLevelShovables, item);
@@ -148,7 +148,7 @@ export class ShovableManager {
 		for (let i = this.#shattering.length - 1; i >= 0; i--) {
 			let animated = this.#shattering[i];
 
-			animated.update(deltaSecs);
+			animated.update(FIXED_DELTA_SECS);
 			animated.draw(context);
 
 			if (animated.finished) {

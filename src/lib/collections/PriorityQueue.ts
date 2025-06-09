@@ -11,6 +11,11 @@ export class PriorityQueue<T extends Ord> {
 		return this.#size;
 	}
 
+	clear() {
+		this.#data = [null];
+		this.#size = 0;
+	}
+
 	isEmpty(): boolean {
 		return this.#size === 0;
 	}

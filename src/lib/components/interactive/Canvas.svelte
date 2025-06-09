@@ -1,19 +1,21 @@
 <script lang="ts">
 	// TODO? combine this with P5 component
 	import P5 from '$lib/components/P5.svelte';
-	import { CANVAS_SIZE } from '$lib/interactive/constants';
+	import { CANVAS_SIZE, FIXED_DELTA_SECS, FIXED_DELTA_TIME } from '$lib/interactive/constants';
 	import Fredoka from '$lib/fonts/Fredoka-Regular.ttf';
-
-	let defaultFont;
 
 	export let preload = async (p5: import('p5')) => {};
 	export let setup = async (p5: import('p5')) => {};
+	export let fixedUpdate = (p5: import('p5')) => {};
 	export let update = (p5: import('p5'), deltaSecs: number) => {};
 	export let windowResized = (p5: import('p5')) => {};
 	export let mouseClicked = (p5: import('p5')) => {};
 	export let mouseMoved = (p5: import('p5')) => {};
 	export let keyPressed = (p5: import('p5')) => {};
 	export let keyReleased = (p5: import('p5')) => {};
+
+	// for the fixed time step
+	let accumulator = 0;
 
 	async function canvasSetup(p5: import('p5')) {
 		await preload(p5);
@@ -22,7 +24,7 @@
 		p5.pixelDensity(1);
 		p5.noSmooth();
 
-		defaultFont = await p5.loadFont(Fredoka);
+		const defaultFont = await p5.loadFont(Fredoka);
 
 		p5.textFont(defaultFont);
 
@@ -33,7 +35,13 @@
 	}
 
 	function draw(p5: import('p5')) {
-		p5.clear();
+		accumulator += p5.deltaTime;
+
+		while (accumulator >= FIXED_DELTA_TIME) {
+			fixedUpdate(p5);
+
+			accumulator -= FIXED_DELTA_TIME;
+		}
 
 		update(p5, p5.deltaTime / 1000);
 	}

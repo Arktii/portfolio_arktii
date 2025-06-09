@@ -1,4 +1,4 @@
-import { PHYSICS, PLAYER, PLAYER_COMPUTED } from '../constants';
+import { FIXED_DELTA_SECS, PHYSICS, PLAYER, PLAYER_COMPUTED } from '../constants';
 import type { CollisionSpace } from '../core/CollisionSpace';
 import type { Context } from '../core/Context';
 
@@ -122,16 +122,16 @@ export class Player {
 		this.#animatedSprite.play('idle');
 	}
 
-	update(context: Context, deltaSecs: number) {
+	fixedUpdate(context: Context) {
 		if (!this.#inputIsLocked) {
 			this.moveHorizontally(context.p5);
 
 			// gravity
-			this.#velocity.y += PHYSICS.GRAVITY * deltaSecs;
+			this.#velocity.y += PHYSICS.GRAVITY * FIXED_DELTA_SECS;
 
 			// update positions
-			this.position.y += this.#velocity.y * deltaSecs;
-			this.position.x = Math.max(this.position.x + this.#velocity.x * deltaSecs, 0); // prevent negative x
+			this.position.y += this.#velocity.y * FIXED_DELTA_SECS;
+			this.position.x = Math.max(this.position.x + this.#velocity.x * FIXED_DELTA_SECS, 0); // prevent negative x
 
 			this.handleCollisions(context.colSpace);
 
@@ -139,7 +139,7 @@ export class Player {
 
 			// update animation (should be after edge protection to avoid "walking" without moving)
 			if (this.velocity.x == 0) {
-				this.#idletime += deltaSecs;
+				this.#idletime += FIXED_DELTA_SECS;
 			} else if (this.#animatedSprite.queueLength === 0) {
 				this.#idletime = 0;
 				this.#animatedSprite.play('walk');
@@ -151,11 +151,11 @@ export class Player {
 		}
 
 		if (this.#tween) {
-			this.#tween.update(deltaSecs);
+			this.#tween.update(FIXED_DELTA_SECS);
 		}
 
 		this.#animatedSprite.position = this.position;
-		this.#animatedSprite.update(deltaSecs);
+		this.#animatedSprite.update(FIXED_DELTA_SECS);
 		this.#animatedSprite.draw(context);
 	}
 

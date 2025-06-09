@@ -25,6 +25,10 @@
 	import timeflowers from '$lib/images/projects/timeflowers.png';
 	import wreckingWhiskers from '$lib/images/projects/wrecking-whiskers.png';
 
+	import charge from '$lib/images/projects/charge.png';
+	import specialProblem from '$lib/images/projects/special-problem.png';
+	import subaybay from '$lib/images/projects/subaybay.png';
+
 	// import fonts
 	import aldritch from '$lib/fonts/Aldrich-Regular.ttf';
 	import russoOne from '$lib/fonts/RussoOne-Regular.ttf';
@@ -126,7 +130,21 @@
 					new TvImageInfo(timeflowers, 'Timeflowers, made in Unity'),
 					new TvImageInfo(beastBonds, 'Beast Bonds, made in Unity')
 				],
-				5
+				TV.IMAGE_DURATION
+			)
+		);
+		objects.push(
+			new TvScreen(
+				[
+					new TvDisplay(4, 95, 460, 100, 70, TV.GLOW_GROW),
+					new TvDisplay(5, 95, 422, 46, 32, TV.GLOW_GROW_SMALL)
+				],
+				[
+					new TvImageInfo(charge, 'multiplayer game using Unity and AWS'),
+					new TvImageInfo(subaybay, 'software for the Office of the University Registrar'),
+					new TvImageInfo(specialProblem, 'thesis equivalent, successfully defended May 26, 2025')
+				],
+				TV.IMAGE_DURATION
 			)
 		);
 

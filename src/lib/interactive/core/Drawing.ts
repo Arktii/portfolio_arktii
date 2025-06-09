@@ -3,7 +3,8 @@ import { Curve, Drawable, GridRectangle, IconText, Img, Rectangle, Text } from '
 import type { Context } from './Context';
 
 /**
- * helps draw world items on the canvas with proper scaling
+ * helps draw world items on the canvas with proper scaling.
+ * for consistent results, the drawing functions should only be called in the fixedUpdate loop
  */
 export class Drawing {
 	#renderQueue: PriorityQueue<Drawable>;

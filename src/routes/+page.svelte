@@ -11,15 +11,18 @@
 	import buildingForeground from '$lib/images/building-foreground.png';
 	import playerImg from '$lib/images/player.png';
 
-	import keyW from '$lib/images/icons/keyW.png';
-	import keyA from '$lib/images/icons/keyA.png';
-	import keyS from '$lib/images/icons/keyS.png';
-	import keyD from '$lib/images/icons/keyD.png';
-	import keyE from '$lib/images/icons/keyE.png';
-	import keyQ from '$lib/images/icons/keyQ.png';
-	import mouse1 from '$lib/images/icons/mouse1.png';
-	import mouse2 from '$lib/images/icons/mouse2.png';
-	import hereArrow from '$lib/images/icons/hereArrow.png';
+	import keyW from '$lib/images/icons/key-w.png';
+	import keyA from '$lib/images/icons/key-a.png';
+	import keyS from '$lib/images/icons/key-s.png';
+	import keyD from '$lib/images/icons/key-d.png';
+	import keyE from '$lib/images/icons/key-e.png';
+	import keyQ from '$lib/images/icons/key-q.png';
+	import mouseLeft from '$lib/images/icons/mouse-left.png';
+	import mouseRight from '$lib/images/icons/mouse-right.png';
+	import arrowDown from '$lib/images/icons/arrow-down.png';
+	import arrowUp from '$lib/images/icons/arrow-up.png';
+	import arrowLeft from '$lib/images/icons/arrow-left.png';
+	import arrowRight from '$lib/images/icons/arrow-right.png';
 
 	import beastBonds from '$lib/images/projects/beast-bonds.png';
 	import chasmsCall from '$lib/images/projects/chasms-call.png';
@@ -165,9 +168,12 @@
 		await preloads.loadImage(p5, 'keyD', keyD);
 		await preloads.loadImage(p5, 'keyE', keyE);
 		await preloads.loadImage(p5, 'keyQ', keyQ);
-		await preloads.loadImage(p5, 'mouse1', mouse1);
-		await preloads.loadImage(p5, 'mouse2', mouse2);
-		await preloads.loadImage(p5, 'hereArrow', hereArrow);
+		await preloads.loadImage(p5, 'mouseLeft', mouseLeft);
+		await preloads.loadImage(p5, 'mouseRight', mouseRight);
+		await preloads.loadImage(p5, 'arrowDown', arrowDown);
+		await preloads.loadImage(p5, 'arrowUp', arrowUp);
+		await preloads.loadImage(p5, 'arrowLeft', arrowLeft);
+		await preloads.loadImage(p5, 'arrowRight', arrowRight);
 
 		await preloads.loadFont(p5, 'Aldritch', aldritch);
 		await preloads.loadFont(p5, 'Russo One', russoOne);

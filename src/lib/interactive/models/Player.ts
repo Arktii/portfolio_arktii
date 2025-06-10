@@ -1,4 +1,4 @@
-import { FIXED_DELTA_SECS, PHYSICS, PLAYER, PLAYER_COMPUTED } from '../constants';
+import { FIXED_DELTA_SECS, INDICATORS, PHYSICS, PLAYER, PLAYER_COMPUTED } from '../constants';
 import type { CollisionSpace } from '../core/CollisionSpace';
 import type { Context } from '../core/Context';
 
@@ -31,7 +31,7 @@ export class Player {
 
 	#movementTween?: Tween;
 
-	#idletime: number = 0;
+	#idletime: number = 10;
 
 	// animation
 	#animatedSprite: AnimatedSprite;
@@ -143,7 +143,15 @@ export class Player {
 				this.#animatedSprite.play('walk');
 			}
 
-			if (this.#idletime > PLAYER.WALK_ANIM_IDLE_THRESHOLD && this.#animatedSprite.queueLength === 0) {
+			// show left-right controls
+			if (this.#idletime > PLAYER.CONTROLS_IDLE_THRESHOLD) {
+				this.showHorizontalControls(context);
+			}
+
+			if (
+				this.#idletime > PLAYER.WALK_ANIM_IDLE_THRESHOLD &&
+				this.#animatedSprite.queueLength === 0
+			) {
 				this.#animatedSprite.play('idle');
 			}
 		}
@@ -247,6 +255,53 @@ export class Player {
 
 			window.scrollTo({ top: targetViewportY - window.innerHeight, behavior: 'smooth' });
 		}
+	}
+
+	private showHorizontalControls(context: Context) {
+		const y = this.position.y + PLAYER.HEIGHT + INDICATORS.SPACING;
+		const leftKeyX =
+			this.position.x + PLAYER_COMPUTED.HALF_WIDTH - INDICATORS.WIDTH - INDICATORS.SPACING;
+		const rightKeyX = this.position.x + PLAYER_COMPUTED.HALF_WIDTH + INDICATORS.SPACING;
+
+		context.drawing.image(
+			context.preloads.image('keyD'),
+			rightKeyX,
+			y,
+			INDICATORS.WIDTH,
+			INDICATORS.HEIGHT,
+			false,
+			INDICATORS.Z_INDEX
+		);
+
+		context.drawing.image(
+			context.preloads.image('arrowRight'),
+			rightKeyX + INDICATORS.WIDTH + INDICATORS.SPACING,
+			y,
+			INDICATORS.WIDTH,
+			INDICATORS.HEIGHT,
+			false,
+			INDICATORS.Z_INDEX
+		);
+
+		context.drawing.image(
+			context.preloads.image('keyA'),
+			leftKeyX,
+			y,
+			INDICATORS.WIDTH,
+			INDICATORS.HEIGHT,
+			false,
+			INDICATORS.Z_INDEX
+		);
+
+		context.drawing.image(
+			context.preloads.image('arrowLeft'),
+			leftKeyX - INDICATORS.WIDTH - INDICATORS.SPACING,
+			y,
+			INDICATORS.WIDTH,
+			INDICATORS.HEIGHT,
+			false,
+			INDICATORS.Z_INDEX
+		);
 	}
 
 	jump(target: Vec2) {

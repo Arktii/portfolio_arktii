@@ -51,7 +51,7 @@ export const PLAYER = {
 	// UP_LAUNCH_ANGLE: 1.22173, // 70 degrees
 
 	WALK_ANIM_IDLE_THRESHOLD: 0.05, // how long the player needs to be idle to enter idle animation (to prevent switching between walking and idling too rapidly)
-	CONTROLS_IDLE_THRESHOLD: 1, // how long the plaeyr needs to be idle before the controls are shown
+	CONTROLS_IDLE_THRESHOLD: 2, // how long the plaeyr needs to be idle before the controls are shown
 
 	Z_INDEX: 5
 };
@@ -70,8 +70,8 @@ export const PLAYER_COMPUTED = {
 export const INDICATORS = {
 	MAX_OFFSET: 1,
 	MOVE_SPEED: 4,
-	WIDTH: 6.5,
-	HEIGHT: 6.5,
+	WIDTH: 8,
+	HEIGHT: 8,
 	SPACING: 1,
 	Z_INDEX: BUILDING.FOREGROUND_Z_INDEX + 1
 };
@@ -115,10 +115,9 @@ export const INTERACTION = {
 };
 
 export const INTERACTION_DISPLAY = {
-	WIDTH: 6.5,
-	HEIGHT: 6.5,
+	WIDTH: 8,
+	HEIGHT: 8,
 
-	PLAYER_OFFSET_Y: -4,
 	MOUSE_OFFSET_Y: -2,
 	MOUSE_OFFSET_X: 6,
 	MULTIPLE_OPTIONS_GAP: 7,

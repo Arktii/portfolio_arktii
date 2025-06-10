@@ -10,8 +10,6 @@ export class MoveAreaManager {
 
 	#moveAreas: MoveArea[] = [];
 
-	#hereArrowImage?: import('p5').Image;
-
 	#indicatorOffset: number = 0;
 	#indicatorDirection: -1 | 1 = -1;
 
@@ -147,7 +145,7 @@ export class MoveAreaManager {
 			INDICATORS.Z_INDEX
 		);
 		context.drawing.image(
-			context.preloads.image('hereArrow'),
+			context.preloads.image('arrowDown'),
 			x,
 			y - INDICATORS.HEIGHT + this.#indicatorOffset,
 			INDICATORS.WIDTH,

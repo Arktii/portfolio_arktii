@@ -6,6 +6,7 @@
 	import type p5 from 'p5';
 
 	// import images
+	import bgNightSky from '$lib/images/background/night-sky.png';
 	import building from '$lib/images/building.png';
 	import buildingForeground from '$lib/images/building-foreground.png';
 	import playerImg from '$lib/images/player.png';
@@ -18,6 +19,7 @@
 	import keyQ from '$lib/images/icons/keyQ.png';
 	import mouse1 from '$lib/images/icons/mouse1.png';
 	import mouse2 from '$lib/images/icons/mouse2.png';
+	import hereArrow from '$lib/images/icons/hereArrow.png';
 
 	import beastBonds from '$lib/images/projects/beast-bonds.png';
 	import chasmsCall from '$lib/images/projects/chasms-call.png';
@@ -165,6 +167,7 @@
 		await preloads.loadImage(p5, 'keyQ', keyQ);
 		await preloads.loadImage(p5, 'mouse1', mouse1);
 		await preloads.loadImage(p5, 'mouse2', mouse2);
+		await preloads.loadImage(p5, 'hereArrow', hereArrow);
 
 		await preloads.loadFont(p5, 'Aldritch', aldritch);
 		await preloads.loadFont(p5, 'Russo One', russoOne);
@@ -318,21 +321,23 @@
 	}
 </script>
 
-<p>Top of the screen</p>
+<main class="bg-[url({bgNightSky})] bg-repeat">
+	<p>Top of the screen</p>
 
-<div class="mx-auto w-fit">
-	<Canvas
-		{preload}
-		{setup}
-		{fixedUpdate}
-		{update}
-		{windowResized}
-		{mouseClicked}
-		{mousePressed}
-		{mouseReleased}
-		{keyPressed}
-		{keyReleased}
-	/>
-</div>
+	<div class="mx-auto w-fit">
+		<Canvas
+			{preload}
+			{setup}
+			{fixedUpdate}
+			{update}
+			{windowResized}
+			{mouseClicked}
+			{mousePressed}
+			{mouseReleased}
+			{keyPressed}
+			{keyReleased}
+		/>
+	</div>
 
-<p>Bottom of the screen</p>
+	<p>Bottom of the screen</p>
+</main>

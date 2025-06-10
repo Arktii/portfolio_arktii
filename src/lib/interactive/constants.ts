@@ -15,6 +15,8 @@ export const BUILDING = {
 	HEIGHT: 700,
 	ASPECT_RATIO: 240 / 700,
 
+	FONT_SIZE: 10,
+
 	Z_INDEX: -1,
 	FOREGROUND_Z_INDEX: 10
 };

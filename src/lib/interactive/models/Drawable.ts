@@ -217,9 +217,14 @@ export class Text extends Drawable {
 	#y: number;
 	#width?: number;
 	#height?: number;
-	#color?: import('p5').Color;
+
 	#text: string;
+
+	#color?: import('p5').Color;
+
+	#font?: import('p5').Font;
 	#fontSize: number;
+
 	#horizontalAlign?: import('p5').HORIZ_ALIGN;
 	#verticalAlign?: import('p5').VERT_ALIGN;
 
@@ -254,12 +259,17 @@ export class Text extends Drawable {
 	textAlign(horizontal?: import('p5').HORIZ_ALIGN, vertical?: import('p5').VERT_ALIGN): this {
 		this.#horizontalAlign = horizontal;
 		this.#verticalAlign = vertical;
-
 		return this;
 	}
 
-	textColor(color: import('p5').Color) {
+	textColor(color: import('p5').Color): this {
 		this.#color = color;
+		return this;
+	}
+
+	font(font: import('p5').Font): this {
+		this.#font = font;
+		return this;
 	}
 
 	draw(context: Context): void {
@@ -269,6 +279,10 @@ export class Text extends Drawable {
 			this.#horizontalAlign ?? context.p5.CENTER,
 			this.#verticalAlign ?? context.p5.CENTER
 		);
+
+		if (this.#font) {
+			context.p5.textFont(this.#font);
+		}
 
 		if (this.#color) {
 			context.p5.fill(this.#color);

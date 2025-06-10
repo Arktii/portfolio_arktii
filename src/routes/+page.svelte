@@ -38,6 +38,7 @@
 		COLLISION_SPACE as COL_SPACE,
 		makeColliderGrid,
 		PLAYER,
+		PLAYER_COMPUTED,
 		TV,
 		WORLD_SIZE
 	} from '$lib/interactive/constants';
@@ -103,7 +104,7 @@
 			Math.ceil(BUILDING.HEIGHT / COL_SPACE.CELL_SIZE),
 			COL_SPACE.CELL_SIZE
 		);
-		player = new Player(new Vec2(WORLD_SIZE.REFERENCE_WIDTH / 2, 0));
+		player = new Player(new Vec2(WORLD_SIZE.REFERENCE_WIDTH / 2 - PLAYER_COMPUTED.HALF_WIDTH, 20));
 		preloads = new Preloads();
 		moveAreaManager = new MoveAreaManager(colSpace);
 		interactionManager = new InteractionManager(colSpace);
@@ -186,8 +187,16 @@
 
 	function setupBuildingDrawers() {
 		addFixedRunner((context) => {
-			drawing.image(buildingImage, 0, 0, BUILDING.WIDTH, BUILDING.HEIGHT, false, BUILDING.Z_INDEX);
-			drawing.image(
+			context.drawing.image(
+				buildingImage,
+				0,
+				0,
+				BUILDING.WIDTH,
+				BUILDING.HEIGHT,
+				false,
+				BUILDING.Z_INDEX
+			);
+			context.drawing.image(
 				buildingFgImage,
 				0,
 				0,
@@ -199,29 +208,31 @@
 		});
 
 		addFixedRunner((context) => {
-			// TODO: move out zIndex
 			context.drawing
-				.text(147, 157, 'INTERNSHIP', 10, 0)
+				.text(140, 157, 'INTERNSHIP', BUILDING.FONT_SIZE, BUILDING.Z_INDEX)
+				.font(context.preloads.font('Russo One'))
 				.textAlign(context.p5.LEFT, context.p5.CENTER);
 		});
 
 		addFixedRunner((context) => {
-			// TODO: move out zIndex
 			context.drawing
-				.text(33, 205, 'PERSONAL PROJECTS', 10, 0)
+				.text(33, 205, 'PERSONAL PROJECTS', BUILDING.FONT_SIZE, BUILDING.Z_INDEX)
+				.font(context.preloads.font('Russo One'))
 				.textAlign(context.p5.LEFT, context.p5.CENTER);
 		});
 
 		addFixedRunner((context) => {
-			// TODO: move out zIndex
 			context.drawing
-				.text(119, 359, 'SCHOOL PROJECTS', 10, 0)
+				.text(110, 359, 'SCHOOL PROJECTS', BUILDING.FONT_SIZE, BUILDING.Z_INDEX)
+				.font(context.preloads.font('Russo One'))
 				.textAlign(context.p5.LEFT, context.p5.CENTER);
 		});
 
 		addFixedRunner((context) => {
-			// TODO: move out zIndex
-			context.drawing.text(30, 579, 'LINKS', 10, 0).textAlign(context.p5.LEFT, context.p5.CENTER);
+			context.drawing
+				.text(30, 579, 'LINKS', BUILDING.FONT_SIZE, BUILDING.Z_INDEX)
+				.font(context.preloads.font('Russo One'))
+				.textAlign(context.p5.LEFT, context.p5.CENTER);
 		});
 
 		// TODO: move out to dev functions or something similar

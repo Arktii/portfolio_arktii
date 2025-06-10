@@ -150,23 +150,25 @@ export const TV = {
 };
 
 export const WORD_BUBBLE = {
-	BORDER_RADIUS: 1,
-	STROKE_WIDTH: 0,
+	BORDER_RADIUS: 7.5,
 	IDEAL_TAIL_LENGTH: 12,
 	TAIL_WIDTH: 4,
-	TAIL_BOX_GAP: 3, // gap between the tail and text box
+	TAIL_BOX_GAP: 1, // gap between the tail and text box
 
 	TAIL_OFFSET_X: 6,
 	TAIL_OFFSET_Y: 4,
-	OFFSET_X: 7,
-	OFFSET_Y: -12,
+	OFFSET_X: 12,
+	OFFSET_Y: -10,
 
-	WIDTH: 60,
-	HEIGHT: 20,
+	MIN_VIEWPORT_OFFSET: 8, // bubble should be atleast this far from viewport
+
+	WIDTH: 70,
+	HEIGHT: 25,
+	PADDING_X: 2,
 
 	FONT_SIZE: 5,
-	TAIL_COLOR: 'rgb(0, 0, 0 )',
-	FILL_COLOR: 'rgb(250, 228, 186)',
+	TAIL_COLOR: 'rgb(255, 255, 255)',
+	FILL_COLOR: 'rgb(255, 255, 255)',
 	FILL_ALPHA: 255,
 	TEXT_COLOR: 'rgb(19, 15, 13)',
 	TEXT_ALPHA: 255,

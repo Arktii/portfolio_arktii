@@ -206,11 +206,21 @@ export class InteractionManager {
 
 		// engines
 		var clickArea = this.addClickArea(new BoundingBox(33.5, 89.5, 110.5, 137.5), 'Unity');
+		this.addInteractArea(3, 8, 13, clickArea);
 		var clickArea = this.addClickArea(new BoundingBox(92.5, 148.5, 110.5, 137.5), 'Godot');
+		this.addInteractArea(9, 14, 13, clickArea);
 		var clickArea = this.addClickArea(new BoundingBox(151.5, 207.5, 110.5, 137.5), 'Bevy');
+		this.addInteractArea(15, 20, 13, clickArea);
 
+		// internship
 		var clickArea = this.addClickArea(new BoundingBox(41.5, 97.5, 161.5, 188.5), 'DOST');
 		this.addInteractArea(4, 9, 18, clickArea);
+		var clickArea = this.addClickArea(new BoundingBox(100.5, 138.5, 161.5, 188.5), 'Flutter');
+		this.addInteractArea(10, 13, 18, clickArea);
+		var clickArea = this.addClickArea(new BoundingBox(141.5, 179.5, 161.5, 188.5), 'Laravel');
+		this.addInteractArea(14, 17, 18, clickArea);
+		var clickArea = this.addClickArea(new BoundingBox(181.5, 208.5, 161.5, 188.5), 'Mobile App');
+		this.addInteractArea(18, 20, 18, clickArea);
 
 		// personal projects TVs
 		var clickArea = this.addClickArea(
@@ -237,6 +247,8 @@ export class InteractionManager {
 				context.eventBus.publish('tvNext', 1);
 			}
 		);
+		this.addInteractArea(4, 7, 33, clickArea);
+
 		var clickArea = this.addClickArea(
 			new BoundingBox(84.5, 125.5, 302.5, 335.5),
 			'Inspect',
@@ -248,6 +260,8 @@ export class InteractionManager {
 				context.eventBus.publish('tvNext', 2);
 			}
 		);
+		this.addInteractArea(8, 12, 33, clickArea);
+
 		var clickArea = this.addClickArea(
 			new BoundingBox(129.5, 170.5, 302.5, 335.5),
 			'Inspect',
@@ -259,6 +273,13 @@ export class InteractionManager {
 				context.eventBus.publish('tvNext', 3);
 			}
 		);
+		this.addInteractArea(13, 16, 33, clickArea);
+
+		var clickArea = this.addClickArea(
+			new BoundingBox(185.5, 228.5, 268.5, 282.5),
+			'More Projects (New Tab)'
+		);
+		this.addInteractArea(18, 21, 25, clickArea);
 
 		// school project TVs
 		var clickArea = this.addClickArea(
@@ -272,7 +293,7 @@ export class InteractionManager {
 				context.eventBus.publish('tvNext', 4);
 			}
 		);
-		this.addInteractArea(9, 19, 52, clickArea);
+		this.addInteractArea(9, 14, 52, clickArea);
 
 		var clickArea = this.addClickArea(
 			new BoundingBox(94.5, 141.5, 421.5, 454.5),
@@ -285,19 +306,24 @@ export class InteractionManager {
 				context.eventBus.publish('tvNext', 5);
 			}
 		);
+		this.addInteractArea(7, 7, 43, clickArea);
+		this.addInteractArea(16, 16, 42, clickArea);
+
+		var clickArea = this.addClickArea(
+			new BoundingBox(151.5, 196.5, 544.5, 556.5),
+			'More Projects (New Tab)'
+		);
+		this.addInteractArea(15, 19, 52, clickArea);
 
 		// links
 		var clickArea = this.addClickArea(
 			new BoundingBox(42.5, 67.5, 635.5, 660.5),
 			'Visit LinkedIn (New Tab)',
 			(context) => {
-				InteractionManager.makeSpeechBubbleFunc('TODO: open new tab with link');
 				window.open(import.meta.env.VITE_LINKEDIN_LINK, '_blank');
 			},
 			'Show Link',
-			(context) => {
-				InteractionManager.makeSpeechBubbleFunc(import.meta.env.VITE_LINKEDIN_LINK);
-			}
+			InteractionManager.makeSpeechBubbleFunc(import.meta.env.VITE_LINKEDIN_LINK)
 		);
 		this.addInteractArea(4, 6, 61, clickArea);
 
@@ -305,13 +331,10 @@ export class InteractionManager {
 			new BoundingBox(72.5, 97.5, 635.5, 660.5),
 			'Email Contact Form (New Tab)',
 			(context) => {
-				InteractionManager.makeSpeechBubbleFunc('TODO: open new tab with link');
 				window.open(import.meta.env.VITE_CONTACT_EMAIL, '_blank');
 			},
 			'Show email',
-			(context) => {
-				InteractionManager.makeSpeechBubbleFunc(import.meta.env.VITE_CONTACT_EMAIL);
-			}
+			InteractionManager.makeSpeechBubbleFunc(import.meta.env.VITE_CONTACT_EMAIL)
 		);
 		this.addInteractArea(7, 9, 61, clickArea);
 
@@ -319,13 +342,10 @@ export class InteractionManager {
 			new BoundingBox(102.5, 127.5, 635.5, 660.5),
 			'Visit GitHub (New Tab)',
 			(context) => {
-				InteractionManager.makeSpeechBubbleFunc('TODO: open new tab with link');
-				window.open(import.meta.env.VITE_CONTACT_EMAIL, '_blank');
+				window.open(import.meta.env.VITE_GITHUB_LINK, '_blank');
 			},
 			'Show Link',
-			(context) => {
-				InteractionManager.makeSpeechBubbleFunc(import.meta.env.VITE_CONTACT_EMAIL);
-			}
+			InteractionManager.makeSpeechBubbleFunc(import.meta.env.VITE_GITHUB_LINK)
 		);
 		this.addInteractArea(10, 12, 61, clickArea);
 
@@ -333,13 +353,10 @@ export class InteractionManager {
 			new BoundingBox(132.5, 157.5, 635.5, 660.5),
 			'View Messenger / Facebook (New Tab)',
 			(context) => {
-				InteractionManager.makeSpeechBubbleFunc('TODO: open new tab with link');
-				window.open(import.meta.env.VITE_CONTACT_EMAIL, '_blank');
+				window.open(import.meta.env.VITE_MESSENGER_LINK, '_blank');
 			},
 			'Show Link',
-			(context) => {
-				InteractionManager.makeSpeechBubbleFunc(import.meta.env.VITE_CONTACT_EMAIL);
-			}
+			InteractionManager.makeSpeechBubbleFunc(import.meta.env.VITE_MESSENGER_LINK)
 		);
 		this.addInteractArea(13, 15, 61, clickArea);
 
@@ -347,13 +364,10 @@ export class InteractionManager {
 			new BoundingBox(162.5, 187.5, 635.5, 660.5),
 			'View resume (New Tab)',
 			(context) => {
-				InteractionManager.makeSpeechBubbleFunc('TODO: open new tab with link');
-				window.open(import.meta.env.VITE_CONTACT_EMAIL, '_blank');
+				window.open(import.meta.env.VITE_RESUME_LINK, '_blank');
 			},
 			'Show Link',
-			(context) => {
-				InteractionManager.makeSpeechBubbleFunc(import.meta.env.VITE_CONTACT_EMAIL);
-			}
+			InteractionManager.makeSpeechBubbleFunc(import.meta.env.VITE_RESUME_LINK)
 		);
 		this.addInteractArea(16, 18, 61, clickArea);
 	}

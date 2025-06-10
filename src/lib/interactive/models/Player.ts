@@ -143,7 +143,7 @@ export class Player {
 				this.#animatedSprite.play('walk');
 			}
 
-			if (this.#idletime > PLAYER.IDLETIME_THRESHOLD && this.#animatedSprite.queueLength === 0) {
+			if (this.#idletime > PLAYER.WALK_ANIM_IDLE_THRESHOLD && this.#animatedSprite.queueLength === 0) {
 				this.#animatedSprite.play('idle');
 			}
 		}

@@ -41,16 +41,17 @@ export const PLAYER = {
 	HEIGHT: 16,
 	INTERACT_WIDTH: 6,
 
-	SPEED: 100,
+	SPEED: 135,
 	EDGE_CHECK: 0.1,
 
 	DOWN_JUMP_SPEED: 150,
-	UP_JUMP_SPEED: 85,
+	UP_JUMP_SPEED: 105,
 	DOWN_LAUNCH_ANGLE: 0.349066, // 20 degrees
 	UP_LAUNCH_ANGLE: 1.0472, // 60 degrees
 	// UP_LAUNCH_ANGLE: 1.22173, // 70 degrees
 
-	IDLETIME_THRESHOLD: 0.05, // how long the player needs to be idle to enter idle animation (to prevent switching between walking and idling too rapidly)
+	WALK_ANIM_IDLE_THRESHOLD: 0.05, // how long the player needs to be idle to enter idle animation (to prevent switching between walking and idling too rapidly)
+	CONTROLS_IDLE_THRESHOLD: 1, // how long the plaeyr needs to be idle before the controls are shown
 
 	Z_INDEX: 5
 };

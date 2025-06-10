@@ -306,6 +306,7 @@ export class Player {
 
 	jump(target: Vec2) {
 		this.#inputIsLocked = true;
+		this.#idletime = 0;
 
 		if (target.x < this.position.x) {
 			this.setDirection(-1);

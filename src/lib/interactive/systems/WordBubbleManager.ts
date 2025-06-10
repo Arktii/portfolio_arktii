@@ -135,7 +135,7 @@ export class WordBubbleManager {
 				WORD_BUBBLE.FONT_SIZE,
 				WORD_BUBBLE.Z_INDEX
 			)
-			.width(WORD_BUBBLE.WIDTH - WORD_BUBBLE.PADDING_X)
+			.width(WORD_BUBBLE.WIDTH - 2 * WORD_BUBBLE.PADDING_X)
 			.height(WORD_BUBBLE.HEIGHT)
 			.textColor(textColor);
 	}

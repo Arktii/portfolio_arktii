@@ -37,6 +37,7 @@
 	// import fonts
 	import aldritch from '$lib/fonts/Aldrich-Regular.ttf';
 	import russoOne from '$lib/fonts/RussoOne-Regular.ttf';
+	import pressStart2p from '$lib/fonts/PressStart2P-Regular.ttf';
 
 	import {
 		BUILDING,
@@ -177,6 +178,7 @@
 
 		await preloads.loadFont(p5, 'Aldritch', aldritch);
 		await preloads.loadFont(p5, 'Russo One', russoOne);
+		await preloads.loadFont(p5, 'Press Start 2P', pressStart2p);
 
 		// setup and subscribe to update loop
 		for (let i = 0; i < objects.length; i++) {
@@ -216,31 +218,42 @@
 			);
 		});
 
+		const textColor = context.p5.color(BUILDING.TEXT_COLOR);
+		const strokeColor = context.p5.color(BUILDING.TEXT_OUTLINE_COLOR);
+
 		addFixedRunner((context) => {
 			context.drawing
-				.text(140, 157, 'INTERNSHIP', BUILDING.FONT_SIZE, BUILDING.Z_INDEX)
-				.font(context.preloads.font('Russo One'))
+				.text(138, 157, 'INTERNSHIP', BUILDING.FONT_SIZE, BUILDING.Z_INDEX)
+				.font(context.preloads.font('Press Start 2P'))
+				.stroke(strokeColor, BUILDING.TEXT_OUTLINE_WEIGHT)
+				.textColor(textColor)
 				.textAlign(context.p5.LEFT, context.p5.CENTER);
 		});
 
 		addFixedRunner((context) => {
 			context.drawing
-				.text(33, 205, 'PERSONAL PROJECTS', BUILDING.FONT_SIZE, BUILDING.Z_INDEX)
-				.font(context.preloads.font('Russo One'))
+				.text(35, 205, 'PERSONAL PROJECTS', BUILDING.FONT_SIZE, BUILDING.Z_INDEX)
+				.font(context.preloads.font('Press Start 2P'))
+				.stroke(strokeColor, BUILDING.TEXT_OUTLINE_WEIGHT)
+				.textColor(textColor)
 				.textAlign(context.p5.LEFT, context.p5.CENTER);
 		});
 
 		addFixedRunner((context) => {
 			context.drawing
-				.text(110, 359, 'SCHOOL PROJECTS', BUILDING.FONT_SIZE, BUILDING.Z_INDEX)
-				.font(context.preloads.font('Russo One'))
+				.text(103, 359, 'SCHOOL PROJECTS', BUILDING.FONT_SIZE, BUILDING.Z_INDEX)
+				.font(context.preloads.font('Press Start 2P'))
+				.stroke(strokeColor, BUILDING.TEXT_OUTLINE_WEIGHT)
+				.textColor(textColor)
 				.textAlign(context.p5.LEFT, context.p5.CENTER);
 		});
 
 		addFixedRunner((context) => {
 			context.drawing
-				.text(30, 579, 'LINKS', BUILDING.FONT_SIZE, BUILDING.Z_INDEX)
-				.font(context.preloads.font('Russo One'))
+				.text(32, 579, 'LINKS', BUILDING.FONT_SIZE, BUILDING.Z_INDEX)
+				.font(context.preloads.font('Press Start 2P'))
+				.stroke(strokeColor, BUILDING.TEXT_OUTLINE_WEIGHT)
+				.textColor(textColor)
 				.textAlign(context.p5.LEFT, context.p5.CENTER);
 		});
 	}

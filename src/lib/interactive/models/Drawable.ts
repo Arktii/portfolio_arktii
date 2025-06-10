@@ -224,6 +224,8 @@ export class Text extends Drawable {
 
 	#font?: import('p5').Font;
 	#fontSize: number;
+	#strokeColor?: import('p5').Color;
+	#strokeWeight?: number;
 
 	#horizontalAlign?: import('p5').HORIZ_ALIGN;
 	#verticalAlign?: import('p5').VERT_ALIGN;
@@ -272,6 +274,12 @@ export class Text extends Drawable {
 		return this;
 	}
 
+	stroke(color: import('p5').Color, weight: number): this {
+		this.#strokeColor = color;
+		this.#strokeWeight = weight;
+		return this;
+	}
+
 	draw(context: Context): void {
 		context.p5.push();
 		context.p5.textSize(context.world.toCanvas(this.#fontSize));
@@ -282,6 +290,14 @@ export class Text extends Drawable {
 
 		if (this.#font) {
 			context.p5.textFont(this.#font);
+		}
+
+		if (this.#strokeWeight) {
+			context.p5.strokeWeight(context.world.toCanvas(this.#strokeWeight));
+		}
+
+		if (this.#strokeColor) {
+			context.p5.stroke(this.#strokeColor);
 		}
 
 		if (this.#color) {

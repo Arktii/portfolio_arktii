@@ -221,9 +221,6 @@ export function makeColliderGrid() {
 	fillX(grid, 2, 18, 59);
 	fillX(grid, 2, 19, 62);
 
-	// floor
-	fillX(grid, 0, 21, 69);
-
 	return grid;
 }
 

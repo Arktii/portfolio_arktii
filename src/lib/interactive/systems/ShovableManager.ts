@@ -1,5 +1,5 @@
 import { calculateSingleDisplacementX } from '$lib/utils/Collisions';
-import { FIXED_DELTA_SECS, PHYSICS, POT, POT_COMPUTED } from '../constants';
+import { BUILDING, FIXED_DELTA_SECS, PHYSICS, POT, POT_COMPUTED } from '../constants';
 import type { CollisionSpace } from '../core/CollisionSpace';
 import type { Context } from '../core/Context';
 import type { BoundingBox } from '../models/BoundingBox';
@@ -62,7 +62,9 @@ export class ShovableManager {
 	fixedUpdate(context: Context) {
 		let playerAABB = context.player.calculateAABB();
 
-		for (const y in this.#active) {
+		for (const key in this.#active) {
+			const y = Number(key);
+
 			let sameLevelShovables = this.#active[y];
 
 			for (let i = sameLevelShovables.length - 1; i >= 0; i--) {
@@ -85,7 +87,12 @@ export class ShovableManager {
 				} else {
 					let aabb = item.calculateAABB();
 
-					if (context.colSpace.checkForCollision(item.calculateAABB())) {
+					// delete if falling outside of world
+					if (aabb.top > BUILDING.HEIGHT) {
+						this.deletePot(sameLevelShovables, y, i);
+					}
+					// shatter on collision
+					else if (context.colSpace.checkForCollision(item.calculateAABB())) {
 						let overlap = context.colSpace.calculateOverlap(aabb);
 						// if overlap.y is less than overlap.x, that means the collision is in the y-axis, so shatter
 						if (overlap.y < overlap.x) {
@@ -93,11 +100,7 @@ export class ShovableManager {
 							item.position.y -= overlap.y;
 
 							// if only one element left, delete the entry
-							if (sameLevelShovables.length == 1) {
-								delete this.#active[y];
-							} else {
-								sameLevelShovables.splice(i, 1);
-							}
+							this.deletePot(sameLevelShovables, y, i);
 
 							// shatter pot
 							if (this.#shatterSheet) {
@@ -154,6 +157,14 @@ export class ShovableManager {
 			if (animated.finished) {
 				this.#shattering.splice(i, 1);
 			}
+		}
+	}
+
+	private deletePot(sameLevelShovables: Shovable[], y: number, i: number) {
+		if (sameLevelShovables.length == 1) {
+			delete this.#active[y];
+		} else {
+			sameLevelShovables.splice(i, 1);
 		}
 	}
 

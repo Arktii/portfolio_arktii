@@ -29,7 +29,7 @@ export class Player {
 	#directionInputs: DirectionFlags;
 	#velocity: Vec2;
 
-	#tween?: Tween;
+	#movementTween?: Tween;
 
 	#idletime: number = 0;
 
@@ -117,8 +117,6 @@ export class Player {
 				new SpriteAnimation(await p5.loadImage(jumpDownHoldSheet), 32, 32, 2, 1, 2, 0.125)
 			);
 
-		// TODO: add other animations
-
 		this.#animatedSprite.play('idle');
 	}
 
@@ -150,10 +148,29 @@ export class Player {
 			}
 		}
 
-		if (this.#tween) {
-			this.#tween.update(FIXED_DELTA_SECS);
+		// TODO: if the viewport is scrolled, teleport the player to certain points to keep it in screen
+
+		if (this.#movementTween) {
+			this.#movementTween.update(FIXED_DELTA_SECS);
+
+			const viewportWorldHeight = context.world.toWorld(window.innerHeight);
+
+			const playerViewAABB = new BoundingBox(
+				this.position.x,
+				this.position.x + PLAYER.WIDTH,
+				this.position.y + PLAYER_COMPUTED.HALF_HEIGHT - viewportWorldHeight / 2,
+				this.position.y + PLAYER_COMPUTED.HALF_HEIGHT + viewportWorldHeight / 2
+			);
+
+			const outOfBounds = context.world.calculateViewportOutOfBounds(playerViewAABB);
+			if (outOfBounds.y !== 0) {
+				const targetViewportY = context.world.toAbsolute(new Vec2(0, playerViewAABB.bottom)).y;
+
+				window.scrollTo({ top: targetViewportY - window.innerHeight, behavior: 'smooth' });
+			}
 		}
 
+		// update animation
 		this.#animatedSprite.position = this.position;
 		this.#animatedSprite.update(FIXED_DELTA_SECS);
 		this.#animatedSprite.draw(context);
@@ -274,7 +291,7 @@ export class Player {
 			})
 			.setFinishFunction(() => {
 				this.position = target;
-				this.#tween = undefined;
+				this.#movementTween = undefined;
 				this.#inputIsLocked = false;
 
 				this.#animatedSprite.clearQueue();
@@ -282,7 +299,7 @@ export class Player {
 				this.#animatedSprite.enqueue('idle');
 			});
 
-		this.#tween = tween;
+		this.#movementTween = tween;
 	}
 
 	private updateJumpPosition(start: Vec2, end: Vec2, t: number, calcDeltaY: (x: number) => number) {

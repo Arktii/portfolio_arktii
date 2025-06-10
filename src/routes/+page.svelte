@@ -91,10 +91,10 @@
 		playerImage = await p5.loadImage(playerImg);
 	}
 
-	async function setup(p5: import('p5')) {
+	async function setup(p5: import('p5'), canvas: HTMLCanvasElement) {
 		// testPriorityQueue();
 
-		world = new World();
+		world = new World(canvas);
 		inputs = new Inputs();
 		drawing = new Drawing();
 		eventBus = new EventBus();
@@ -181,7 +181,7 @@
 		}
 
 		p5.resizeCanvas(p5.width, p5.width / BUILDING.ASPECT_RATIO);
-		world.resizeRatio = p5.width / WORLD_SIZE.REFERENCE_WIDTH;
+		world.canvasResizeRatio = p5.width / WORLD_SIZE.REFERENCE_WIDTH;
 	}
 
 	function setupBuildingDrawers() {
@@ -281,7 +281,7 @@
 	}
 
 	function windowResized(p5: import('p5')) {
-		world.resizeRatio = p5.width / WORLD_SIZE.REFERENCE_WIDTH;
+		world.canvasResizeRatio = p5.width / WORLD_SIZE.REFERENCE_WIDTH;
 
 		p5.resizeCanvas(p5.width, world.toCanvas(BUILDING.HEIGHT));
 	}

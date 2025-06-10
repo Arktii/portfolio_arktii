@@ -5,7 +5,7 @@
 	import Fredoka from '$lib/fonts/Fredoka-Regular.ttf';
 
 	export let preload = async (p5: import('p5')) => {};
-	export let setup = async (p5: import('p5')) => {};
+	export let setup = async (p5: import('p5'), canvas: HTMLCanvasElement) => {};
 	export let fixedUpdate = (p5: import('p5')) => {};
 	export let update = (p5: import('p5'), deltaSecs: number) => {};
 	export let windowResized = (p5: import('p5')) => {};
@@ -38,7 +38,7 @@
 		const width = p5.constrain(p5.windowWidth * 0.9, CANVAS_SIZE.MIN_WIDTH, CANVAS_SIZE.MAX_WIDTH);
 		p5.resizeCanvas(width, p5.windowHeight);
 
-		await setup(p5);
+		await setup(p5, (canvas as any).canvas as HTMLCanvasElement);
 	}
 
 	function draw(p5: import('p5')) {

@@ -201,7 +201,7 @@ export class InteractionManager {
 		);
 		this.addInteractArea(19, 20, 3, clickArea);
 
-		var clickArea = this.addClickArea(new BoundingBox(221.5, 233.5, 46.5, 90.5), 'More\n(New Tab)');
+		var clickArea = this.addClickArea(new BoundingBox(221.5, 233.5, 46.5, 90.5), 'More (New Tab)');
 		this.addInteractArea(21, 21, 3, clickArea);
 
 		// engines
@@ -351,7 +351,7 @@ export class InteractionManager {
 
 		var clickArea = this.addClickArea(
 			new BoundingBox(132.5, 157.5, 635.5, 660.5),
-			'View Messenger / Facebook (New Tab)',
+			'View Messenger (New Tab)',
 			(context) => {
 				window.open(import.meta.env.VITE_MESSENGER_LINK, '_blank');
 			},

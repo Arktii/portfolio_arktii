@@ -66,12 +66,12 @@ export class ClickArea {
 				INTERACTION_DISPLAY.WIDTH,
 				INTERACTION_DISPLAY.HEIGHT,
 				this.#mainText,
-				5,
+				INTERACTION_DISPLAY.FONT_SIZE,
 				INTERACTION_DISPLAY.PLAYER_HOVER_Z_INDEX
 			)
 			.font(context.preloads.font('Aldrich'))
 			.textColor(context.p5.color('rgb(255, 255, 255)'))
-			.stroke(context.p5.color('rgb(0, 0, 0)'), 1)
+			.stroke(context.p5.color('rgb(0, 0, 0)'), INTERACTION_DISPLAY.OUTLINE_WEIGHT)
 			.xAlign('left');
 
 		if (this.#secondaryAction) {
@@ -85,31 +85,30 @@ export class ClickArea {
 					INTERACTION_DISPLAY.WIDTH,
 					INTERACTION_DISPLAY.HEIGHT,
 					this.#secondaryText,
-					5,
+					INTERACTION_DISPLAY.FONT_SIZE,
 					INTERACTION_DISPLAY.PLAYER_HOVER_Z_INDEX
 				)
 				.font(context.preloads.font('Aldrich'))
 				.textColor(context.p5.color('rgb(255, 255, 255)'))
-				.stroke(context.p5.color('rgb(0, 0, 0)'), 1)
+				.stroke(context.p5.color('rgb(0, 0, 0)'), INTERACTION_DISPLAY.OUTLINE_WEIGHT)
 				.xAlign('left');
 		}
 	}
 
 	mouseHover(context: Context) {
-		const width = this.aabb.right - this.aabb.left;
-		const height = this.aabb.bottom - this.aabb.top;
+		const left = context.world.toWorld(context.p5.mouseX) + INTERACTION_DISPLAY.MOUSE_OFFSET_X;
 
-		let mainY = this.aabb.top;
-		if (this.#secondaryAction) {
-			mainY = this.aabb.top - INTERACTION_DISPLAY.MULTIPLE_OPTIONS_GAP / 2;
-		}
+		let mainY =
+			context.world.toWorld(context.p5.mouseY) -
+			INTERACTION_DISPLAY.HEIGHT +
+			INTERACTION_DISPLAY.MOUSE_OFFSET_Y;
 
 		context.drawing
 			.iconText(
-				this.aabb.left,
+				left,
 				mainY,
-				width,
-				height,
+				INTERACTION_DISPLAY.WIDTH,
+				INTERACTION_DISPLAY.HEIGHT,
 				context.preloads.image('mouse1'),
 				INTERACTION_DISPLAY.WIDTH,
 				INTERACTION_DISPLAY.HEIGHT,
@@ -122,15 +121,16 @@ export class ClickArea {
 			.stroke(
 				context.p5.color(INTERACTION_DISPLAY.OUTLINE_COLOR),
 				INTERACTION_DISPLAY.OUTLINE_WEIGHT
-			);
+			)
+			.xAlign('left');
 
 		if (this.#secondaryAction) {
 			context.drawing
 				.iconText(
-					this.aabb.left,
-					mainY + INTERACTION_DISPLAY.MULTIPLE_OPTIONS_GAP,
-					width,
-					height,
+					left,
+					mainY - INTERACTION_DISPLAY.MULTIPLE_OPTIONS_GAP,
+					INTERACTION_DISPLAY.WIDTH,
+					INTERACTION_DISPLAY.HEIGHT,
 					context.preloads.image('mouse2'),
 					INTERACTION_DISPLAY.WIDTH,
 					INTERACTION_DISPLAY.HEIGHT,
@@ -140,7 +140,8 @@ export class ClickArea {
 				)
 				.font(context.preloads.font('Aldrich'))
 				.textColor(context.p5.color('rgb(255, 255, 255)'))
-				.stroke(context.p5.color('rgb(0, 0, 0)'), INTERACTION_DISPLAY.OUTLINE_WEIGHT);
+				.stroke(context.p5.color('rgb(0, 0, 0)'), INTERACTION_DISPLAY.OUTLINE_WEIGHT)
+				.xAlign('left');
 		}
 	}
 

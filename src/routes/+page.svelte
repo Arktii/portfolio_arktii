@@ -237,8 +237,10 @@
 				.font(context.preloads.font('Russo One'))
 				.textAlign(context.p5.LEFT, context.p5.CENTER);
 		});
+	}
 
-		// TODO: move out to dev functions or something similar
+	// draws ui to assist in development
+	function setupDevDisplayDrawers() {
 		addFixedRunner((context) => {
 			let playerAABB = player.calculateInteractAABB();
 			context.drawing

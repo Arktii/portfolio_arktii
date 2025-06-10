@@ -148,26 +148,10 @@ export class Player {
 			}
 		}
 
-		// TODO: if the viewport is scrolled, teleport the player to certain points to keep it in screen
-
 		if (this.#movementTween) {
 			this.#movementTween.update(FIXED_DELTA_SECS);
 
-			const viewportWorldHeight = context.world.toWorld(window.innerHeight);
-
-			const playerViewAABB = new BoundingBox(
-				this.position.x,
-				this.position.x + PLAYER.WIDTH,
-				this.position.y + PLAYER_COMPUTED.HALF_HEIGHT - viewportWorldHeight / 2,
-				this.position.y + PLAYER_COMPUTED.HALF_HEIGHT + viewportWorldHeight / 2
-			);
-
-			const outOfBounds = context.world.calculateViewportOutOfBounds(playerViewAABB);
-			if (outOfBounds.y !== 0) {
-				const targetViewportY = context.world.toAbsolute(new Vec2(0, playerViewAABB.bottom)).y;
-
-				window.scrollTo({ top: targetViewportY - window.innerHeight, behavior: 'smooth' });
-			}
+			this.scrollToPlayer(context);
 		}
 
 		// update animation
@@ -244,6 +228,24 @@ export class Player {
 					this.position.x -= playerRight % colSpace.cellSize;
 				}
 			}
+		}
+	}
+
+	private scrollToPlayer(context: Context) {
+		const viewportWorldHeight = context.world.toWorld(window.innerHeight);
+
+		const playerViewAABB = new BoundingBox(
+			this.position.x,
+			this.position.x + PLAYER.WIDTH,
+			this.position.y + PLAYER_COMPUTED.HALF_HEIGHT - viewportWorldHeight / 2,
+			this.position.y + PLAYER_COMPUTED.HALF_HEIGHT + viewportWorldHeight / 2
+		);
+
+		const outOfBounds = context.world.calculateViewportOutOfBounds(playerViewAABB);
+		if (outOfBounds.y !== 0) {
+			const targetViewportY = context.world.toAbsolute(new Vec2(0, playerViewAABB.bottom)).y;
+
+			window.scrollTo({ top: targetViewportY - window.innerHeight, behavior: 'smooth' });
 		}
 	}
 

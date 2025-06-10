@@ -5,18 +5,12 @@ import { MoveArea, Target } from '../models/MoveArea';
 import type { Player } from '../models/Player';
 import { Vec2 } from '../models/Vec2';
 
-import upKeyImg from '$lib/images/icons/keyW.png';
-import downKeyImg from '$lib/images/icons/keyS.png';
-import hereArrowImg from '$lib/images/icons/hereArrow.png';
-
 export class MoveAreaManager {
 	colSpace: CollisionSpace;
 
 	#moveAreas: MoveArea[] = [];
 
 	#hereArrowImage?: import('p5').Image;
-	#upKeyImage?: import('p5').Image;
-	#downKeyImage?: import('p5').Image;
 
 	#indicatorOffset: number = 0;
 	#indicatorDirection: -1 | 1 = -1;
@@ -26,12 +20,145 @@ export class MoveAreaManager {
 	}
 
 	async setup(context: Context) {
-		this.#upKeyImage = await context.p5.loadImage(upKeyImg);
-		this.#downKeyImage = await context.p5.loadImage(downKeyImg);
-		this.#hereArrowImage = await context.p5.loadImage(hereArrowImg);
+		this.setupMoveAreas();
+	}
 
+	addArea(xStart: number, xEnd: number, y: number, downTarget?: Target, upTarget?: Target) {
+		let newArea = new MoveArea(this.colSpace.cellSize, xStart, xEnd, y, downTarget, upTarget);
+
+		if (this.#moveAreas.length == 0) {
+			this.#moveAreas.push(newArea);
+		} else {
+			// insert sorted by y
+			for (let i = this.#moveAreas.length - 1; i >= 0; i--) {
+				if (this.#moveAreas[i].aabb.bottom <= newArea.aabb.bottom) {
+					this.#moveAreas.splice(i + 1, 0, newArea);
+					break;
+				}
+			}
+		}
+	}
+
+	fixedUpdate(context: Context) {
+		if (context.player.inputIsLocked) {
+			return;
+		}
+
+		let p5 = context.p5;
+		let playerAABB = context.player.calculateInteractAABB();
+
+		// detect player
+		for (let i = 0; i < this.#moveAreas.length; i++) {
+			let moveArea = this.#moveAreas[i];
+			if (moveArea.aabb.colliding(playerAABB)) {
+				if (moveArea.downTarget) {
+					let target = this.calculateTarget(
+						context.player,
+						moveArea.downTarget.offset,
+						moveArea.downTarget.xLimitStart,
+						moveArea.downTarget.xLimitEnd,
+						moveArea.downTarget.multiplyXByDirection
+					);
+
+					this.drawIndicator(context, target, false);
+
+					// @ts-ignore (typescript definitions aren't up to date with p5 version)
+					if (p5.keyIsDown('s') && !context.player.inputIsLocked) {
+						context.player.jump(new Vec2(target.x, target.y));
+						break;
+					}
+				}
+				if (moveArea.upTarget) {
+					let target = this.calculateTarget(
+						context.player,
+						moveArea.upTarget.offset,
+						moveArea.upTarget.xLimitStart,
+						moveArea.upTarget.xLimitEnd,
+						moveArea.upTarget.multiplyXByDirection
+					);
+
+					this.drawIndicator(context, target, true);
+
+					// @ts-ignore (typescript definitions aren't up to date with p5 version)
+					if (p5.keyIsDown('w') && !context.player.inputIsLocked) {
+						context.player.jump(target);
+						break;
+					}
+				}
+				if (moveArea.upTarget || moveArea.downTarget) {
+					break;
+				}
+			}
+		}
+
+		// update indicator offset
+		this.updateIndicators();
+	}
+
+	private updateIndicators() {
+		this.#indicatorOffset += FIXED_DELTA_SECS * INDICATORS.MOVE_SPEED * this.#indicatorDirection;
+		if (this.#indicatorOffset > INDICATORS.MAX_OFFSET) {
+			this.#indicatorOffset = INDICATORS.MAX_OFFSET;
+			this.#indicatorDirection = -1;
+		} else if (this.#indicatorOffset < -INDICATORS.MAX_OFFSET) {
+			this.#indicatorOffset = -INDICATORS.MAX_OFFSET;
+			this.#indicatorDirection = 1;
+		}
+	}
+
+	private calculateTarget(
+		player: Player,
+		offset: Vec2,
+		xLimitStart: number | undefined,
+		xLimitEnd: number | undefined,
+		multiplyXByDirection: boolean
+	): Vec2 {
+		let direction = multiplyXByDirection ? player.direction : 1;
+
+		let target = new Vec2(player.position.x + offset.x * direction, player.position.y + offset.y);
+
+		if (xLimitStart !== undefined) target.x = Math.max(target.x, xLimitStart);
+		if (xLimitEnd !== undefined) target.x = Math.min(target.x, xLimitEnd);
+
+		let targetX = target.x;
+		let targetY = target.y;
+
+		return new Vec2(targetX, targetY);
+	}
+
+	private drawIndicator(context: Context, target: Vec2, up: boolean) {
+		let keyImage;
+		if (up) {
+			keyImage = context.preloads.image('keyW');
+		} else {
+			keyImage = context.preloads.image('keyS');
+		}
+
+		let x = target.x - INDICATORS.WIDTH + PLAYER.SPRITE_WIDTH / 2;
+		let y = target.y + (PLAYER.SPRITE_HEIGHT - PLAYER.HEIGHT) - INDICATORS.MAX_OFFSET;
+
+		context.drawing.image(
+			keyImage,
+			x,
+			y - 2 * INDICATORS.HEIGHT - INDICATORS.SPACING - INDICATORS.MAX_OFFSET,
+			INDICATORS.WIDTH,
+			INDICATORS.HEIGHT,
+			false,
+			INDICATORS.Z_INDEX
+		);
+		context.drawing.image(
+			context.preloads.image('hereArrow'),
+			x,
+			y - INDICATORS.HEIGHT + this.#indicatorOffset,
+			INDICATORS.WIDTH,
+			INDICATORS.HEIGHT,
+			false,
+			INDICATORS.Z_INDEX
+		);
+	}
+
+	private setupMoveAreas() {
 		// NOTE: for consistency, keep cat max. upwards jump at 5 and max. drop at 7
-
 		// roof
 		this.addArea(2, 12, 3, new Target(2, 3, 2, 10));
 
@@ -115,125 +242,5 @@ export class MoveAreaManager {
 		this.addArea(2, 10, 58, new Target(0, 3), new Target(0, -3, 2, 8));
 		this.addArea(10, 18, 58, new Target(0, 3));
 		this.addArea(2, 19, 61, undefined, new Target(0, -3, 2, 17));
-	}
-
-	addArea(xStart: number, xEnd: number, y: number, downTarget?: Target, upTarget?: Target) {
-		this.#moveAreas.push(
-			new MoveArea(this.colSpace.cellSize, xStart, xEnd, y, downTarget, upTarget)
-		);
-	}
-
-	fixedUpdate(context: Context) {
-		if (context.player.inputIsLocked) {
-			return;
-		}
-
-		let p5 = context.p5;
-		let playerAABB = context.player.calculateInteractAABB();
-
-		// detect player
-		for (let i = 0; i < this.#moveAreas.length; i++) {
-			let moveArea = this.#moveAreas[i];
-			if (moveArea.aabb.colliding(playerAABB)) {
-				if (moveArea.downTarget) {
-					let target = this.calculateTarget(
-						context.player,
-						moveArea.downTarget.offset,
-						moveArea.downTarget.xLimitStart,
-						moveArea.downTarget.xLimitEnd,
-						moveArea.downTarget.multiplyXByDirection
-					);
-
-					this.drawIndicator(context, target, false);
-
-					// @ts-ignore (typescript definitions aren't up to date with p5 version)
-					if (p5.keyIsDown('s') && !context.player.inputIsLocked) {
-						context.player.jump(new Vec2(target.x, target.y));
-						break;
-					}
-				}
-				if (moveArea.upTarget) {
-					let target = this.calculateTarget(
-						context.player,
-						moveArea.upTarget.offset,
-						moveArea.upTarget.xLimitStart,
-						moveArea.upTarget.xLimitEnd,
-						moveArea.upTarget.multiplyXByDirection
-					);
-
-					this.drawIndicator(context, target, true);
-
-					// @ts-ignore (typescript definitions aren't up to date with p5 version)
-					if (p5.keyIsDown('w') && !context.player.inputIsLocked) {
-						context.player.jump(target);
-						break;
-					}
-				}
-				if (moveArea.upTarget || moveArea.downTarget) {
-					break;
-				}
-			}
-		}
-
-		// update indicator offset
-		this.#indicatorOffset += FIXED_DELTA_SECS * INDICATORS.MOVE_SPEED * this.#indicatorDirection;
-		if (this.#indicatorOffset > INDICATORS.MAX_OFFSET) {
-			this.#indicatorOffset = INDICATORS.MAX_OFFSET;
-			this.#indicatorDirection = -1;
-		} else if (this.#indicatorOffset < -INDICATORS.MAX_OFFSET) {
-			this.#indicatorOffset = -INDICATORS.MAX_OFFSET;
-			this.#indicatorDirection = 1;
-		}
-	}
-
-	private calculateTarget(
-		player: Player,
-		offset: Vec2,
-		xLimitStart: number | undefined,
-		xLimitEnd: number | undefined,
-		multiplyXByDirection: boolean
-	): Vec2 {
-		let direction = multiplyXByDirection ? player.direction : 1;
-
-		let target = new Vec2(player.position.x + offset.x * direction, player.position.y + offset.y);
-
-		if (xLimitStart !== undefined) target.x = Math.max(target.x, xLimitStart);
-		if (xLimitEnd !== undefined) target.x = Math.min(target.x, xLimitEnd);
-
-		let targetX = target.x;
-		let targetY = target.y;
-
-		return new Vec2(targetX, targetY);
-	}
-
-	private drawIndicator(context: Context, target: Vec2, up: boolean) {
-		let keyImage;
-		if (up) {
-			keyImage = this.#upKeyImage;
-		} else {
-			keyImage = this.#downKeyImage;
-		}
-
-		let x = target.x - INDICATORS.WIDTH + PLAYER.SPRITE_WIDTH / 2;
-		let y = target.y + (PLAYER.SPRITE_HEIGHT - PLAYER.HEIGHT) - INDICATORS.MAX_OFFSET;
-
-		context.drawing.image(
-			keyImage,
-			x,
-			y - 2 * INDICATORS.HEIGHT - INDICATORS.SPACING - INDICATORS.MAX_OFFSET,
-			INDICATORS.WIDTH,
-			INDICATORS.HEIGHT,
-			false,
-			INDICATORS.Z_INDEX
-		);
-		context.drawing.image(
-			this.#hereArrowImage,
-			x,
-			y - INDICATORS.HEIGHT + this.#indicatorOffset,
-			INDICATORS.WIDTH,
-			INDICATORS.HEIGHT,
-			false,
-			INDICATORS.Z_INDEX
-		);
 	}
 }

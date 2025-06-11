@@ -1,5 +1,6 @@
 import { FIXED_DELTA_SECS, INDICATORS, PLAYER, RAT, RAT_COMPUTED } from '../constants';
 import type { Context } from '../core/Context';
+import { BoundingBox } from './BoundingBox';
 import { Mobile } from './Mobile';
 import type { Vec2 } from './Vec2';
 
@@ -8,7 +9,15 @@ export class Rat extends Mobile {
 	direction: -1 | 1 = 1;
 	sprite: import('p5').Image;
 	captured: boolean = false;
+
 	#speed: number = RAT.WALK_SPEED;
+	#beingChased: boolean = false;
+	/** blocked either by an edge or a wall */
+	#blocked: boolean = false;
+
+	#stoppedTime: number = 0;
+	#panicTimeLeft: number = 0;
+	#jumpCooldown: number = 0;
 
 	constructor(position: Vec2, sprite: import('p5').Image) {
 		super(position, RAT.WIDTH, RAT.HEIGHT);
@@ -16,16 +25,65 @@ export class Rat extends Mobile {
 		this.sprite = sprite;
 	}
 
+	/**
+	 * the hitbox for interactions
+	 */
+	calculateInteractAABB(): BoundingBox {
+		// i think this more explicit form is a bit easier to read than adding in an offset
+		if (this.direction > 0) {
+			return BoundingBox.fromRect(
+				this.position.x + RAT_COMPUTED.INTERACT_WIDTH_DIFF,
+				this.position.y,
+				PLAYER.INTERACT_WIDTH,
+				PLAYER.HEIGHT
+			);
+		} else {
+			return BoundingBox.fromRect(
+				this.position.x,
+				this.position.y,
+				PLAYER.INTERACT_WIDTH,
+				PLAYER.HEIGHT
+			);
+		}
+	}
+
 	fixedUpdate(context: Context) {
 		if (!this.movementTween) {
 			if (this.collidingWithPlayerX(context)) {
 				this.capture(context);
 			} else {
+				this.updateBeingChased(context);
+
+				if (this.#beingChased) {
+					this.#panicTimeLeft = RAT.PANIC_TIME;
+				}
+
+				if (this.#panicTimeLeft > 0) {
+					this.#panicTimeLeft -= FIXED_DELTA_SECS;
+					this.drawPanicIndicator(context);
+				}
+
+				if (this.#jumpCooldown > 0) {
+					this.#jumpCooldown -= FIXED_DELTA_SECS;
+				}
+
 				this.moveHorizontally(context);
 
 				this.applyGravity();
 
 				this.updatePosition(context);
+
+				if (this.velocity.x == 0) {
+					this.#stoppedTime += FIXED_DELTA_SECS;
+				} else {
+					this.#stoppedTime = 0;
+				}
+
+				if (this.#stoppedTime > RAT.STOPPED_THRESHOLD) {
+					this.#blocked = true;
+				} else {
+					this.#blocked = false;
+				}
 			}
 		} else {
 			this.movementTween.update(FIXED_DELTA_SECS);
@@ -49,48 +107,64 @@ export class Rat extends Mobile {
 		return playerAABB.colliding(aabb);
 	}
 
-	moveHorizontally(context: Context) {
-		let beingChased;
+	updateBeingChased(context: Context) {
 		if (
-			// player is too higher or too low
 			Math.abs(context.player.position.y + PLAYER.HEIGHT - this.position.y - RAT.HEIGHT) >
 			RAT.PLAYER_DETECTION_Y
 		) {
-			beingChased = false;
+			// player is too higher or too low
+			this.#beingChased = false;
 		} else if (context.player.position.x < this.position.x) {
 			// player is to the left of this
-			beingChased =
+			this.#beingChased =
 				this.position.x - (context.player.position.x + context.player.width) <
 				RAT.PLAYER_DETECTION_X;
 		} else {
 			// player is to the right of this
-			beingChased =
+			this.#beingChased =
 				context.player.position.x - (this.position.x + this.width) < RAT.PLAYER_DETECTION_X;
 		}
+	}
 
-		if (beingChased) {
-			const dirAwayFromPlayer = context.player.position.x < this.position.x ? 1 : -1;
-			this.setDirection(dirAwayFromPlayer);
+	moveHorizontally(context: Context) {
+		if (this.#panicTimeLeft > 0) {
 			this.#speed = RAT.RUN_SPEED;
-
-			this.drawIndicator(context);
-
-			if (this.walkingAgainstEdge) {
-				// TODO: try to jump
-			}
 		} else {
 			this.#speed = RAT.WALK_SPEED;
+		}
 
-			if (this.walkingAgainstEdge) {
-				// @ts-expect-error (direction can be inverted and still be -1 or 1)
-				this.setDirection(-this.direction);
-				this.walkingAgainstEdge = false;
+		if (this.#beingChased) {
+			const dirAwayFromPlayer = context.player.position.x < this.position.x ? 1 : -1;
+			this.setDirection(dirAwayFromPlayer);
+
+			// TODO? add randomness so rat has small chance to jump even if not at edge?
+
+			if (this.#blocked && this.#jumpCooldown <= 0) {
+				// try to jump
+				const moveArea = context.moveAreaManager.checkForMoveArea(this.calculateInteractAABB());
+
+				if (moveArea) {
+					// TODO? add randomness? for which to check first?
+					if (moveArea.downTarget) {
+						const downTargetWorld = moveArea.calculateDownTarget(this)!;
+						this.jump(downTargetWorld);
+					} else if (moveArea.upTarget) {
+						const upTargetWorld = moveArea.calculateUpTarget(this)!;
+						this.jump(upTargetWorld);
+					}
+
+					this.#blocked = false;
+				}
 			}
+		} else if (this.#blocked) {
+			// @ts-expect-error (direction can be inverted and still be -1 or 1)
+			this.setDirection(-this.direction);
+			this.#blocked = false;
 		}
 		this.velocity.x = this.#speed * this.direction;
 	}
 
-	drawIndicator(context: Context) {
+	drawPanicIndicator(context: Context) {
 		context.drawing.image(
 			context.preloads.image('scaredMark'),
 			this.position.x + (RAT.WIDTH - RAT.INDICATOR_WIDTH) / 2,
@@ -107,5 +181,16 @@ export class Rat extends Mobile {
 		this.captured = true;
 
 		context.eventBus.publish('ratCaptured');
+	}
+
+	override jump(target: Vec2) {
+		this.#stoppedTime = 0;
+		this.#blocked = false;
+
+		super.jump(target);
+	}
+
+	protected override tweenOnFinishExtraActions(): void {
+		this.#jumpCooldown = RAT.JUMP_COOLDOWN;
 	}
 }

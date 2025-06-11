@@ -45,10 +45,6 @@ export class Player extends Mobile {
 		return this.#inputIsLocked;
 	}
 
-	getDirection() {
-		return this.direction;
-	}
-
 	/**
 	 * the hitbox for interactions
 	 */

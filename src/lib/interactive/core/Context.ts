@@ -5,6 +5,7 @@ import type { World } from './World';
 import type { Player } from '../models/Player';
 import type { Inputs } from './Inputs';
 import { Preloads } from './Preloads';
+import type { MoveAreaManager } from '../systems/MovementAreaManager';
 
 /**
  * A class for encompassing all of the necessary dependencies for easy injection
@@ -18,6 +19,7 @@ export class Context {
 	eventBus: EventBus;
 	player: Player;
 	preloads: Preloads;
+	moveAreaManager: MoveAreaManager;
 
 	constructor(
 		p5: import('p5'),
@@ -27,7 +29,8 @@ export class Context {
 		colSpace: CollisionSpace,
 		eventBus: EventBus,
 		player: Player,
-		preloads: Preloads
+		preloads: Preloads,
+		moveAreaManager: MoveAreaManager
 	) {
 		this.p5 = p5;
 		this.world = world;
@@ -37,5 +40,6 @@ export class Context {
 		this.eventBus = eventBus;
 		this.player = player;
 		this.preloads = preloads;
+		this.moveAreaManager = moveAreaManager;
 	}
 }

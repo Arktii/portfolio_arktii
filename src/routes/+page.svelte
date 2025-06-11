@@ -74,6 +74,7 @@
 	import { FixedUpdateRunner } from '$lib/interactive/models/FixedUpdateRunner';
 	import { Preloads } from '$lib/interactive/core/Preloads';
 	import { RatManager } from '$lib/interactive/systems/RatManager';
+	import { COLORS } from '$lib/interactive/colors';
 
 	let buildingImage: p5.Image;
 	let buildingFgImage: p5.Image;
@@ -88,11 +89,6 @@
 	let preloads: Preloads;
 
 	let eventBus: EventBus;
-
-	let moveAreaManager: MoveAreaManager;
-	let shovableManager: ShovableManager;
-	let interactionManager: InteractionManager;
-	let wordBubbleManager: WordBubbleManager;
 
 	let objects: any[] = [];
 
@@ -118,24 +114,27 @@
 		);
 		player = new Player(new Vec2(WORLD_SIZE.REFERENCE_WIDTH / 2 - PLAYER_COMPUTED.HALF_WIDTH, 20));
 		preloads = new Preloads();
+		const moveAreaManager = register(new MoveAreaManager(colSpace));
 
-		context = new Context(p5, world, inputs, drawing, colSpace, eventBus, player, preloads);
+		context = new Context(
+			p5,
+			world,
+			inputs,
+			drawing,
+			colSpace,
+			eventBus,
+			player,
+			preloads,
+			moveAreaManager
+		);
 
-		// TODO: instantiate these if they don't belong in context
-		moveAreaManager = new MoveAreaManager(colSpace);
-		interactionManager = new InteractionManager(colSpace);
-		shovableManager = new ShovableManager();
-		wordBubbleManager = new WordBubbleManager();
+		register(player);
+		register(new InteractionManager(colSpace));
+		register(new ShovableManager());
+		register(new WordBubbleManager());
+		register(new RatManager());
 
-		instantiate(new RatManager());
-
-		// TODO: Move duration out to constants
-		objects.push(player);
-		objects.push(moveAreaManager);
-		objects.push(interactionManager);
-		objects.push(shovableManager);
-		objects.push(wordBubbleManager);
-		objects.push(
+		register(
 			new TvScreen(
 				[
 					new TvDisplay(0, 54, 210, 101, 80, TV.GLOW_GROW),
@@ -159,7 +158,7 @@
 				TV.IMAGE_DURATION
 			)
 		);
-		objects.push(
+		register(
 			new TvScreen(
 				[
 					new TvDisplay(4, 95, 460, 100, 70, TV.GLOW_GROW),
@@ -201,7 +200,6 @@
 		await preloads.loadImage(p5, 'arrowRight', arrowRight);
 		await preloads.loadImage(p5, 'scaredMark', scaredMark);
 
-		// TODO: change to rat image
 		await preloads.loadImage(p5, 'ratUnity', ratUnity);
 		await preloads.loadImage(p5, 'ratGodot', ratGodot);
 		await preloads.loadImage(p5, 'ratBevy', ratBevy);
@@ -215,10 +213,6 @@
 			let item = objects[i];
 			if (item.setup) {
 				await item.setup(context);
-			}
-
-			if (item.fixedUpdate) {
-				eventBus.subscribe('fixedUpdate', item.fixedUpdate.bind(item));
 			}
 		}
 
@@ -300,8 +294,8 @@
 					playerAABB.bottom - playerAABB.top,
 					PLAYER.Z_INDEX + 1
 				)
-				.fillColor(context.p5.color('rgba(0, 0, 0, 0)'))
-				.stroke(context.p5.color('rgb(0, 0, 0)'), 0.5);
+				.fillColor(context.p5.color(COLORS.TRANSPARENT))
+				.stroke(context.p5.color(COLORS.BLACK), 0.5);
 		});
 
 		addFixedRunner((context) => {
@@ -317,11 +311,17 @@
 	}
 
 	function addFixedRunner(toRun: (context: Context) => void) {
-		instantiate(new FixedUpdateRunner(toRun));
+		register(new FixedUpdateRunner(toRun));
 	}
 
-	function instantiate(object: any) {
+	function register(object: any): any {
 		objects.push(object);
+
+		if (object.fixedUpdate) {
+			eventBus.subscribe('fixedUpdate', object.fixedUpdate.bind(object));
+		}
+
+		return object;
 	}
 
 	function fixedUpdate(p5: import('p5')) {
@@ -372,7 +372,7 @@
 	}
 </script>
 
-<main class="bg-[url({bgNightSky})] bg-repeat">
+<main class="bg-[url(src/lib/images/background/night-sky.png)] bg-repeat">
 	<p>Top of the screen</p>
 
 	<div class="mx-auto w-fit">

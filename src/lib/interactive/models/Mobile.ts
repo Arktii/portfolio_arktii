@@ -12,7 +12,6 @@ export abstract class Mobile {
 	velocity: Vec2 = Vec2.zero();
 
 	protected direction: -1 | 1 = 1;
-	protected walkingAgainstEdge: boolean = false;
 
 	movementTween?: Tween;
 
@@ -22,8 +21,12 @@ export abstract class Mobile {
 		this.height = height;
 	}
 
-	protected setDirection(direction: -1 | 1) {
+	setDirection(direction: -1 | 1) {
 		this.direction = direction;
+	}
+
+	getDirection() {
+		return this.direction;
 	}
 
 	calculateAABB(): BoundingBox {
@@ -76,9 +79,6 @@ export abstract class Mobile {
 				if (!colSpace.checkPointCollision(point)) {
 					this.velocity.x = 0;
 					this.position.x += colSpace.cellSize - (playerLeft % colSpace.cellSize);
-					this.walkingAgainstEdge = true;
-				} else {
-					this.walkingAgainstEdge = false;
 				}
 			}
 			// walking right
@@ -91,13 +91,8 @@ export abstract class Mobile {
 				if (!colSpace.checkPointCollision(point)) {
 					this.velocity.x = 0;
 					this.position.x -= playerRight % colSpace.cellSize;
-					this.walkingAgainstEdge = true;
-				} else {
-					this.walkingAgainstEdge = false;
 				}
 			}
-		} else {
-			this.walkingAgainstEdge = false;
 		}
 	}
 

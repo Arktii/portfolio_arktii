@@ -1,8 +1,8 @@
 import { FIXED_DELTA_SECS, INDICATORS, PLAYER } from '../constants';
 import type { CollisionSpace } from '../core/CollisionSpace';
 import type { Context } from '../core/Context';
+import type { BoundingBox } from '../models/BoundingBox';
 import { MoveArea, Target } from '../models/MoveArea';
-import type { Player } from '../models/Player';
 import { Vec2 } from '../models/Vec2';
 
 export class MoveAreaManager {
@@ -37,6 +37,73 @@ export class MoveAreaManager {
 		}
 	}
 
+	checkForMoveArea(aabb: BoundingBox): MoveArea | null {
+		let index = this.findIntersectingYIndex(aabb);
+
+		console.log(index);
+
+		if (index == -1) {
+			return null;
+		}
+
+		let intersectingY = [this.#moveAreas[index]];
+		// check to the right
+		for (let i = index + 1; i < this.#moveAreas.length; i++) {
+			const moveArea = this.#moveAreas[i];
+			if (moveArea.aabb.collidingY(aabb)) {
+				intersectingY.push(moveArea);
+			} else {
+				break;
+			}
+		}
+
+		// check to the left
+		for (let i = index - 1; i >= 0; i--) {
+			const moveArea = this.#moveAreas[i];
+			if (moveArea.aabb.collidingY(aabb)) {
+				intersectingY.push(moveArea);
+			} else {
+				break;
+			}
+		}
+
+		for (let i = 0; i < intersectingY.length; i++) {
+			const moveArea = intersectingY[i];
+			if (moveArea.aabb.collidingX(aabb)) {
+				return moveArea;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * uses binary search to find the index of a moveArea with an intersecting y.
+	 *
+	 * this is not necessarily the first or last moveArea
+	 */
+	private findIntersectingYIndex(aabb: BoundingBox): number {
+		let leftIndex = 0;
+		let rightIndex = this.#moveAreas.length; // right index is exclusive
+		let mid;
+
+		while (leftIndex < rightIndex) {
+			mid = Math.floor((leftIndex + rightIndex) / 2);
+
+			const moveArea = this.#moveAreas[mid];
+			if (moveArea.aabb.collidingY(aabb)) {
+				return mid;
+			}
+			if (aabb.top >= moveArea.aabb.top) {
+				leftIndex = mid + 1;
+			} else {
+				rightIndex = mid;
+			}
+		}
+
+		return -1;
+	}
+
 	fixedUpdate(context: Context) {
 		if (context.player.inputIsLocked) {
 			return;
@@ -47,39 +114,26 @@ export class MoveAreaManager {
 
 		// detect player
 		for (let i = 0; i < this.#moveAreas.length; i++) {
-			let moveArea = this.#moveAreas[i];
+			const moveArea = this.#moveAreas[i];
 			if (moveArea.aabb.colliding(playerAABB)) {
-				if (moveArea.downTarget) {
-					let target = this.calculateTarget(
-						context.player,
-						moveArea.downTarget.offset,
-						moveArea.downTarget.xLimitStart,
-						moveArea.downTarget.xLimitEnd,
-						moveArea.downTarget.multiplyXByDirection
-					);
-
-					this.drawIndicator(context, target, false);
+				const downTargetWorld = moveArea.calculateDownTarget(context.player);
+				if (downTargetWorld) {
+					this.drawIndicator(context, downTargetWorld, false);
 
 					// @ts-ignore (typescript definitions aren't up to date with p5 version)
 					if (p5.keyIsDown('s') && !context.player.inputIsLocked) {
-						context.player.jump(new Vec2(target.x, target.y));
+						context.player.jump(downTargetWorld);
 						break;
 					}
 				}
-				if (moveArea.upTarget) {
-					let target = this.calculateTarget(
-						context.player,
-						moveArea.upTarget.offset,
-						moveArea.upTarget.xLimitStart,
-						moveArea.upTarget.xLimitEnd,
-						moveArea.upTarget.multiplyXByDirection
-					);
 
-					this.drawIndicator(context, target, true);
+				const upTargetWorld = moveArea.calculateUpTarget(context.player);
+				if (upTargetWorld) {
+					this.drawIndicator(context, upTargetWorld, true);
 
 					// @ts-ignore (typescript definitions aren't up to date with p5 version)
 					if (p5.keyIsDown('w') && !context.player.inputIsLocked) {
-						context.player.jump(target);
+						context.player.jump(upTargetWorld);
 						break;
 					}
 				}
@@ -104,25 +158,25 @@ export class MoveAreaManager {
 		}
 	}
 
-	private calculateTarget(
-		player: Player,
-		offset: Vec2,
-		xLimitStart: number | undefined,
-		xLimitEnd: number | undefined,
-		multiplyXByDirection: boolean
-	): Vec2 {
-		let direction = multiplyXByDirection ? player.direction : 1;
+	// private calculateTarget(
+	// 	player: Player,
+	// 	offset: Vec2,
+	// 	xLimitStart: number | undefined,
+	// 	xLimitEnd: number | undefined,
+	// 	multiplyXByDirection: boolean
+	// ): Vec2 {
+	// 	let direction = multiplyXByDirection ? player.getDirection() : 1;
 
-		let target = new Vec2(player.position.x + offset.x * direction, player.position.y + offset.y);
+	// 	let target = new Vec2(player.position.x + offset.x * direction, player.position.y + offset.y);
 
-		if (xLimitStart !== undefined) target.x = Math.max(target.x, xLimitStart);
-		if (xLimitEnd !== undefined) target.x = Math.min(target.x, xLimitEnd);
+	// 	if (xLimitStart !== undefined) target.x = Math.max(target.x, xLimitStart);
+	// 	if (xLimitEnd !== undefined) target.x = Math.min(target.x, xLimitEnd);
 
-		let targetX = target.x;
-		let targetY = target.y;
+	// 	let targetX = target.x;
+	// 	let targetY = target.y;
 
-		return new Vec2(targetX, targetY);
-	}
+	// 	return new Vec2(targetX, targetY);
+	// }
 
 	private drawIndicator(context: Context, target: Vec2, up: boolean) {
 		let keyImage;

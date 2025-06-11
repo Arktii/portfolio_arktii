@@ -80,6 +80,19 @@ export class InteractionManager {
 		return (context: Context) => {
 			const x = context.colSpace.gridToWorldLeft(gridX);
 			const y = context.colSpace.gridToWorldTop(gridY);
+
+			context.eventBus.publish(
+				'wordBubble',
+				context,
+				new WordBubble(
+					'Rat spawned somewhere on the building. Go catch it!',
+					'word',
+					INTERACTION.SPEECH_BUBBLE_DURATION,
+					2
+				)
+			);
+
+			// TODO: get a random movement area (also check if rat will spawn on player then choose another one)
 			context.eventBus.publish(
 				'ratRequested',
 				id,

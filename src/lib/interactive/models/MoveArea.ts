@@ -1,4 +1,5 @@
 import { BoundingBox } from './BoundingBox';
+import type { Mobile } from './Mobile';
 import { Vec2 } from './Vec2';
 
 export class Target {
@@ -23,7 +24,7 @@ export class Target {
 	}
 }
 
-class WorldTarget {
+export class WorldTarget {
 	/**
 	 * bottom-left corner
 	 */
@@ -68,5 +69,56 @@ export class MoveArea {
 		}
 
 		this.aabb = BoundingBox.fromGrid(xStart, y, xEnd, y, cellSize);
+	}
+
+	/**
+	 * calculate the target position for a given mobile entity
+	 */
+	calculateUpTarget(mobile: Mobile): Vec2 | null {
+		if (!this.upTarget) {
+			return null;
+		}
+
+		return this.calculateTarget(
+			mobile,
+			this.upTarget.offset,
+			this.upTarget.xLimitStart,
+			this.upTarget.xLimitEnd,
+			this.upTarget.multiplyXByDirection
+		);
+	}
+
+	calculateDownTarget(mobile: Mobile): Vec2 | null {
+		if (!this.downTarget) {
+			return null;
+		}
+
+		return this.calculateTarget(
+			mobile,
+			this.downTarget.offset,
+			this.downTarget.xLimitStart,
+			this.downTarget.xLimitEnd,
+			this.downTarget.multiplyXByDirection
+		);
+	}
+
+	private calculateTarget(
+		mobile: Mobile,
+		offset: Vec2,
+		xLimitStart: number | undefined,
+		xLimitEnd: number | undefined,
+		multiplyXByDirection: boolean
+	): Vec2 {
+		let direction = multiplyXByDirection ? mobile.getDirection() : 1;
+
+		let target = new Vec2(mobile.position.x + offset.x * direction, mobile.position.y + offset.y);
+
+		if (xLimitStart !== undefined) target.x = Math.max(target.x, xLimitStart);
+		if (xLimitEnd !== undefined) target.x = Math.min(target.x, xLimitEnd);
+
+		let targetX = target.x;
+		let targetY = target.y;
+
+		return new Vec2(targetX, targetY);
 	}
 }

@@ -134,11 +134,17 @@
 					new TvDisplay(3, 130, 303, 40, 32, TV.GLOW_GROW_SMALL)
 				],
 				[
-					new TvImageInfo(chasmsCall, "Chasm's Call, made in Godot"),
-					new TvImageInfo(flickeringFlame, 'Flickering Flame, made in Bevy'),
-					new TvImageInfo(wreckingWhiskers, 'Wrecking Whiskers, made in Godot'),
-					new TvImageInfo(timeflowers, 'Timeflowers, made in Unity'),
-					new TvImageInfo(beastBonds, 'Beast Bonds, made in Unity')
+					new TvImageInfo(chasmsCall, "Chasm's Call, a strategy game, made in Godot"),
+					new TvImageInfo(
+						flickeringFlame,
+						'Flickering Flame, an arcade side-scroller, made in Bevy'
+					),
+					new TvImageInfo(
+						wreckingWhiskers,
+						'Wrecking Whiskers, an arcade game based on Ricochet, made in Godot'
+					),
+					new TvImageInfo(timeflowers, 'Timeflowers, a tile-based survival game, made in Unity'),
+					new TvImageInfo(beastBonds, 'Beast Bonds, card game made in Unity')
 				],
 				TV.IMAGE_DURATION
 			)
@@ -150,9 +156,15 @@
 					new TvDisplay(5, 95, 422, 46, 32, TV.GLOW_GROW_SMALL)
 				],
 				[
-					new TvImageInfo(charge, 'multiplayer game using Unity and AWS'),
-					new TvImageInfo(subaybay, 'software for the Office of the University Registrar'),
-					new TvImageInfo(specialProblem, 'thesis equivalent, successfully defended May 26, 2025')
+					new TvImageInfo(
+						charge,
+						'Charge, a multiplayer game made using Unity and Amazon Web Services'
+					),
+					new TvImageInfo(
+						subaybay,
+						'UPB Subaybay, software for the Office of the University Registrar'
+					),
+					new TvImageInfo(specialProblem, 'Thesis equivalent, successfully defended May 26, 2025')
 				],
 				TV.IMAGE_DURATION
 			)

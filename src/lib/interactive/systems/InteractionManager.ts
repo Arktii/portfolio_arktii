@@ -64,12 +64,15 @@ export class InteractionManager {
 		return newArea;
 	}
 
-	private static makeSpeechBubbleFunc(text: string): (c: Context) => void {
+	private static makeSpeechBubbleFunc(
+		text: string,
+		wrap: 'word' | 'char' = 'word'
+	): (c: Context) => void {
 		return (c: Context) =>
 			c.eventBus.publish(
 				'wordBubble',
 				c,
-				new WordBubble(text, INTERACTION.SPEECH_BUBBLE_DURATION, 2)
+				new WordBubble(text, wrap, INTERACTION.SPEECH_BUBBLE_DURATION, 2)
 			);
 	}
 
@@ -169,35 +172,49 @@ export class InteractionManager {
 		var clickArea = this.addClickArea(
 			new BoundingBox(120.5, 147.5, 52.5, 79.5),
 			'Inspect',
-			InteractionManager.makeSpeechBubbleFunc('C#\nConsole.Log("Meow")')
+			InteractionManager.makeSpeechBubbleFunc(
+				'// C#\nConsole.WriteLine(\n(int)1.6==Convert.ToInt32(1.6)\n)'
+			),
+			'Run',
+			InteractionManager.makeSpeechBubbleFunc('False')
 		);
 		this.addInteractArea(12, 13, 3, clickArea);
 
 		var clickArea = this.addClickArea(
 			new BoundingBox(135.5, 162.5, 81.5, 108.5),
 			'Inspect',
-			InteractionManager.makeSpeechBubbleFunc('print("Meow")')
+			InteractionManager.makeSpeechBubbleFunc('// Dart\nprint(0.1 + 0.2)'),
+			'Run',
+			InteractionManager.makeSpeechBubbleFunc('0.30000000000000004')
 		);
 		this.addInteractArea(14, 14.5, 3, clickArea);
 
 		var clickArea = this.addClickArea(
 			new BoundingBox(150.5, 177.5, 52.5, 79.5),
 			'Inspect',
-			InteractionManager.makeSpeechBubbleFunc('print("Meow")')
+			InteractionManager.makeSpeechBubbleFunc('# Python\nprint(True + True)'),
+			'Run',
+			InteractionManager.makeSpeechBubbleFunc('2')
 		);
 		this.addInteractArea(15.5, 16.5, 3, clickArea);
 
 		var clickArea = this.addClickArea(
 			new BoundingBox(165.5, 192.5, 81.5, 108.5),
 			'Inspect',
-			InteractionManager.makeSpeechBubbleFunc('console.log("Meow")')
+			InteractionManager.makeSpeechBubbleFunc(
+				'// JavaScript / TypeScript\nconsole.log(typeof(NaN))'
+			),
+			'Run',
+			InteractionManager.makeSpeechBubbleFunc('number')
 		);
 		this.addInteractArea(17.5, 18, 3, clickArea);
 
 		var clickArea = this.addClickArea(
 			new BoundingBox(180.5, 207.5, 52.5, 79.5),
 			'Inspect',
-			InteractionManager.makeSpeechBubbleFunc('print!("Meow")')
+			InteractionManager.makeSpeechBubbleFunc('// Rust\nprint!("{}", "🦀")'),
+			'Run',
+			InteractionManager.makeSpeechBubbleFunc('🦀')
 		);
 		this.addInteractArea(19, 20, 3, clickArea);
 
@@ -205,21 +222,68 @@ export class InteractionManager {
 		this.addInteractArea(21, 21, 3, clickArea);
 
 		// engines
-		var clickArea = this.addClickArea(new BoundingBox(33.5, 89.5, 110.5, 137.5), 'Unity');
+		var clickArea = this.addClickArea(
+			new BoundingBox(33.5, 89.5, 110.5, 137.5),
+			'Inspect',
+			InteractionManager.makeSpeechBubbleFunc('// Unity\nInstantiate(mousePrefab)'),
+			'Run'
+			// TODO: Instantiate a mouse to catch
+		);
 		this.addInteractArea(3, 8, 13, clickArea);
-		var clickArea = this.addClickArea(new BoundingBox(92.5, 148.5, 110.5, 137.5), 'Godot');
+
+		var clickArea = this.addClickArea(
+			new BoundingBox(92.5, 148.5, 110.5, 137.5),
+			'Inspect',
+			InteractionManager.makeSpeechBubbleFunc('# Godot\nmouseScene.instantiate()'),
+			'Run'
+			// TODO: Instantiate a mouse to catch
+		);
 		this.addInteractArea(9, 14, 13, clickArea);
-		var clickArea = this.addClickArea(new BoundingBox(151.5, 207.5, 110.5, 137.5), 'Bevy');
+
+		var clickArea = this.addClickArea(
+			new BoundingBox(151.5, 207.5, 110.5, 137.5),
+			'Inspect',
+			InteractionManager.makeSpeechBubbleFunc(
+				'// Bevy\ncommands.spawn(\nMouseBundle::default()\n)'
+			),
+			'Run'
+			// TODO: Instantiate a mouse to catch
+		);
 		this.addInteractArea(15, 20, 13, clickArea);
 
 		// internship
-		var clickArea = this.addClickArea(new BoundingBox(41.5, 97.5, 161.5, 188.5), 'DOST');
+		var clickArea = this.addClickArea(
+			new BoundingBox(41.5, 97.5, 161.5, 188.5),
+			'Inspect',
+			InteractionManager.makeSpeechBubbleFunc('Internship with DOST from June 24 to August 7, 2024')
+		);
 		this.addInteractArea(4, 9, 18, clickArea);
-		var clickArea = this.addClickArea(new BoundingBox(100.5, 138.5, 161.5, 188.5), 'Flutter');
+
+		var clickArea = this.addClickArea(
+			new BoundingBox(100.5, 138.5, 161.5, 188.5),
+			'Inspect',
+			InteractionManager.makeSpeechBubbleFunc(
+				'Flutter (uses Dart) was used for the frontend of the app'
+			)
+		);
 		this.addInteractArea(10, 13, 18, clickArea);
-		var clickArea = this.addClickArea(new BoundingBox(141.5, 179.5, 161.5, 188.5), 'Laravel');
+
+		var clickArea = this.addClickArea(
+			new BoundingBox(141.5, 179.5, 161.5, 188.5),
+			'Inspect',
+			InteractionManager.makeSpeechBubbleFunc(
+				'Laravel (uses php) was used for the backend alongside MariaDB'
+			)
+		);
 		this.addInteractArea(14, 17, 18, clickArea);
-		var clickArea = this.addClickArea(new BoundingBox(181.5, 208.5, 161.5, 188.5), 'Mobile App');
+
+		var clickArea = this.addClickArea(
+			new BoundingBox(181.5, 208.5, 161.5, 188.5),
+			'Inspect',
+			InteractionManager.makeSpeechBubbleFunc(
+				'The project was a mobile app;\nI worked on both the frontend and the backend'
+			)
+		);
 		this.addInteractArea(18, 20, 18, clickArea);
 
 		// personal projects TVs
@@ -277,7 +341,7 @@ export class InteractionManager {
 
 		var clickArea = this.addClickArea(
 			new BoundingBox(185.5, 228.5, 268.5, 282.5),
-			'More Projects (New Tab)'
+			'More Details (New Tab)'
 		);
 		this.addInteractArea(18, 21, 25, clickArea);
 
@@ -311,63 +375,63 @@ export class InteractionManager {
 
 		var clickArea = this.addClickArea(
 			new BoundingBox(151.5, 196.5, 544.5, 556.5),
-			'More Projects (New Tab)'
+			'More Details (New Tab)'
 		);
 		this.addInteractArea(15, 19, 52, clickArea);
 
 		// links
 		var clickArea = this.addClickArea(
 			new BoundingBox(42.5, 67.5, 635.5, 660.5),
+			'Show Link',
+			InteractionManager.makeSpeechBubbleFunc(import.meta.env.VITE_LINKEDIN_LINK, 'char'),
 			'Visit LinkedIn (New Tab)',
 			(context) => {
 				window.open(import.meta.env.VITE_LINKEDIN_LINK, '_blank');
-			},
-			'Show Link',
-			InteractionManager.makeSpeechBubbleFunc(import.meta.env.VITE_LINKEDIN_LINK)
+			}
 		);
 		this.addInteractArea(4, 6, 61, clickArea);
 
 		var clickArea = this.addClickArea(
 			new BoundingBox(72.5, 97.5, 635.5, 660.5),
+			'Show email',
+			InteractionManager.makeSpeechBubbleFunc(import.meta.env.VITE_CONTACT_EMAIL, 'char'),
 			'Email Contact Form (New Tab)',
 			(context) => {
 				window.open(import.meta.env.VITE_CONTACT_EMAIL, '_blank');
-			},
-			'Show email',
-			InteractionManager.makeSpeechBubbleFunc(import.meta.env.VITE_CONTACT_EMAIL)
+			}
 		);
 		this.addInteractArea(7, 9, 61, clickArea);
 
 		var clickArea = this.addClickArea(
 			new BoundingBox(102.5, 127.5, 635.5, 660.5),
-			'Visit GitHub (New Tab)',
+			'Show Link',
+			InteractionManager.makeSpeechBubbleFunc(import.meta.env.VITE_GITHUB_LINK, 'char'),
+			'GitHub (New Tab)',
 			(context) => {
 				window.open(import.meta.env.VITE_GITHUB_LINK, '_blank');
-			},
-			'Show Link',
-			InteractionManager.makeSpeechBubbleFunc(import.meta.env.VITE_GITHUB_LINK)
+			}
 		);
 		this.addInteractArea(10, 12, 61, clickArea);
 
 		var clickArea = this.addClickArea(
 			new BoundingBox(132.5, 157.5, 635.5, 660.5),
-			'View Messenger (New Tab)',
+			'Show Link',
+			InteractionManager.makeSpeechBubbleFunc(import.meta.env.VITE_MESSENGER_LINK, 'char'),
+			'Messenger (New Tab)',
 			(context) => {
 				window.open(import.meta.env.VITE_MESSENGER_LINK, '_blank');
-			},
-			'Show Link',
-			InteractionManager.makeSpeechBubbleFunc(import.meta.env.VITE_MESSENGER_LINK)
+			}
 		);
 		this.addInteractArea(13, 15, 61, clickArea);
 
 		var clickArea = this.addClickArea(
 			new BoundingBox(162.5, 187.5, 635.5, 660.5),
-			'View resume (New Tab)',
+			'Show Link',
+			InteractionManager.makeSpeechBubbleFunc(import.meta.env.VITE_RESUME_LINK, 'char'),
+			'Resume (New Tab)',
 			(context) => {
 				window.open(import.meta.env.VITE_RESUME_LINK, '_blank');
-			},
-			'Show Link',
-			InteractionManager.makeSpeechBubbleFunc(import.meta.env.VITE_RESUME_LINK)
+			}
 		);
 		this.addInteractArea(16, 18, 61, clickArea);
 	}

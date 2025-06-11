@@ -1,7 +1,6 @@
 import { clamp } from '$lib/utils/Math';
 import { FIXED_DELTA_SECS, PLAYER, WORD_BUBBLE, WORLD_SIZE } from '../constants';
 import type { Context } from '../core/Context';
-import { Vec2 } from '../models/Vec2';
 import { WordBubble } from '../models/WordBubble';
 import { EasingFunctions, Tween } from './Tween';
 
@@ -127,6 +126,17 @@ export class WordBubbleManager {
 			.radius(WORD_BUBBLE.BORDER_RADIUS)
 			.stroke(undefined, 0);
 
+		let wrap;
+		if (this.#currentWordBubble) {
+			if (this.#currentWordBubble.wrap == 'word') {
+				wrap = context.p5.WORD;
+			} else {
+				wrap = context.p5.CHAR;
+			}
+		} else {
+			wrap = context.p5.WORD;
+		}
+
 		context.drawing
 			.text(
 				bubbleX + WORD_BUBBLE.PADDING_X,
@@ -137,7 +147,8 @@ export class WordBubbleManager {
 			)
 			.width(WORD_BUBBLE.WIDTH - 2 * WORD_BUBBLE.PADDING_X)
 			.height(WORD_BUBBLE.HEIGHT)
-			.textColor(textColor);
+			.textColor(textColor)
+			.textWrap(wrap);
 	}
 
 	receiveWordBubble(context: Context, wordBubble: WordBubble) {
@@ -149,14 +160,14 @@ export class WordBubbleManager {
 				WORD_BUBBLE.FILL_ALPHA,
 				0,
 				this.#currentWordBubble.duration,
-				EasingFunctions.easeInCubic
+				EasingFunctions.easeInThreshold90
 			);
 
 			this.#textColorTween = new Tween(
 				WORD_BUBBLE.TEXT_ALPHA,
 				0,
 				this.#currentWordBubble.duration,
-				EasingFunctions.easeInQuartic
+				EasingFunctions.easeInThreshold90
 			);
 		}
 	}

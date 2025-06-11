@@ -9,6 +9,9 @@ export const EasingFunctions = Object.freeze({
 	easeInQuintic: (t: number) => {
 		var t2 = t * t;
 		return t2 * t2 * t;
+	},
+	easeInThreshold90: (t: number) => {
+		return t < 0.9 ? 0.1 * t : ((t - 0.9) / 0.1) ** 2 + 0.1 * t;
 	}
 });
 

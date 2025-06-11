@@ -113,8 +113,7 @@ export const INTERACTION = {
 	SECONDARY_STROKE_COLOR: 'rgba(187, 228, 255, 0.5)',
 	SECONDARY_GLOW_COLOR: 'rgba(245, 195, 139, 0.5)',
 
-	THOUGHT_BUBBLE_DURATION: 1.5,
-	SPEECH_BUBBLE_DURATION: 1.75,
+	SPEECH_BUBBLE_DURATION: 3,
 
 	Z_INDEX: PLAYER.Z_INDEX - 1
 };
@@ -166,8 +165,8 @@ export const WORD_BUBBLE = {
 
 	MIN_VIEWPORT_OFFSET: 8, // bubble should be atleast this far from viewport
 
-	WIDTH: 70,
-	HEIGHT: 25,
+	WIDTH: 75,
+	HEIGHT: 35,
 	PADDING_X: 2,
 
 	FONT_SIZE: 5,

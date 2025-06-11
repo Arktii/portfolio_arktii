@@ -1,4 +1,4 @@
-import { FIXED_DELTA_SECS, INTERACTION, TV } from '../constants';
+import { FIXED_DELTA_SECS, INTERACTION, TV, WORD_BUBBLE } from '../constants';
 import type { Context } from '../core/Context';
 import type { TvDisplay } from './TvDisplay';
 import { TvImage, type TvImageInfo } from './TvImage';
@@ -90,7 +90,7 @@ export class TvScreen {
 				context.eventBus.publish(
 					'wordBubble',
 					context,
-					new WordBubble(tvImage.hoverText, INTERACTION.SPEECH_BUBBLE_DURATION, 1)
+					new WordBubble(tvImage.hoverText, 'word', INTERACTION.SPEECH_BUBBLE_DURATION, 2)
 				);
 				break;
 			}

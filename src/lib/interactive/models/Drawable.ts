@@ -226,6 +226,7 @@ export class Text extends Drawable {
 	#fontSize: number;
 	#strokeColor?: import('p5').Color;
 	#strokeWeight?: number;
+	#wrap?: import('p5').WRAP_STYLE;
 
 	#horizontalAlign?: import('p5').HORIZ_ALIGN;
 	#verticalAlign?: import('p5').VERT_ALIGN;
@@ -269,6 +270,11 @@ export class Text extends Drawable {
 		return this;
 	}
 
+	textWrap(wrap: import('p5').WRAP_STYLE): this {
+		this.#wrap = wrap;
+		return this;
+	}
+
 	font(font: import('p5').Font): this {
 		this.#font = font;
 		return this;
@@ -304,9 +310,7 @@ export class Text extends Drawable {
 			context.p5.fill(this.#color);
 		}
 
-		if (this.#width) {
-			context.p5.textWrap(context.p5.WORD);
-		}
+		context.p5.textWrap(this.#wrap ?? context.p5.WORD);
 
 		context.p5.text(
 			this.#text,

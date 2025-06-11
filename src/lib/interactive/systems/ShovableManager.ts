@@ -138,7 +138,7 @@ export class ShovableManager {
 				// draw
 				context.drawing.image(
 					item.image,
-					item.position.x - (POT.SPRITE_WIDTH - item.width) / 2,
+					item.position.x - POT_COMPUTED.WIDTH_DIFF_HALF,
 					item.position.y - POT_COMPUTED.HEIGHT_DIFF,
 					POT.SPRITE_WIDTH,
 					POT.SPRITE_HEIGHT,

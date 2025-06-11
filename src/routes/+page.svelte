@@ -24,6 +24,11 @@
 	import arrowLeft from '$lib/images/icons/arrow-left.png';
 	import arrowRight from '$lib/images/icons/arrow-right.png';
 
+	import scaredMark from '$lib/images/rat/scared-mark.png';
+	import ratUnity from '$lib/images/rat/rat-unity.png';
+	import ratGodot from '$lib/images/rat/rat-godot.png';
+	import ratBevy from '$lib/images/rat/rat-bevy.png';
+
 	import beastBonds from '$lib/images/projects/beast-bonds.png';
 	import chasmsCall from '$lib/images/projects/chasms-call.png';
 	import flickeringFlame from '$lib/images/projects/flickering-flame.png';
@@ -68,6 +73,7 @@
 	import { TvImageInfo } from '$lib/interactive/models/TvImage';
 	import { FixedUpdateRunner } from '$lib/interactive/models/FixedUpdateRunner';
 	import { Preloads } from '$lib/interactive/core/Preloads';
+	import { RatManager } from '$lib/interactive/systems/RatManager';
 
 	let buildingImage: p5.Image;
 	let buildingFgImage: p5.Image;
@@ -112,12 +118,16 @@
 		);
 		player = new Player(new Vec2(WORLD_SIZE.REFERENCE_WIDTH / 2 - PLAYER_COMPUTED.HALF_WIDTH, 20));
 		preloads = new Preloads();
+
+		context = new Context(p5, world, inputs, drawing, colSpace, eventBus, player, preloads);
+
+		// TODO: instantiate these if they don't belong in context
 		moveAreaManager = new MoveAreaManager(colSpace);
 		interactionManager = new InteractionManager(colSpace);
 		shovableManager = new ShovableManager();
 		wordBubbleManager = new WordBubbleManager();
 
-		context = new Context(p5, world, inputs, drawing, colSpace, eventBus, player, preloads);
+		instantiate(new RatManager());
 
 		// TODO: Move duration out to constants
 		objects.push(player);
@@ -170,6 +180,8 @@
 			)
 		);
 
+		// setupDevDisplayDrawers();
+
 		setupBuildingDrawers();
 
 		// setup components
@@ -187,6 +199,12 @@
 		await preloads.loadImage(p5, 'arrowUp', arrowUp);
 		await preloads.loadImage(p5, 'arrowLeft', arrowLeft);
 		await preloads.loadImage(p5, 'arrowRight', arrowRight);
+		await preloads.loadImage(p5, 'scaredMark', scaredMark);
+
+		// TODO: change to rat image
+		await preloads.loadImage(p5, 'ratUnity', ratUnity);
+		await preloads.loadImage(p5, 'ratGodot', ratGodot);
+		await preloads.loadImage(p5, 'ratBevy', ratBevy);
 
 		await preloads.loadFont(p5, 'Aldritch', aldritch);
 		await preloads.loadFont(p5, 'Russo One', russoOne);

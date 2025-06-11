@@ -38,6 +38,16 @@ export const COLLISION_SPACE = {
 	CELL_SIZE: 10
 };
 
+export const MOBILE = {
+	EDGE_CHECK: 0.1,
+
+	DOWN_JUMP_SPEED: 150,
+	UP_JUMP_SPEED: 105,
+	DOWN_LAUNCH_ANGLE: 0.349066, // 20 degrees
+	UP_LAUNCH_ANGLE: 1.0472 // 60 degrees
+	// UP_LAUNCH_ANGLE: 1.22173, // 70 degrees
+};
+
 export const PLAYER = {
 	SPRITE_WIDTH: 32,
 	SPRITE_HEIGHT: 32,
@@ -47,13 +57,6 @@ export const PLAYER = {
 	INTERACT_WIDTH: 6,
 
 	SPEED: 135,
-	EDGE_CHECK: 0.1,
-
-	DOWN_JUMP_SPEED: 150,
-	UP_JUMP_SPEED: 105,
-	DOWN_LAUNCH_ANGLE: 0.349066, // 20 degrees
-	UP_LAUNCH_ANGLE: 1.0472, // 60 degrees
-	// UP_LAUNCH_ANGLE: 1.22173, // 70 degrees
 
 	WALK_ANIM_IDLE_THRESHOLD: 0.05, // how long the player needs to be idle to enter idle animation (to prevent switching between walking and idling too rapidly)
 	CONTROLS_IDLE_THRESHOLD: 2, // how long the plaeyr needs to be idle before the controls are shown
@@ -98,6 +101,32 @@ export const POT_COMPUTED = {
 	WIDTH_DIFF: POT.SPRITE_WIDTH - POT.WIDTH,
 	WIDTH_DIFF_HALF: (POT.SPRITE_WIDTH - POT.WIDTH) / 2,
 	HEIGHT_DIFF: POT.SPRITE_HEIGHT - POT.HEIGHT
+};
+
+export const RAT = {
+	SPRITE_WIDTH: 32,
+	SPRITE_HEIGHT: 32,
+
+	WIDTH: 16,
+	HEIGHT: 8,
+
+	WALK_SPEED: 70,
+	RUN_SPEED: PLAYER.SPEED + 15,
+
+	PLAYER_DETECTION_Y: 10,
+	PLAYER_DETECTION_X: 40,
+
+	INDICATOR_WIDTH: 12,
+	INDICATOR_HEIGHT: 12,
+	INDICATOR_OFFSET_Y: 4,
+
+	JUMP_COOLDOWN: 1
+};
+
+export const RAT_COMPUTED = {
+	WIDTH_DIFF: RAT.SPRITE_WIDTH - RAT.WIDTH,
+	WIDTH_DIFF_HALF: (RAT.SPRITE_WIDTH - RAT.WIDTH) / 2,
+	HEIGHT_DIFF: RAT.SPRITE_HEIGHT - RAT.HEIGHT
 };
 
 let gridWidth = Math.ceil(BUILDING.WIDTH / COLLISION_SPACE.CELL_SIZE);

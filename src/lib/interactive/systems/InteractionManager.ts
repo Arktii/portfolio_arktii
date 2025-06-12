@@ -78,21 +78,7 @@ export class InteractionManager {
 
 	private static makeRatSpawnFunc(imageName: string) {
 		return (context: Context) => {
-			let moveArea;
-			// prevent spawning rat on player
-			do {
-				moveArea = context.moveAreaManager.getRandomArea();
-			} while (context.player.calculateAABB().colliding(moveArea.aabb));
-
-			const x = moveArea.aabb.left;
-			const y = moveArea.aabb.bottom - RAT.HEIGHT;
-
-			context.eventBus.publish(
-				'ratRequested',
-				context,
-				new Vec2(x, y),
-				context.preloads.image(imageName)
-			);
+			context.eventBus.publish('ratRequested', context, context.preloads.image(imageName));
 		};
 	}
 

@@ -12,6 +12,10 @@ export class RatManager {
 
 	async setup(context: Context) {
 		context.eventBus.subscribe('ratRequested', this.addRat.bind(this));
+
+		this.addRat(context, context.preloads.image('ratUnity'));
+		this.addRat(context, context.preloads.image('ratGodot'));
+		this.addRat(context, context.preloads.image('ratBevy'));
 	}
 
 	fixedUpdate(context: Context) {
@@ -52,8 +56,16 @@ export class RatManager {
 		}
 	}
 
-	addRat(context: Context, position: Vec2, sprite: import('p5').Image) {
+	addRat(context: Context, sprite: import('p5').Image) {
 		if (this.#rats.length < RAT.MAX_RATS) {
+			let moveArea;
+			// prevent spawning rat on player
+			do {
+				moveArea = context.moveAreaManager.getRandomArea();
+			} while (context.player.calculateAABB().colliding(moveArea.aabb));
+
+			const position = new Vec2(moveArea.aabb.left, moveArea.aabb.bottom - RAT.HEIGHT);
+
 			this.#rats.push(new Rat(position, sprite));
 
 			this.playSpawnParticles(context, position);

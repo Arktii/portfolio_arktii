@@ -7,6 +7,9 @@
 	export let setup = (p5js: any) => {};
 	export let draw = (p5js: any) => {};
 	export let windowResized = (p5js: any) => {};
+	export let mouseClicked = (p5js: any) => {};
+	export let mousePressed = (p5js: any) => {};
+	export let mouseReleased = (p5js: any) => {};
 	export let mouseMoved = (p5js: any) => {};
 	export let keyPressed = (p5js: any) => {};
 	export let keyReleased = (p5js: any) => {};
@@ -20,6 +23,9 @@
 				p5js.draw = () => draw(p5js);
 				p5js.windowResized = () => windowResized(p5js);
 				p5js.mouseMoved = () => mouseMoved(p5js);
+				p5js.mouseClicked = () => mouseClicked(p5js);
+				p5js.mousePressed = () => mousePressed(p5js);
+				p5js.mouseReleased = () => mouseReleased(p5js);
 				p5js.keyPressed = () => keyPressed(p5js);
 				p5js.keyReleased = () => keyReleased(p5js);
 			}, canvas);

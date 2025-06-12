@@ -1,64 +1,98 @@
+export const EasingFunctions = Object.freeze({
+	linear: (t: number) => t,
+	easeInQuad: (t: number) => t * t,
+	easeInCubic: (t: number) => t * t * t,
+	easeInQuartic: (t: number) => {
+		var t2 = t * t;
+		return t2 * t2;
+	},
+	easeInQuintic: (t: number) => {
+		var t2 = t * t;
+		return t2 * t2 * t;
+	},
+	easeInThreshold90: (t: number) => {
+		return t < 0.9 ? 0.1 * t : ((t - 0.9) / 0.1) ** 2 + 0.1 * t;
+	}
+});
+
 export class Tween {
-	private startValue: number;
-	private endValue: number;
-	private valueRange: number;
+	#startValue: number;
+	#endValue: number;
+	#valueRange: number;
 
-	private duration: number;
+	#duration: number;
 
-	private currentValue: number;
-	private elapsed: number = 0;
-	private finished: boolean = false;
+	#currentValue: number;
+	#elapsed: number = 0;
+	#finished: boolean = false;
 
-	private onUpdate?: (value: number) => void;
-	private onFinish?: () => void;
+	#easingFunction: (t: number) => number;
+	#onUpdate?: (value: number) => void;
+	#onFinish?: () => void;
 
-	constructor(startValue: number, endValue: number, duration: number) {
-		this.startValue = startValue;
-		this.endValue = endValue;
-		this.duration = duration;
+	constructor(
+		startValue: number,
+		endValue: number,
+		duration: number,
+		easingFunction?: (t: number) => number
+	) {
+		this.#startValue = startValue;
+		this.#endValue = endValue;
+		this.#duration = duration;
 
-		this.valueRange = endValue - startValue;
+		this.#valueRange = endValue - startValue;
 
-		this.currentValue = startValue;
+		this.#currentValue = startValue;
+
+		if (easingFunction) {
+			this.#easingFunction = easingFunction;
+		} else {
+			this.#easingFunction = (t) => t; // linear
+		}
+	}
+
+	get currentValue(): number {
+		return this.#currentValue;
 	}
 
 	reset() {
-		this.currentValue = this.startValue;
-		this.elapsed = 0;
-		this.finished = false;
+		this.#currentValue = this.#startValue;
+		this.#elapsed = 0;
+		this.#finished = false;
 	}
 
 	setUpdateFunction(f: (value: number) => void): this {
-		this.onUpdate = f;
+		this.#onUpdate = f;
 
 		return this;
 	}
 
 	setFinishFunction(f: () => void): this {
-		this.onFinish = f;
+		this.#onFinish = f;
 
 		return this;
 	}
 
-	//TODO?: add easing functions
 	update(deltaSecs: number) {
-		if (this.finished) {
+		if (this.#finished) {
 			return;
 		}
-		this.elapsed = Math.min(this.elapsed + deltaSecs, this.duration);
+		this.#elapsed = Math.min(this.#elapsed + deltaSecs, this.#duration);
 
-		this.currentValue = this.startValue + (this.elapsed / this.duration) * this.valueRange;
+		const progress = this.#easingFunction(this.#elapsed / this.#duration);
+		this.#currentValue = this.#startValue + progress * this.#valueRange;
 
-		if (this.onUpdate) {
-			this.onUpdate(this.currentValue);
+		if (this.#onUpdate) {
+			this.#onUpdate(this.#currentValue);
 		}
 
-		if (this.elapsed >= this.duration) {
-			this.finished = true;
-			this.elapsed = this.duration;
+		if (this.#elapsed >= this.#duration) {
+			this.#finished = true;
+			this.#elapsed = this.#duration;
+			this.#currentValue = this.#endValue;
 
-			if (this.onFinish) {
-				this.onFinish();
+			if (this.#onFinish) {
+				this.#onFinish();
 			}
 		}
 	}

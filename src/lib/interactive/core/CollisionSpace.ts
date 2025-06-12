@@ -1,3 +1,4 @@
+import { calculateOverlap, calculateSingleDisplacement } from '$lib/utils/Collisions';
 import { BoundingBox } from '../models/BoundingBox';
 import { Vec2 } from '../models/Vec2';
 
@@ -55,6 +56,10 @@ export class CollisionSpace {
 	 */
 	gridToWorldTop(gridCoordinate: number): number {
 		return gridCoordinate * this.cellSize;
+	}
+
+	gridToWorldCenter(gridCoordinate: number): number {
+		return (gridCoordinate + 0.5) * this.cellSize;
 	}
 
 	/**
@@ -120,10 +125,10 @@ export class CollisionSpace {
 		yEnd = Math.min(this.gridHeight - 1, yEnd);
 
 		if (xStart > xEnd) {
-			return Vec2.ZERO;
+			return Vec2.zero();
 		}
 		if (yStart > yEnd) {
-			return Vec2.ZERO;
+			return Vec2.zero();
 		}
 
 		let displacement = new Vec2(0, 0);
@@ -136,7 +141,7 @@ export class CollisionSpace {
 						this.cellSize,
 						this.cellSize
 					);
-					let disp = this.calculateSingleDisplacement(staticAABB, aabb);
+					let disp = calculateSingleDisplacement(staticAABB, aabb);
 
 					if (disp.x != 0) {
 						displacement.x = disp.x;
@@ -150,27 +155,45 @@ export class CollisionSpace {
 		return displacement;
 	}
 
-	calculateSingleDisplacement(staticAABB: BoundingBox, pushedAABB: BoundingBox): Vec2 {
-		let left = pushedAABB.right - staticAABB.left;
-		let right = staticAABB.right - pushedAABB.left;
+	/**
+	 * returns the largest overlap in each axis
+	 */
+	calculateOverlap(aabb: BoundingBox): Vec2 {
+		let xStart = Math.floor(aabb.left / this.cellSize);
+		let xEnd = Math.floor(aabb.right / this.cellSize);
+		let yStart = Math.floor(aabb.top / this.cellSize);
+		let yEnd = Math.floor(aabb.bottom / this.cellSize);
 
-		// normally, these two are reversed,
-		// but canvas coordinates have lower values up and higher values going down
-		let down = staticAABB.bottom - pushedAABB.top;
-		let up = pushedAABB.bottom - staticAABB.top;
+		xStart = Math.max(0, xStart);
+		xEnd = Math.min(this.gridWidth - 1, xEnd);
+		yStart = Math.max(0, yStart);
+		yEnd = Math.min(this.gridHeight - 1, yEnd);
 
-		if (Math.min(left, right) < Math.min(up, down)) {
-			if (left < right) {
-				return new Vec2(-left, 0);
-			} else {
-				return new Vec2(right, 0);
-			}
-		} else {
-			if (up < down) {
-				return new Vec2(0, -up);
-			} else {
-				return new Vec2(0, down);
+		if (xStart > xEnd) {
+			return Vec2.zero();
+		}
+		if (yStart > yEnd) {
+			return Vec2.zero();
+		}
+
+		let overlap = new Vec2(0, 0);
+		for (let y = yStart; y <= yEnd; y++) {
+			for (let x = xStart; x <= xEnd; x++) {
+				if (this.colliderGrid[x][y]) {
+					let staticAABB = BoundingBox.fromRect(
+						x * this.cellSize,
+						y * this.cellSize,
+						this.cellSize,
+						this.cellSize
+					);
+					let newOverlap = calculateOverlap(staticAABB, aabb);
+
+					overlap.x = Math.max(overlap.x, newOverlap.x);
+					overlap.y = Math.max(overlap.y, newOverlap.y);
+				}
 			}
 		}
+
+		return overlap;
 	}
 }

@@ -1,6 +1,5 @@
 <script lang="ts">
-	// TODO? combine this with P5 component
-	import P5 from '$lib/components/P5.svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import { CANVAS_SIZE, FIXED_DELTA_TIME } from '$lib/interactive/constants';
 	import Fredoka from '$lib/fonts/Fredoka-Regular.ttf';
 
@@ -12,9 +11,11 @@
 	export let mouseClicked = (p5: import('p5')) => {};
 	export let mousePressed = (p5: import('p5')) => {};
 	export let mouseReleased = (p5: import('p5')) => {};
-	export let mouseMoved = (p5: import('p5')) => {};
 	export let keyPressed = (p5: import('p5')) => {};
 	export let keyReleased = (p5: import('p5')) => {};
+
+	let canvas: HTMLElement | undefined;
+	let p5Instance: import('p5');
 
 	// for the fixed time step
 	let accumulator = 0;
@@ -60,18 +61,29 @@
 
 		windowResized(p5);
 	}
+
+	onMount(async () => {
+		if (typeof window !== 'undefined') {
+			const p5 = await import('p5');
+
+			p5Instance = new p5.default((p5js: import('p5')) => {
+				p5js.setup = () => canvasSetup(p5js);
+				p5js.draw = () => draw(p5js);
+				p5js.windowResized = () => canvasWindowResized(p5js);
+				p5js.mouseClicked = () => mouseClicked(p5js);
+				p5js.mousePressed = () => mousePressed(p5js);
+				p5js.mouseReleased = () => mouseReleased(p5js);
+				p5js.keyPressed = () => keyPressed(p5js);
+				p5js.keyReleased = () => keyReleased(p5js);
+			}, canvas);
+		}
+	});
+
+	onDestroy(() => {
+		if (p5Instance) {
+			p5Instance.remove();
+		}
+	});
 </script>
 
-<div class="mx-auto w-fit">
-	<P5
-		setup={canvasSetup}
-		{draw}
-		windowResized={canvasWindowResized}
-		{mouseClicked}
-		{mouseMoved}
-		{mousePressed}
-		{mouseReleased}
-		{keyPressed}
-		{keyReleased}
-	/>
-</div>
+<div class="mx-auto w-fit" bind:this={canvas}></div>

@@ -197,7 +197,7 @@ export const RAT_COMPUTED = {
 
 export const WORD_BUBBLE = {
 	BORDER_RADIUS: 7.5,
-	IDEAL_TAIL_LENGTH: 12,
+	IDEAL_TAIL_LENGTH: 15,
 	TAIL_WIDTH: 4,
 	TAIL_BOX_GAP: 1, // gap between the tail and text box
 

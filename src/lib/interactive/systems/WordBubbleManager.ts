@@ -31,15 +31,18 @@ export class WordBubbleManager {
 				this.#textColorTween?.update(FIXED_DELTA_SECS);
 
 				const viewportRect = context.world.calculateViewportWorld();
-				let bubbleY = Math.max(
-					context.player.position.y - WORD_BUBBLE.HEIGHT + WORD_BUBBLE.OFFSET_Y,
-					viewportRect.top + WORD_BUBBLE.MIN_VIEWPORT_OFFSET,
-					0
+				let bubbleY = Math.min(
+					Math.max(
+						context.player.position.y - WORD_BUBBLE.HEIGHT + WORD_BUBBLE.OFFSET_Y,
+						viewportRect.top + WORD_BUBBLE.MIN_VIEWPORT_OFFSET,
+						0
+					),
+					viewportRect.bottom - WORD_BUBBLE.HEIGHT - WORD_BUBBLE.MIN_VIEWPORT_OFFSET
 				);
 
 				// draw bubble depending on direction player is facing
 				let bubbleX;
-				if (context.player.direction > 0) {
+				if (context.player.getDirection() > 0) {
 					bubbleX = context.player.position.x + PLAYER.WIDTH + WORD_BUBBLE.OFFSET_X;
 				} else {
 					bubbleX = context.player.position.x - WORD_BUBBLE.WIDTH - WORD_BUBBLE.OFFSET_X;
@@ -62,7 +65,7 @@ export class WordBubbleManager {
 
 		let tailX;
 		let targetX;
-		if (context.player.direction > 0) {
+		if (context.player.getDirection() > 0) {
 			tailX = context.player.position.x + PLAYER.WIDTH + WORD_BUBBLE.TAIL_OFFSET_X;
 			targetX = Math.max(tailX + WORD_BUBBLE.IDEAL_TAIL_LENGTH, bubbleX);
 		} else {
@@ -93,7 +96,7 @@ export class WordBubbleManager {
 		else {
 			targetY = tailY;
 
-			if (context.player.direction > 0) {
+			if (context.player.getDirection() > 0) {
 				targetX = Math.min(targetX, bubbleX - WORD_BUBBLE.TAIL_BOX_GAP);
 			} else {
 				targetX = Math.max(targetX, bubbleX + WORD_BUBBLE.WIDTH + WORD_BUBBLE.TAIL_BOX_GAP);
@@ -101,7 +104,7 @@ export class WordBubbleManager {
 		}
 
 		// Draw tail depending on direction player is facing
-		if (context.player.direction > 0) {
+		if (context.player.getDirection() > 0) {
 			context.drawing
 				.curve(tailX, tailY, tailX, tailY, targetX, tailY, targetX, targetY, WORD_BUBBLE.Z_INDEX)
 				.stroke(tailColor, WORD_BUBBLE.TAIL_WIDTH);

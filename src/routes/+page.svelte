@@ -6,7 +6,6 @@
 	import type p5 from 'p5';
 
 	// import images
-	import bgNightSky from '$lib/images/background/night-sky.png';
 	import building from '$lib/images/building.png';
 	import buildingForeground from '$lib/images/building-foreground.png';
 	import playerImg from '$lib/images/player.png';

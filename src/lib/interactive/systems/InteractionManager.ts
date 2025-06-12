@@ -1,4 +1,4 @@
-import { INTERACTION, PLAYER } from '../constants';
+import { INTERACTION, RAT } from '../constants';
 import type { CollisionSpace } from '../core/CollisionSpace';
 import type { Context } from '../core/Context';
 import { BoundingBox } from '../models/BoundingBox';
@@ -76,26 +76,17 @@ export class InteractionManager {
 			);
 	}
 
-	private static makeRatSpawnFunc(gridX: number, gridY: number, id: string, imageName: string) {
+	private static makeRatSpawnFunc(imageName: string) {
 		return (context: Context) => {
-			const x = context.colSpace.gridToWorldLeft(gridX);
-			const y = context.colSpace.gridToWorldTop(gridY);
+			// TODO: keep choosing new ones until rat is NOT on player
+			const moveArea = context.moveAreaManager.getRandomArea();
 
-			context.eventBus.publish(
-				'wordBubble',
-				context,
-				new WordBubble(
-					'Rat spawned somewhere on the building. Go catch it!',
-					'word',
-					INTERACTION.SPEECH_BUBBLE_DURATION,
-					2
-				)
-			);
+			const x = moveArea.aabb.left;
+			const y = moveArea.aabb.bottom - RAT.HEIGHT;
 
-			// TODO: get a random movement area (also check if rat will spawn on player then choose another one)
 			context.eventBus.publish(
 				'ratRequested',
-				id,
+				context,
 				new Vec2(x, y),
 				context.preloads.image(imageName)
 			);
@@ -253,7 +244,7 @@ export class InteractionManager {
 			'Inspect',
 			InteractionManager.makeSpeechBubbleFunc('// Unity\nInstantiate(ratPrefab)'),
 			'Run',
-			InteractionManager.makeRatSpawnFunc(8, 18, 'unity', 'ratUnity')
+			InteractionManager.makeRatSpawnFunc('ratUnity')
 		);
 		this.addInteractArea(3, 8, 13, clickArea);
 
@@ -262,7 +253,7 @@ export class InteractionManager {
 			'Inspect',
 			InteractionManager.makeSpeechBubbleFunc('# Godot\nratScene.instantiate()'),
 			'Run',
-			InteractionManager.makeRatSpawnFunc(8, 18, 'godot', 'ratGodot')
+			InteractionManager.makeRatSpawnFunc('ratGodot')
 		);
 		this.addInteractArea(9, 14, 13, clickArea);
 
@@ -271,7 +262,7 @@ export class InteractionManager {
 			'Inspect',
 			InteractionManager.makeSpeechBubbleFunc('// Bevy\ncommands.spawn(\nRatBundle::default()\n)'),
 			'Run',
-			InteractionManager.makeRatSpawnFunc(8, 18, 'bevy', 'ratBevy')
+			InteractionManager.makeRatSpawnFunc('ratBevy')
 		);
 		this.addInteractArea(15, 20, 13, clickArea);
 

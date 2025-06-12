@@ -134,29 +134,60 @@ export class Rat extends Mobile {
 		}
 
 		if (this.#beingChased) {
-			const dirAwayFromPlayer = context.player.position.x < this.position.x ? 1 : -1;
-			this.setDirection(dirAwayFromPlayer);
+			// based on bounding box collisionY logic: this.bottom > other.top && this.top < other.bottom;
+			const playerAlmostSameLevel =
+				this.position.y + this.height + RAT.PLAYER_SAME_LEVEL_MARGIN > context.player.position.y &&
+				this.position.y - RAT.PLAYER_SAME_LEVEL_MARGIN <
+					context.player.position.y + context.player.height;
 
-			// TODO? add randomness so rat has small chance to jump even if not at edge?
+			// if player on the same level, move away
+			if (playerAlmostSameLevel) {
+				const dirAwayFromPlayer = context.player.position.x < this.position.x ? 1 : -1;
+				this.setDirection(dirAwayFromPlayer);
+			}
 
 			if (this.#blocked && this.#jumpCooldown <= 0) {
 				// try to jump
 				const moveArea = context.moveAreaManager.checkForMoveArea(this.calculateInteractAABB());
 
 				if (moveArea) {
-					// TODO? add randomness? for which to check first?
-					if (moveArea.downTarget) {
-						const downTargetWorld = moveArea.calculateDownTarget(this)!;
-						this.jump(downTargetWorld);
-					} else if (moveArea.upTarget) {
-						const upTargetWorld = moveArea.calculateUpTarget(this)!;
-						this.jump(upTargetWorld);
-					}
+					if (playerAlmostSameLevel) {
+						// check up and down in a random order
+						let targets = [moveArea.calculateDownTarget(this), moveArea.calculateUpTarget(this)];
 
-					this.#blocked = false;
+						if (Math.random() < 0.5) {
+							targets.reverse();
+						}
+
+						for (let i = 0; i < 2; i++) {
+							if (targets[i]) {
+								this.jump(targets[i]!);
+								break;
+							}
+						}
+					}
+					// if player is above rat, check down only
+					else if (
+						context.player.position.y + context.player.height <
+						this.position.y + this.height
+					) {
+						const downTargetWorld = moveArea.calculateDownTarget(this)!;
+						if (downTargetWorld) {
+							this.jump(downTargetWorld);
+						}
+					}
+					// if player is below rat, check up only
+					else {
+						const upTargetWorld = moveArea.calculateUpTarget(this)!;
+						if (upTargetWorld) {
+							this.jump(upTargetWorld);
+						}
+					}
 				}
 			}
-		} else if (this.#blocked) {
+		}
+
+		if (this.#blocked) {
 			// @ts-expect-error (direction can be inverted and still be -1 or 1)
 			this.setDirection(-this.direction);
 			this.#blocked = false;
@@ -177,7 +208,6 @@ export class Rat extends Mobile {
 	}
 
 	capture(context: Context) {
-		// TODO: word bubble for "Nice Catch!" or something
 		this.captured = true;
 
 		context.eventBus.publish('ratCaptured');
@@ -192,5 +222,6 @@ export class Rat extends Mobile {
 
 	protected override tweenOnFinishExtraActions(): void {
 		this.#jumpCooldown = RAT.JUMP_COOLDOWN;
+		this.#blocked = false;
 	}
 }

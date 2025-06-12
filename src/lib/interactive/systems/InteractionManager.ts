@@ -78,8 +78,11 @@ export class InteractionManager {
 
 	private static makeRatSpawnFunc(imageName: string) {
 		return (context: Context) => {
-			// TODO: keep choosing new ones until rat is NOT on player
-			const moveArea = context.moveAreaManager.getRandomArea();
+			let moveArea;
+			// prevent spawning rat on player
+			do {
+				moveArea = context.moveAreaManager.getRandomArea();
+			} while (context.player.calculateAABB().colliding(moveArea.aabb));
 
 			const x = moveArea.aabb.left;
 			const y = moveArea.aabb.bottom - RAT.HEIGHT;
@@ -242,7 +245,9 @@ export class InteractionManager {
 		var clickArea = this.addClickArea(
 			new BoundingBox(33.5, 89.5, 110.5, 137.5),
 			'Inspect',
-			InteractionManager.makeSpeechBubbleFunc('// Unity\nInstantiate(ratPrefab)'),
+			InteractionManager.makeSpeechBubbleFunc(
+				'// Unity\nInstantiate(ratPrefab)\n// will spawn a rat to catch'
+			),
 			'Run',
 			InteractionManager.makeRatSpawnFunc('ratUnity')
 		);
@@ -251,7 +256,9 @@ export class InteractionManager {
 		var clickArea = this.addClickArea(
 			new BoundingBox(92.5, 148.5, 110.5, 137.5),
 			'Inspect',
-			InteractionManager.makeSpeechBubbleFunc('# Godot\nratScene.instantiate()'),
+			InteractionManager.makeSpeechBubbleFunc(
+				'# Godot\nratScene.instantiate()\n# will spawn a rat to catch'
+			),
 			'Run',
 			InteractionManager.makeRatSpawnFunc('ratGodot')
 		);
@@ -260,7 +267,9 @@ export class InteractionManager {
 		var clickArea = this.addClickArea(
 			new BoundingBox(151.5, 207.5, 110.5, 137.5),
 			'Inspect',
-			InteractionManager.makeSpeechBubbleFunc('// Bevy\ncommands.spawn(\nRatBundle::default()\n)'),
+			InteractionManager.makeSpeechBubbleFunc(
+				'// Bevy\ncommands.spawn(Rat::default())\n// will spawn a rat to catch'
+			),
 			'Run',
 			InteractionManager.makeRatSpawnFunc('ratBevy')
 		);

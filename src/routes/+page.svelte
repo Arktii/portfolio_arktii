@@ -23,6 +23,8 @@
 	import arrowLeft from '$lib/images/icons/arrow-left.png';
 	import arrowRight from '$lib/images/icons/arrow-right.png';
 
+	import spawnSheet from '$lib/images/rat/spawn-particles-sheet.png';
+	import caughtSheet from '$lib/images/rat/caught-particles-sheet.png';
 	import scaredMark from '$lib/images/rat/scared-mark.png';
 	import ratUnity from '$lib/images/rat/rat-unity.png';
 	import ratGodot from '$lib/images/rat/rat-godot.png';
@@ -197,8 +199,10 @@
 		await preloads.loadImage(p5, 'arrowUp', arrowUp);
 		await preloads.loadImage(p5, 'arrowLeft', arrowLeft);
 		await preloads.loadImage(p5, 'arrowRight', arrowRight);
-		await preloads.loadImage(p5, 'scaredMark', scaredMark);
 
+		await preloads.loadImage(p5, 'caughtSheet', caughtSheet);
+		await preloads.loadImage(p5, 'spawnSheet', spawnSheet);
+		await preloads.loadImage(p5, 'scaredMark', scaredMark);
 		await preloads.loadImage(p5, 'ratUnity', ratUnity);
 		await preloads.loadImage(p5, 'ratGodot', ratGodot);
 		await preloads.loadImage(p5, 'ratBevy', ratBevy);

@@ -2,7 +2,12 @@ import { Vec2 } from '$lib/interactive/models/Vec2';
 import { BoundingBox } from '../models/BoundingBox';
 
 export class World {
+	/**
+	 * the world's origin relative to the canvas (in canvas coordinates)
+	 */
+	canvasOffset: Vec2 = Vec2.zero();
 	#canvas: HTMLCanvasElement;
+
 	canvasResizeRatio: number = 0;
 
 	constructor(canvas: HTMLCanvasElement) {
@@ -10,17 +15,45 @@ export class World {
 	}
 
 	/**
-	 * resize a world value for rendering on the canvas
+	 * resize a world size value for rendering on the canvas
 	 */
-	toCanvas(value: number): number {
+	toCanvasSize(value: number): number {
 		return value * this.canvasResizeRatio;
 	}
 
 	/**
-	 * convert a canvas value into a world value
+	 * convert a world x-coordinate for rendering on the canvas
 	 */
-	toWorld(value: number): number {
+	toCanvasX(value: number): number {
+		return value * this.canvasResizeRatio + this.canvasOffset.x;
+	}
+
+	/**
+	 * conver a world y-coordinate for rendering on the canvas
+	 */
+	toCanvasY(value: number): number {
+		return value * this.canvasResizeRatio + this.canvasOffset.y;
+	}
+
+	/**
+	 * resize a canvas size value into a world value
+	 */
+	toWorldSize(value: number): number {
 		return value / this.canvasResizeRatio;
+	}
+
+	/**
+	 * convert a canvas x-coordinate into a world x-coordinate
+	 */
+	toWorldX(value: number): number {
+		return (value - this.canvasOffset.x) / this.canvasResizeRatio;
+	}
+
+	/**
+	 * convert a canvas y-coordinate into a world y-coordinate
+	 */
+	toWorldY(value: number): number {
+		return (value - this.canvasOffset.y) / this.canvasResizeRatio;
 	}
 
 	/**
@@ -30,8 +63,8 @@ export class World {
 		// relative to viewport
 		const canvasRect = this.#canvas.getBoundingClientRect();
 
-		const canvasX = this.toCanvas(point.x);
-		const canvasY = this.toCanvas(point.y);
+		const canvasX = this.toCanvasX(point.x);
+		const canvasY = this.toCanvasY(point.y);
 
 		const absoluteX = canvasRect.left + canvasX + window.scrollX;
 		const absoluteY = canvasRect.top + canvasY + window.scrollY;
@@ -45,8 +78,8 @@ export class World {
 	toViewport(point: Vec2): Vec2 {
 		const canvasRect = this.#canvas.getBoundingClientRect();
 
-		const canvasX = this.toCanvas(point.x);
-		const canvasY = this.toCanvas(point.y);
+		const canvasX = this.toCanvasX(point.x);
+		const canvasY = this.toCanvasY(point.y);
 
 		const viewPortX = canvasRect.left + canvasX;
 		const viewPortY = canvasRect.top + canvasY;
@@ -63,8 +96,8 @@ export class World {
 		const canvasX = point.x - canvasRect.left;
 		const canvasY = point.y - canvasRect.top;
 
-		const worldX = this.toWorld(canvasX);
-		const worldY = this.toWorld(canvasY);
+		const worldX = this.toWorldX(canvasX);
+		const worldY = this.toWorldY(canvasY);
 
 		return new Vec2(worldX, worldY);
 	}
@@ -73,10 +106,10 @@ export class World {
 		const viewportRect = this.#canvas.getBoundingClientRect();
 
 		return new BoundingBox(
-			this.toWorld(-viewportRect.left),
-			this.toWorld(-viewportRect.left + window.innerWidth),
-			this.toWorld(-viewportRect.top),
-			this.toWorld(-viewportRect.top + window.innerHeight)
+			this.toWorldX(-viewportRect.left),
+			this.toWorldX(-viewportRect.left + window.innerWidth),
+			this.toWorldY(-viewportRect.top),
+			this.toWorldY(-viewportRect.top + window.innerHeight)
 		);
 	}
 

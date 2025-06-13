@@ -120,8 +120,8 @@ export class InteractionManager {
 
 		// check click areas
 		let worldMousePos = new Vec2(
-			context.world.toWorld(p5.mouseX),
-			context.world.toWorld(p5.mouseY)
+			context.world.toWorldX(p5.mouseX),
+			context.world.toWorldY(p5.mouseY)
 		);
 		for (let i = 0; i < this.#clickAreas.length; i++) {
 			let clickArea = this.#clickAreas[i];

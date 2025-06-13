@@ -47,6 +47,7 @@
 
 	import {
 		BUILDING,
+		CANVAS_SIZE,
 		COLLISION_SPACE as COL_SPACE,
 		makeColliderGrid,
 		PLAYER,
@@ -76,6 +77,7 @@
 	import { Preloads } from '$lib/interactive/core/Preloads';
 	import { RatManager } from '$lib/interactive/systems/RatManager';
 	import { COLORS } from '$lib/interactive/colors';
+	import { clamp } from '$lib/utils/Math';
 
 	let buildingImage: import('p5').Image;
 	let buildingFgImage: import('p5').Image;
@@ -219,8 +221,10 @@
 			}
 		}
 
-		p5.resizeCanvas(p5.width, p5.width / BUILDING.ASPECT_RATIO);
-		world.canvasResizeRatio = p5.width / WORLD_SIZE.REFERENCE_WIDTH;
+		windowResized(p5);
+
+		// p5.resizeCanvas(p5.width, p5.width / BUILDING.ASPECT_RATIO);
+		// world.canvasResizeRatio = p5.width / WORLD_SIZE.REFERENCE_WIDTH;
 	}
 
 	function setupBuildingDrawers() {
@@ -302,8 +306,8 @@
 		});
 
 		addFixedRunner((context) => {
-			let gridX = context.colSpace.worldToGrid(context.world.toWorld(context.p5.mouseX));
-			let gridY = context.colSpace.worldToGrid(context.world.toWorld(context.p5.mouseY));
+			let gridX = context.colSpace.worldToGrid(context.world.toWorldX(context.p5.mouseX));
+			let gridY = context.colSpace.worldToGrid(context.world.toWorldY(context.p5.mouseY));
 
 			let worldX = context.colSpace.gridToWorldCenter(gridX);
 			let worldY = context.colSpace.gridToWorldCenter(gridY);
@@ -349,9 +353,13 @@
 	}
 
 	function windowResized(p5: import('p5')) {
-		world.canvasResizeRatio = p5.width / WORLD_SIZE.REFERENCE_WIDTH;
+		const clampedWidth = clamp(p5.windowWidth, CANVAS_SIZE.MIN_WIDTH, CANVAS_SIZE.MAX_WIDTH);
+		world.canvasResizeRatio = clampedWidth / WORLD_SIZE.REFERENCE_WIDTH;
 
-		p5.resizeCanvas(p5.width, world.toCanvas(BUILDING.HEIGHT));
+		world.canvasOffset = new Vec2((p5.windowWidth - clampedWidth) / 2, 0);
+
+		// Note: it's alright to call draw because fixedUpdate will prevent overcalling functions
+		p5.resizeCanvas(p5.windowWidth, world.toCanvasSize(BUILDING.HEIGHT), false);
 	}
 
 	function mouseClicked(p5: import('p5')) {

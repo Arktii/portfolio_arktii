@@ -165,7 +165,7 @@ export class Player extends Mobile {
 	}
 
 	private scrollToPlayer(context: Context) {
-		const viewportWorldHeight = context.world.toWorld(window.innerHeight);
+		const viewportWorldHeight = context.world.toWorldSize(window.innerHeight);
 
 		const playerViewAABB = new BoundingBox(
 			this.position.x,

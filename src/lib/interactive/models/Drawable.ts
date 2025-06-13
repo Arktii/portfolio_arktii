@@ -105,7 +105,7 @@ export class Rectangle extends Glowable {
 		}
 
 		if (this.#strokeWeight !== undefined) {
-			context.p5.strokeWeight(context.world.toCanvas(this.#strokeWeight));
+			context.p5.strokeWeight(context.world.toCanvasSize(this.#strokeWeight));
 		}
 
 		if (this.#color) {
@@ -116,11 +116,11 @@ export class Rectangle extends Glowable {
 			this.addGlow(context.p5);
 		}
 
-		let x = context.world.toCanvas(this.#x);
-		let y = context.world.toCanvas(this.#y);
-		let width = context.world.toCanvas(this.#width);
-		let height = context.world.toCanvas(this.#height);
-		let borderRadius = context.world.toCanvas(this.#borderRadius);
+		let x = context.world.toCanvasX(this.#x);
+		let y = context.world.toCanvasY(this.#y);
+		let width = context.world.toCanvasSize(this.#width);
+		let height = context.world.toCanvasSize(this.#height);
+		let borderRadius = context.world.toCanvasSize(this.#borderRadius);
 
 		for (let i = 0; i < this.intensity; i++) {
 			context.p5.rect(x, y, width, height, borderRadius);
@@ -164,14 +164,20 @@ export class Img extends Drawable {
 		context.p5.scale(this.flipX ? -1 : 1, 1);
 
 		let xDirection = this.flipX ? -1 : 1;
-		let addX = this.flipX ? -this.width : 0;
+
+		let canvasX;
+		if (!this.flipX) {
+			canvasX = world.toCanvasX(this.x);
+		} else {
+			canvasX = world.toCanvasX(this.x * xDirection - this.width) - 2 * world.canvasOffset.x;
+		}
 
 		context.p5.image(
 			this.image,
-			world.toCanvas(this.x * xDirection + addX),
-			world.toCanvas(this.y),
-			world.toCanvas(this.width),
-			world.toCanvas(this.height)
+			canvasX,
+			world.toCanvasY(this.y),
+			world.toCanvasSize(this.width),
+			world.toCanvasSize(this.height)
 		);
 
 		context.p5.pop();
@@ -201,7 +207,7 @@ export class GridRectangle extends Drawable {
 	}
 
 	draw(context: Context): void {
-		let canvasCellSize = context.world.toCanvas(context.colSpace.cellSize);
+		let canvasCellSize = context.world.toCanvasSize(context.colSpace.cellSize);
 
 		context.p5.rect(
 			this.x * canvasCellSize,
@@ -288,7 +294,7 @@ export class Text extends Drawable {
 
 	draw(context: Context): void {
 		context.p5.push();
-		context.p5.textSize(context.world.toCanvas(this.#fontSize));
+		context.p5.textSize(context.world.toCanvasSize(this.#fontSize));
 		context.p5.textAlign(
 			this.#horizontalAlign ?? context.p5.CENTER,
 			this.#verticalAlign ?? context.p5.CENTER
@@ -299,7 +305,7 @@ export class Text extends Drawable {
 		}
 
 		if (this.#strokeWeight) {
-			context.p5.strokeWeight(context.world.toCanvas(this.#strokeWeight));
+			context.p5.strokeWeight(context.world.toCanvasSize(this.#strokeWeight));
 		}
 
 		if (this.#strokeColor) {
@@ -314,10 +320,10 @@ export class Text extends Drawable {
 
 		context.p5.text(
 			this.#text,
-			context.world.toCanvas(this.#x),
-			context.world.toCanvas(this.#y),
-			this.#width ? context.world.toCanvas(this.#width) : undefined,
-			this.#height ? context.world.toCanvas(this.#height) : undefined
+			context.world.toCanvasX(this.#x),
+			context.world.toCanvasY(this.#y),
+			this.#width ? context.world.toCanvasSize(this.#width) : undefined,
+			this.#height ? context.world.toCanvasSize(this.#height) : undefined
 		);
 
 		context.p5.pop();
@@ -385,14 +391,14 @@ export class Curve extends Drawable {
 		}
 
 		context.p5.bezier(
-			context.world.toCanvas(this.#x1),
-			context.world.toCanvas(this.#y1),
-			context.world.toCanvas(this.#x2),
-			context.world.toCanvas(this.#y2),
-			context.world.toCanvas(this.#x3),
-			context.world.toCanvas(this.#y3),
-			context.world.toCanvas(this.#x4),
-			context.world.toCanvas(this.#y4)
+			context.world.toCanvasX(this.#x1),
+			context.world.toCanvasY(this.#y1),
+			context.world.toCanvasX(this.#x2),
+			context.world.toCanvasY(this.#y2),
+			context.world.toCanvasX(this.#x3),
+			context.world.toCanvasY(this.#y3),
+			context.world.toCanvasX(this.#x4),
+			context.world.toCanvasY(this.#y4)
 		);
 
 		context.p5.pop();
@@ -485,15 +491,15 @@ export class IconText extends Drawable {
 	}
 
 	draw(context: Context) {
-		const x = context.world.toCanvas(this.#x);
-		const y = context.world.toCanvas(this.#y);
-		const width = context.world.toCanvas(this.#width);
-		const height = context.world.toCanvas(this.#height);
-		const gap = context.world.toCanvas(this.#gap);
-		const iconWidth = context.world.toCanvas(this.#iconWidth);
-		const iconHeight = context.world.toCanvas(this.#iconHeight);
+		const x = context.world.toCanvasX(this.#x);
+		const y = context.world.toCanvasY(this.#y);
+		const width = context.world.toCanvasSize(this.#width);
+		const height = context.world.toCanvasSize(this.#height);
+		const gap = context.world.toCanvasSize(this.#gap);
+		const iconWidth = context.world.toCanvasSize(this.#iconWidth);
+		const iconHeight = context.world.toCanvasSize(this.#iconHeight);
 		const strokeWeight =
-			this.#strokeWeight === undefined ? 0 : context.world.toCanvas(this.#strokeWeight);
+			this.#strokeWeight === undefined ? 0 : context.world.toCanvasSize(this.#strokeWeight);
 
 		const centerY = y + height / 2;
 
@@ -502,7 +508,7 @@ export class IconText extends Drawable {
 			context.p5.textFont(this.#font);
 		}
 
-		context.p5.textSize(context.world.toCanvas(this.#fontSize));
+		context.p5.textSize(context.world.toCanvasSize(this.#fontSize));
 
 		const textWidth = context.p5.textWidth(this.#text);
 

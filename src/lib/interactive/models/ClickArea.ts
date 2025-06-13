@@ -96,10 +96,10 @@ export class ClickArea {
 	}
 
 	mouseHover(context: Context) {
-		const left = context.world.toWorld(context.p5.mouseX) + INTERACTION_DISPLAY.MOUSE_OFFSET_X;
+		const left = context.world.toWorldX(context.p5.mouseX) + INTERACTION_DISPLAY.MOUSE_OFFSET_X;
 
 		let mainY =
-			context.world.toWorld(context.p5.mouseY) -
+			context.world.toWorldY(context.p5.mouseY) -
 			INTERACTION_DISPLAY.HEIGHT +
 			INTERACTION_DISPLAY.MOUSE_OFFSET_Y;
 

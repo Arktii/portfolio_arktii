@@ -37,8 +37,8 @@
 
 		p5.textFont(defaultFont);
 
-		const width = p5.constrain(p5.windowWidth * 0.9, CANVAS_SIZE.MIN_WIDTH, CANVAS_SIZE.MAX_WIDTH);
-		p5.resizeCanvas(width, p5.windowHeight);
+		// const width = p5.constrain(p5.windowWidth * 0.9, CANVAS_SIZE.MIN_WIDTH, CANVAS_SIZE.MAX_WIDTH);
+		// p5.resizeCanvas(p5.windowWidth, p5.windowHeight);
 
 		await setup(p5, (canvas as any).canvas as HTMLCanvasElement);
 	}
@@ -56,8 +56,8 @@
 	}
 
 	function canvasWindowResized(p5: import('p5')) {
-		const width = p5.constrain(p5.windowWidth * 0.9, CANVAS_SIZE.MIN_WIDTH, CANVAS_SIZE.MAX_WIDTH);
-		p5.resizeCanvas(width, p5.windowHeight);
+		// const width = p5.constrain(p5.windowWidth * 0.9, CANVAS_SIZE.MIN_WIDTH, CANVAS_SIZE.MAX_WIDTH);
+		// p5.resizeCanvas(p5.windowWidth, p5.windowHeight);
 
 		windowResized(p5);
 	}

@@ -3,7 +3,6 @@ import { BoundingBox } from '../models/BoundingBox';
 import { Vec2 } from '../models/Vec2';
 
 export class CollisionSpace {
-	// todo? add origin
 	/// World width
 	worldWidth: number;
 	/// World height

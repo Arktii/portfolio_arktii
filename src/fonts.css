@@ -1,0 +1,20 @@
+@font-face {
+    font-family: 'Fredoka';
+    src: url('$lib/fonts/Fredoka-VariableFont_wdth,wght.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Lexend Giga';
+    src: url('$lib/fonts/LexendGiga-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Lexend';
+    src: url('$lib/fonts/Lexend-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+}

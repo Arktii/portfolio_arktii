@@ -1,2 +1,10 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
+
+@import './fonts.css';
+
+@theme {
+	--font-sans: 'Fredoka', sans-serif;
+	--font-lexend-giga: 'Lexend Giga', 'Lexend', sans-serif;
+	--font-lexend: 'Lexend', sans-serif;
+}

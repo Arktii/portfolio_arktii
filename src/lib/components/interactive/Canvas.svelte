@@ -55,13 +55,6 @@
 		update(p5, p5.deltaTime / 1000);
 	}
 
-	function canvasWindowResized(p5: import('p5')) {
-		// const width = p5.constrain(p5.windowWidth * 0.9, CANVAS_SIZE.MIN_WIDTH, CANVAS_SIZE.MAX_WIDTH);
-		// p5.resizeCanvas(p5.windowWidth, p5.windowHeight);
-
-		windowResized(p5);
-	}
-
 	onMount(async () => {
 		if (typeof window !== 'undefined') {
 			const p5 = await import('p5');
@@ -69,7 +62,7 @@
 			p5Instance = new p5.default((p5js: import('p5')) => {
 				p5js.setup = () => canvasSetup(p5js);
 				p5js.draw = () => draw(p5js);
-				p5js.windowResized = () => canvasWindowResized(p5js);
+				p5js.windowResized = () => windowResized(p5js);
 				p5js.mouseClicked = () => mouseClicked(p5js);
 				p5js.mousePressed = () => mousePressed(p5js);
 				p5js.mouseReleased = () => mouseReleased(p5js);

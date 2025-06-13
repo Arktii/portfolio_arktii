@@ -353,12 +353,13 @@
 	}
 
 	function windowResized(p5: import('p5')) {
-		const clampedWidth = clamp(p5.width, CANVAS_SIZE.MIN_WIDTH, CANVAS_SIZE.MAX_WIDTH);
+		const clampedWidth = clamp(p5.windowWidth, CANVAS_SIZE.MIN_WIDTH, CANVAS_SIZE.MAX_WIDTH);
 		world.canvasResizeRatio = clampedWidth / WORLD_SIZE.REFERENCE_WIDTH;
 
-		world.canvasOffset = new Vec2((p5.width - clampedWidth) / 2, 0);
+		world.canvasOffset = new Vec2((p5.windowWidth - clampedWidth) / 2, 0);
 
-		p5.resizeCanvas(p5.width, world.toCanvasSize(BUILDING.HEIGHT));
+		// Note: it's alright to call draw because fixedUpdate will prevent overcalling functions
+		p5.resizeCanvas(p5.windowWidth, world.toCanvasSize(BUILDING.HEIGHT), false);
 	}
 
 	function mouseClicked(p5: import('p5')) {

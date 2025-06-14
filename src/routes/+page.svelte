@@ -3,6 +3,8 @@
 	import Interactive from '$lib/components/interactive/Interactive.svelte';
 	import ObservedPoint from '$lib/components/ObservedPoint.svelte';
 	import Section from '$lib/components/Section.svelte';
+
+	let currentSection: number = -1;
 </script>
 
 <main class="bg-primary">
@@ -13,26 +15,43 @@
 				Software Developer (Fresh Graduate)
 			</p>
 
-			<p class="text-secondary my-20 text-xl">
+			<p class="text-secondary my-15 text-xl">
 				Welcome to my portfolio. First, enjoy an interactive summary of everything. Click around,
 				catch some mice, then when you're done exploring, navigate to the more detailed sections
 				below it.
 			</p>
 		</div>
 
-		<HeaderBar />
+		<HeaderBar {currentSection} />
 
-		<ObservedPoint />
+		<Section header="Interactive Summary" id="summary">
+			<div class="flex w-full flex-col items-center">
+				<h3 class="mb-3">Controls</h3>
 
-		<Section header="Interactive Summary">
-			<h3 class="my-3">Controls</h3>
+				<div class="mb-5 flex w-600 flex-row space-x-5">
+					<div class="flex w-full flex-col items-end">
+						<strong>A/D</strong>
+						<strong>W/S</strong>
+						<strong>Q/E</strong>
+						<strong>Mouse Buttons</strong>
+					</div>
+					<div class="flex w-full flex-col">
+						<p>Move left / right</p>
+						<p>Jump up / down</p>
+						<p>Interact</p>
+						<p>Interact</p>
+					</div>
+				</div>
+			</div>
 		</Section>
+
+		<hr class="border-accent w-full border-1" />
 
 		<Interactive />
 
-		<hr class="border-accent w-full border-2" />
+		<hr class="border-accent w-full border-1" />
 
-		<Section header="About Me">
+		<Section header="About Me" id="about">
 			<p class="my-10">
 				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam molestie erat risus, quis
 				sollicitudin leo lacinia in. Nam iaculis libero non arcu rutrum, vulputate aliquam neque
@@ -50,8 +69,16 @@
 			<p>Short section</p>
 		</Section>
 
-		<Section header="Personal Projects">
-			<p class="text-secondary my-10 text-xl">
+		<Section header="Internship" id="internship">
+			<p class="text-secondary my-10">
+				Although I cannot disclose the specific details, for my internship at DOST, I worked on a
+				mobile application. The app used Flutter for its frontend, and it used Laravel for its
+				backend. I worked on both the frontend and backend.
+			</p>
+		</Section>
+
+		<Section header="Personal Projects" headerSubtitle="Selected Works" id="projects">
+			<p class="text-secondary my-10">
 				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam molestie erat risus, quis
 				sollicitudin leo lacinia in. Nam iaculis libero non arcu rutrum, vulputate aliquam neque
 				egestas. Nulla facilisi. Nullam vel metus quis ligula bibendum mattis a eget diam. Vivamus
@@ -60,8 +87,8 @@
 			</p>
 		</Section>
 
-		<Section header="School Projects">
-			<p class="my-10">
+		<Section header="School Projects" headerSubtitle="Selected Works">
+			<p>
 				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam molestie erat risus, quis
 				sollicitudin leo lacinia in. Nam iaculis libero non arcu rutrum, vulputate aliquam neque
 				egestas. Nulla facilisi. Nullam vel metus quis ligula bibendum mattis a eget diam. Vivamus
@@ -70,8 +97,8 @@
 			</p>
 		</Section>
 
-		<Section header="Contact Information">
-			<p class="my-10">
+		<Section header="Relevant Links" headerSubtitle="and contact information" id="links">
+			<p>
 				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam molestie erat risus, quis
 				sollicitudin leo lacinia in. Nam iaculis libero non arcu rutrum, vulputate aliquam neque
 				egestas. Nulla facilisi. Nullam vel metus quis ligula bibendum mattis a eget diam. Vivamus

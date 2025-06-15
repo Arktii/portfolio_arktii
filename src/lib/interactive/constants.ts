@@ -3,6 +3,7 @@ import { COLORS } from './colors';
 export const FIXED_FPS = 40;
 export const FIXED_DELTA_TIME = 1000 / FIXED_FPS;
 export const FIXED_DELTA_SECS = FIXED_DELTA_TIME / 1000;
+export const MAX_DELTA_TIME = 1250;
 
 export const FLOAT_TOLERANCE = 0.001;
 

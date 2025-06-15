@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { CANVAS_SIZE, FIXED_DELTA_TIME } from '$lib/interactive/constants';
+	import { CANVAS_SIZE, FIXED_DELTA_TIME, MAX_DELTA_TIME } from '$lib/interactive/constants';
 	import Fredoka from '$lib/fonts/Fredoka-Regular.ttf';
 
 	export let preload = async (p5: import('p5')) => {};
@@ -44,7 +44,9 @@
 	}
 
 	function draw(p5: import('p5')) {
-		accumulator += p5.deltaTime;
+		const limitedDeltaTime = Math.min(p5.deltaTime, MAX_DELTA_TIME);
+
+		accumulator += limitedDeltaTime;
 
 		while (accumulator >= FIXED_DELTA_TIME) {
 			fixedUpdate(p5);
@@ -52,7 +54,7 @@
 			accumulator -= FIXED_DELTA_TIME;
 		}
 
-		update(p5, p5.deltaTime / 1000);
+		update(p5, limitedDeltaTime / 1000);
 	}
 
 	onMount(async () => {

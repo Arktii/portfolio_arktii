@@ -3,10 +3,13 @@
 	import HeaderBar from '$lib/components/HeaderBar.svelte';
 	import Interactive from '$lib/components/interactive/Interactive.svelte';
 	import ParallaxLayer from '$lib/components/ParallaxLayer.svelte';
+	import ProjectCard from '$lib/components/ProjectCard.svelte';
+	import ProjectSection from '$lib/components/ProjectSection.svelte';
 	import Section from '$lib/components/Section.svelte';
 
 	import grid128 from '$lib/images/background/grid-128.png';
 	import grid64 from '$lib/images/background/grid-64.png';
+	import { BadgeType } from '$lib/types/projectDisplay';
 
 	let currentSection: number = -1;
 
@@ -35,7 +38,7 @@
 	/>
 
 	<div class="flex flex-col items-center pt-10">
-		<div class="bg-primary w-7/10 max-w-200 p-5">
+		<div class="bg-primary w-9/10 max-w-225 p-5 lg:w-4/5">
 			<h1>Hi, I'm Emir.</h1>
 			<p class="font-lexend text-accent text-left text-2xl font-bold">
 				Software Developer (Fresh Graduate)
@@ -125,9 +128,9 @@
 
 		<Section header="Internship" id="internship">
 			<p class="text-secondary my-10">
-				Although I cannot disclose the specific details, for my internship at DOST, I worked on a
-				mobile application using Flutter for the frontend, and Laravel for the backend. I worked on
-				both the frontend and backend.
+				In 2024, I had an internship with the Department of Science and Technology (DOST), where I
+				worked on a mobile application using Flutter for the frontend, and Laravel for the backend.
+				I worked on both the frontend and backend.
 			</p>
 
 			<br />
@@ -140,6 +143,31 @@
 		</Section>
 
 		<Section header="Personal Projects" headerSubtitle="Selected Works" id="projects">
+			<ProjectSection>
+				<div class="flex flex-row flex-wrap items-center justify-center space-y-2 space-x-2">
+					<ProjectCard
+						info={{
+							title: "Chasm's Call",
+							image: 'src/lib/images/projects/chasms-call.png',
+							badges: [
+								{ name: 'C#', type: BadgeType.Language },
+								{ name: 'Godot', type: BadgeType.Framework }
+							]
+						}}
+					/>
+
+					<ProjectCard
+						info={{
+							title: 'Timeflowers',
+							image: 'src/lib/images/projects/timeflowers.png',
+							badges: [
+								{ name: 'C#', type: BadgeType.Language },
+								{ name: 'Unity', type: BadgeType.Framework }
+							]
+						}}
+					/>
+				</div>
+			</ProjectSection>
 			<p class="text-secondary my-10">
 				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam molestie erat risus, quis
 				sollicitudin leo lacinia in. Nam iaculis libero non arcu rutrum, vulputate aliquam neque
@@ -168,6 +196,5 @@
 				posuere vitae vel sem. Quisque ut gravida ante.
 			</p>
 		</Section>
-		<p>Bottom of the screen</p>
 	</div>
 </main>

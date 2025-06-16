@@ -16,17 +16,18 @@
 	--font-lexend: 'Lexend', sans-serif;
 	--font-urbanist: 'Urbanist', sans-serif;
 	--font-economica: 'Economica', sans-serif;
+	--font-candal: 'Candal', sans-serif;
 }
 
 @layer base {
 	h1 {
-		@apply font-lexend-giga text-secondary text-left text-4xl font-bold;
+		@apply font-candal text-secondary text-left text-4xl font-bold;
 	}
 	h2 {
-		@apply font-lexend-giga text-accent text-left text-2xl font-bold;
+		@apply font-candal text-accent text-left text-2xl font-bold;
 	}
 	h3 {
-		@apply font-lexend-giga text-neutral text-left text-xl font-bold;
+		@apply font-candal text-neutral text-left text-xl font-bold;
 	}
 	p {
 		@apply font-urbanist text-secondary text-left;

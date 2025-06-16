@@ -4,29 +4,32 @@
 	import ParallaxLayer from '$lib/components/ParallaxLayer.svelte';
 	import Section from '$lib/components/Section.svelte';
 
-	import nightSky from '$lib/images/background/night-sky.png';
 	import grid128 from '$lib/images/background/grid-128.png';
 	import grid64 from '$lib/images/background/grid-64.png';
-	import grid32 from '$lib/images/background/grid-32.png';
 
 	let currentSection: number = -1;
 </script>
 
 <main>
 	<ParallaxLayer zIndex={-15} scrollSpeed={0.1} />
-	<ParallaxLayer source={grid32} zIndex={-14} scrollSpeed={0.2} mousePanSpeed={0.02} opacity={0.05} />
 	<ParallaxLayer
 		source={grid64}
 		zIndex={-13}
 		scrollSpeed={0.5}
 		mousePanSpeed={0.05}
 		offsetY={64}
-		opacity={0.1}
+		opacity={0.05}
 	/>
-	<ParallaxLayer source={grid128} zIndex={-12} scrollSpeed={0.8} mousePanSpeed={0.1} opacity={0.25} />
+	<ParallaxLayer
+		source={grid128}
+		zIndex={-12}
+		scrollSpeed={0.8}
+		mousePanSpeed={0.1}
+		opacity={0.15}
+	/>
 
 	<div class="flex flex-col items-center pt-10">
-		<div class="w-7/10 max-w-200 py-8">
+		<div class="bg-primary w-7/10 max-w-200 p-5">
 			<h1>Hi, I'm Emir.</h1>
 			<p class="font-lexend text-accent text-left text-2xl font-bold">
 				Software Developer (Fresh Graduate)

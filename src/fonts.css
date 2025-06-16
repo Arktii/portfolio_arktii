@@ -60,3 +60,10 @@
 	font-weight: 700;
 	font-style: italic;
 }
+
+@font-face {
+	font-family: 'Candal';
+	src: url('$lib/fonts/Candal-Regular.ttf') format('truetype');
+	font-weight: 400;
+	font-style: normal;
+}

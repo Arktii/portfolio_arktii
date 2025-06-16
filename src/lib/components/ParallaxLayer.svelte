@@ -14,8 +14,8 @@
 	export let mousePanSpeed: number = 0;
 
 	let counterScroll = 0;
-	let counterY = 0;
-	let counterX = 0;
+	let towardsY = 0;
+	let towardsX = 0;
 
 	onMount(() => {
 		function handleScroll() {
@@ -23,8 +23,8 @@
 		}
 
 		function handleMousemove(event: MouseEvent) {
-			counterX = (event.clientX - window.innerWidth / 2) * mousePanSpeed + offsetX;
-			counterY = (event.clientY - window.innerHeight / 2) * mousePanSpeed;
+			towardsX = (event.clientX - window.innerWidth / 2) * mousePanSpeed + offsetX;
+			towardsY = (event.clientY - window.innerHeight / 2) * mousePanSpeed;
 		}
 
 		handleScroll();
@@ -40,7 +40,7 @@
 
 <div
 	class="{source.length == 0 ? 'bg-primary' : ''} fixed h-full w-full bg-repeat"
-	style="background-image: url({source}); background-position: {counterX +
-		offsetX}px {counterScroll + counterY + offsetY}px; z-index: {zIndex}; opacity: {opacity};"
+	style="background-image: url({source}); background-position: {towardsX +
+		offsetX}px {counterScroll + towardsY + offsetY}px; z-index: {zIndex}; opacity: {opacity};"
 ></div>
 <!-- <div class="bg-secondary fixed z-[{zIndex}] h-full w-full"></div> -->

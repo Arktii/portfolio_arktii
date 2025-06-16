@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Badge from '$lib/components/Badge.svelte';
 	import HeaderBar from '$lib/components/HeaderBar.svelte';
 	import Interactive from '$lib/components/interactive/Interactive.svelte';
 	import ParallaxLayer from '$lib/components/ParallaxLayer.svelte';
@@ -8,6 +9,10 @@
 	import grid64 from '$lib/images/background/grid-64.png';
 
 	let currentSection: number = -1;
+
+	const languageBadgeColor = '#d8d9da';
+	const frameworkBadgeColor = '#e2d9be';
+	const platformBadgeColor = '#8a7f71';
 </script>
 
 <main>
@@ -15,15 +20,16 @@
 	<ParallaxLayer
 		source={grid64}
 		zIndex={-13}
-		scrollSpeed={0.5}
+		scrollSpeed={0.25}
 		mousePanSpeed={0.05}
 		offsetY={64}
+		offsetX={64}
 		opacity={0.05}
 	/>
 	<ParallaxLayer
 		source={grid128}
 		zIndex={-12}
-		scrollSpeed={0.8}
+		scrollSpeed={0.5}
 		mousePanSpeed={0.1}
 		opacity={0.15}
 	/>
@@ -80,11 +86,39 @@
 				posuere vitae vel sem. Quisque ut gravida ante.
 			</p>
 
-			<h3>Skills</h3>
+			<h3 class="pt-3">Skills</h3>
+			<p class="font-lexend text-neutral pb-3 text-left text-lg font-bold">
+				Languages, Engines, Frameworks, and Libraries
+			</p>
 
-			<p>TODO: add languages here</p>
+			<h4 class="py-2">Favorites</h4>
+			<Badge bgColor={languageBadgeColor}>C#</Badge>
+			<Badge bgColor={languageBadgeColor}>Python</Badge>
+			<Badge bgColor={languageBadgeColor}>Rust</Badge>
+			<Badge bgColor={frameworkBadgeColor}>Unity</Badge>
+			<Badge bgColor={frameworkBadgeColor}>Godot</Badge>
 
-			<h3>Education</h3>
+			<h4 class="pt-2">Completed Projects Using</h4>
+			<p class="font-lexend text-neutral pb-2 text-left">(aside from the Favorites)</p>
+			<Badge bgColor={languageBadgeColor}>TypeScript</Badge>
+			<Badge bgColor={languageBadgeColor}>JavaScript</Badge>
+			<Badge bgColor={languageBadgeColor}>Dart</Badge>
+			<Badge bgColor={frameworkBadgeColor}>Bevy</Badge>
+			<Badge bgColor={frameworkBadgeColor}>Svelte</Badge>
+			<Badge bgColor={frameworkBadgeColor}>Flutter</Badge>
+
+			<h4 class="pt-2">Exposed To</h4>
+			<p class="font-lexend text-neutral pb-2 text-left">
+				Used for smaller school and personal projects
+			</p>
+			<Badge bgColor={languageBadgeColor}>C</Badge>
+			<Badge bgColor={languageBadgeColor}>C++</Badge>
+			<Badge bgColor={languageBadgeColor}>Php</Badge>
+			<Badge bgColor={languageBadgeColor}>Lua</Badge>
+			<Badge bgColor={languageBadgeColor}>Assembly (NASM x86)</Badge>
+			<Badge bgColor={frameworkBadgeColor}>Laravel</Badge>
+
+			<h3 class="py-3">Education</h3>
 
 			<p>Short section</p>
 		</Section>
@@ -92,9 +126,17 @@
 		<Section header="Internship" id="internship">
 			<p class="text-secondary my-10">
 				Although I cannot disclose the specific details, for my internship at DOST, I worked on a
-				mobile application. The app used Flutter for its frontend, and it used Laravel for its
-				backend. I worked on both the frontend and backend.
+				mobile application using Flutter for the frontend, and Laravel for the backend. I worked on
+				both the frontend and backend.
 			</p>
+
+			<br />
+
+			<Badge bgColor={languageBadgeColor}>Dart</Badge>
+			<Badge bgColor={languageBadgeColor}>Php</Badge>
+			<Badge bgColor={frameworkBadgeColor}>Flutter</Badge>
+			<Badge bgColor={frameworkBadgeColor}>Laravel</Badge>
+			<Badge bgColor={platformBadgeColor}>Mobile</Badge>
 		</Section>
 
 		<Section header="Personal Projects" headerSubtitle="Selected Works" id="projects">

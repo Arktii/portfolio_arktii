@@ -8,8 +8,8 @@
 	--color-primary: #171412;
 	--color-secondary: #eae0d5;
 	--color-accent: #c6ac8f;
-	--color-secondary-accent: #22333b;
-	--color-neutral: #756b5e;
+	--color-secondary-accent: #d8d9da;
+	--color-neutral: #8a7f71;
 
 	--font-sans: 'Fredoka', sans-serif;
 	--font-lexend-giga: 'Lexend Giga', 'Lexend', sans-serif;
@@ -27,7 +27,10 @@
 		@apply font-candal text-accent text-left text-2xl font-bold;
 	}
 	h3 {
-		@apply font-candal text-neutral text-left text-xl font-bold;
+		@apply font-candal text-secondary text-left text-xl font-bold;
+	}
+	h4 {
+		@apply font-urbanist text-accent text-left text-lg font-bold;
 	}
 	p {
 		@apply font-urbanist text-secondary text-left;

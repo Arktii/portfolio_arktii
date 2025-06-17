@@ -1,15 +1,16 @@
 <script lang="ts">
 	import type { ProjectCardInfo } from '$lib/types/projectTypes';
-	import { getContext, onDestroy } from 'svelte';
+	import { getContext, onDestroy, onMount } from 'svelte';
 	import { type Readable } from 'svelte/store';
 	import Badge from './Badge.svelte';
-	import { chooseBadgeColor } from '$lib/utils/BadgeColors';
 
-	export let cardHeight: number = 40;
+	export let cardHeight: number = 60;
 
 	export let info: ProjectCardInfo;
 
 	let isActive = false;
+
+	let scrollContainer: Element;
 
 	const { registerSelf, select, deselect, activeCardId } = getContext<{
 		registerSelf: () => number;
@@ -41,10 +42,13 @@
 	>
 		<!-- Footer Slot (badges, description, etc) -->
 		<div
-			class="bg-secondary z-2 flex h-17.5 flex-col items-start justify-between px-2 py-1 shadow-white"
+			class="bg-secondary z-2 flex h-22.5 flex-col items-start justify-between px-2 py-1 shadow-white"
 		>
 			<p class="font-lexend text-primary text-lg">{info.title}</p>
-			<div class="flex-row items-start space-x-1">
+			<div
+				bind:this={scrollContainer}
+				class="flex w-full flex-row flex-wrap items-start justify-start gap-1 py-0.5"
+			>
 				{#each info.badges as badgeInfo}
 					<Badge type={badgeInfo.type}>{badgeInfo.name}</Badge>
 				{/each}

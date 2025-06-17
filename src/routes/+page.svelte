@@ -12,6 +12,7 @@
 	import grid64 from '$lib/images/background/grid-64.png';
 	import { BadgeType } from '$lib/types/projectTypes';
 	import { chooseBadgeColor } from '$lib/utils/BadgeColors';
+	import { onMount } from 'svelte';
 
 	import { SiMessenger, SiLinkedin, SiGithub, SiGmail } from 'svelte-icons-pack/si';
 
@@ -145,12 +146,13 @@
 			<Badge type={BadgeType.Language}>Php</Badge>
 			<Badge type={BadgeType.Framework}>Flutter</Badge>
 			<Badge type={BadgeType.Framework}>Laravel</Badge>
+			<Badge type={BadgeType.Framework}>MariaDB</Badge>
 			<Badge type={BadgeType.Platform}>Mobile</Badge>
 		</Section>
 
 		<Section header="Personal Projects" headerSubtitle="Selected Works" id="projects">
 			<p class="text-secondary my-5">
-				Here are some selected projects I've completed in my free time.
+				Here are some selected projects that I've completed in my free time.
 			</p>
 
 			<ProjectSection>
@@ -162,7 +164,7 @@
 							title: "Chasm's Call",
 							image: 'src/lib/images/projects/chasms-call.png',
 							description: 'Praesent mollis, eros sed efficitur condimentum, quam odio.',
-							date: '2023',
+							date: '2024',
 							link: 'https://youtu.be/dQw4w9WgXcQ',
 							badges: [
 								{ name: 'C#', type: BadgeType.Language },
@@ -237,7 +239,7 @@
 
 		<Section header="School Projects" headerSubtitle="Selected Works">
 			<p class="text-secondary my-5">
-				Here are some selected project I've completed for different classes.
+				Here are some selected projects that I've completed for different classes.
 			</p>
 
 			<ProjectSection>
@@ -253,8 +255,10 @@
 							date: '2023',
 							link: 'https://youtu.be/dQw4w9WgXcQ',
 							badges: [
-								{ name: 'C#', type: BadgeType.Language },
-								{ name: 'Godot', type: BadgeType.Framework }
+								{ name: 'TypeScript', type: BadgeType.Language },
+								{ name: 'Tailwind', type: BadgeType.Framework },
+								{ name: 'Svelte', type: BadgeType.Framework },
+								{ name: 'MongoDB', type: BadgeType.Framework }
 							]
 						}}
 					/>
@@ -269,7 +273,9 @@
 							link: 'https://youtu.be/dQw4w9WgXcQ',
 							badges: [
 								{ name: 'C#', type: BadgeType.Language },
-								{ name: 'Unity', type: BadgeType.Framework }
+								{ name: 'Unity', type: BadgeType.Framework },
+								{ name: 'FishNet', type: BadgeType.Framework },
+								{ name: 'AWS', type: BadgeType.Platform }
 							]
 						}}
 					/>

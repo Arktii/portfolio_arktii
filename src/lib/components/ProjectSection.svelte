@@ -6,7 +6,8 @@
 	import { chooseBadgeColor } from '$lib/utils/BadgeColors';
 	//@ts-ignore (unsure why this is reporting an error, but there's no actual error in the app)
 	import { Icon } from 'svelte-icons-pack';
-	import { FiX } from 'svelte-icons-pack/fi';
+	import { FiX, FiExternalLink } from 'svelte-icons-pack/fi';
+
 	import { fade } from 'svelte/transition';
 
 	const placeholderInfo = {
@@ -91,29 +92,33 @@ transition-all duration-300 hover:scale-125"
 			class="aspect-[1.264] w-200 rounded-tl-lg rounded-tr-lg md:rounded-tr-none md:rounded-bl-lg"
 		/>
 		<div class="flex w-full flex-col items-start">
-			<div class="flex grow flex-col md:pl-2">
-				<p class="text-secondary text-bold text-2xl">{active.title}</p>
+			<div class="flex grow flex-col md:pl-3">
+				{#if active.link}
+					<a
+						class="text-secondary text-bold hover:border-secondary font-urbanist
+								mt-1 flex w-fit flex-row items-start gap-1
+								rounded-lg border-1 border-transparent p-0.5
+								text-2xl transition-all duration-300 hover:scale-105"
+						href={active.link}
+						target="_blank"
+					>
+						{active.title}
+						<Icon src={FiExternalLink} size="15px" />
+					</a>
+				{:else}
+					<p class="text-secondary text-bold mt-1 border-1 border-transparent p-0.5 text-2xl">
+						{active.title}
+					</p>
+				{/if}
 				<p class="text-neutral">{active.date}</p>
 				<p class="text-secondary">{active.description}</p>
 			</div>
-			<div class="flex flex-row-reverse items-end justify-between self-stretch md:pl-2">
-				<div class="flex flex-row justify-end space-x-1 self-end">
+			<div class="flex flex-row items-end justify-between self-stretch md:pl-2">
+				<div class="flex flex-row flex-wrap justify-start gap-1 self-end">
 					{#each active.badges as badgeInfo}
 						<Badge type={badgeInfo.type}>{badgeInfo.name}</Badge>
 					{/each}
 				</div>
-
-				{#if active.link}
-					<a
-						href={active.link!}
-						target="_blank"
-						class="	text-secondary-accent border-secondary-accent inline-block
-								rounded-sm border-1 px-2 py-1 text-center text-sm
-								transition-[scale] duration-250 hover:scale-120"
-					>
-						Visit
-					</a>
-				{/if}
 			</div>
 		</div>
 	</div>

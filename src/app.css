@@ -38,6 +38,12 @@
 	strong {
 		@apply font-urbanist text-secondary text-left;
 	}
+	input {
+		@apply bg-secondary font-urbanist text-primary rounded-sm p-2;
+	}
+	textarea {
+		@apply bg-secondary font-urbanist text-primary rounded-sm p-2;
+	}
 }
 
 /* Most images in here are pixel art or benefit from no anti-aliasing / smoothing */

@@ -12,7 +12,7 @@
 		</p>
 	{/if}
 
-	<div class="my-12"></div>
+	<div class="my-5"></div>
 
 	<slot />
 </div>

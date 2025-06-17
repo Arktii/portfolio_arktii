@@ -2,6 +2,7 @@
 	import Badge from '$lib/components/Badge.svelte';
 	import HeaderBar from '$lib/components/HeaderBar.svelte';
 	import Interactive from '$lib/components/interactive/Interactive.svelte';
+	import LinkedIcon from '$lib/components/LinkedIcon.svelte';
 	import ParallaxLayer from '$lib/components/ParallaxLayer.svelte';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import ProjectSection from '$lib/components/ProjectSection.svelte';
@@ -10,6 +11,9 @@
 	import grid128 from '$lib/images/background/grid-128.png';
 	import grid64 from '$lib/images/background/grid-64.png';
 	import { BadgeType } from '$lib/types/projectTypes';
+
+	import { Icon } from 'svelte-icons-pack';
+	import { SiMessenger, SiLinkedin, SiGithub, SiGmail } from 'svelte-icons-pack/si';
 
 	let currentSection: number = -1;
 
@@ -288,13 +292,53 @@
 		</Section>
 
 		<Section header="Relevant Links" headerSubtitle="and contact information" id="links">
-			<p>
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam molestie erat risus, quis
-				sollicitudin leo lacinia in. Nam iaculis libero non arcu rutrum, vulputate aliquam neque
-				egestas. Nulla facilisi. Nullam vel metus quis ligula bibendum mattis a eget diam. Vivamus
-				viverra ex at nunc mattis, et elementum eros mattis. Pellentesque in nisl non dui commodo
-				posuere vitae vel sem. Quisque ut gravida ante.
+			<p class="text-secondary mb-5">
+				Here is where you can send me your 8-figure-pay entry-level job offer. ദ്ദി/ᐠ｡‸｡ᐟ\ Thank
+				you.
 			</p>
+
+			<div class="flex w-full flex-row items-center justify-center space-x-5">
+				<LinkedIcon href="https://youtu.be/dQw4w9WgXcQ" icon={SiLinkedin} />
+				<LinkedIcon href="https://youtu.be/dQw4w9WgXcQ" icon={SiGithub} />
+				<LinkedIcon href="https://youtu.be/dQw4w9WgXcQ" icon={SiMessenger} />
+			</div>
+
+			<h3>Contact Form</h3>
+			<div class="border-secondary-accent flex w-full rounded-xl border-1 p-5">
+				<form class="flex w-full flex-col" action="https://formspree.io/f/mzzgvpwk" method="POST">
+					<!-- identification details-->
+					<div class="flex flex-row flex-wrap justify-start gap-x-2.5">
+						<label>
+							<p class="text-secondary text-sm">Your name / organization:</p>
+							<input name="name" type="text" placeholder="Name (from Organization)" required />
+						</label>
+						<label>
+							<p class="text-secondary text-sm">Your email (where I can reply):</p>
+							<input type="email" name="email" placeholder="Email to receive reply" required />
+						</label>
+					</div>
+					<!-- actual message -->
+
+					<label>
+						<p class="text-secondary text-sm">Your message:</p>
+						<textarea
+							class="w-full"
+							name="message"
+							placeholder="Good aftermorning! We would like you offer you 1,000,000Php per month. By the way, don't worry about an interview, there is none, you just have to accept : )."
+							required
+						></textarea>
+					</label>
+					<button
+						class="	border-accent text-secondary-accent font-urbanist
+								hover:bg-secondary hover:text-primary hover:text-bold hover:border-secondary mt-2.5
+								w-fit cursor-pointer self-center rounded-lg border-1
+								px-1.5 text-lg transition-all duration-300 hover:px-5 hover:py-0.5"
+						type="submit"
+					>
+						Send
+					</button>
+				</form>
+			</div>
 		</Section>
 
 		<div

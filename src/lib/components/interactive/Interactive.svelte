@@ -375,6 +375,17 @@
 	}
 
 	function keyPressed(p5: import('p5')) {
+		const tagName = (document.activeElement as HTMLElement)?.tagName;
+
+		const playerIsTyping =
+			tagName == 'INPUT' ||
+			tagName == 'TEXTAREA' ||
+			(document.activeElement as HTMLElement)?.isContentEditable;
+
+		if (playerIsTyping) {
+			return;
+		}
+
 		inputs?.setKeyJustPressed(p5.key);
 	}
 

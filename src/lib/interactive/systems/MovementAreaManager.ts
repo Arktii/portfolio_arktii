@@ -111,7 +111,6 @@ export class MoveAreaManager {
 			return;
 		}
 
-		let p5 = context.p5;
 		let playerAABB = context.player.calculateInteractAABB();
 
 		// detect player
@@ -122,8 +121,7 @@ export class MoveAreaManager {
 				if (downTargetWorld) {
 					this.drawIndicator(context, downTargetWorld, false);
 
-					// @ts-ignore (typescript definitions aren't up to date with p5 version)
-					if (p5.keyIsDown('s') && !context.player.inputIsLocked) {
+					if (context.inputs.keyJustPressed('s') && !context.player.inputIsLocked) {
 						context.player.jump(downTargetWorld);
 						break;
 					}
@@ -133,8 +131,7 @@ export class MoveAreaManager {
 				if (upTargetWorld) {
 					this.drawIndicator(context, upTargetWorld, true);
 
-					// @ts-ignore (typescript definitions aren't up to date with p5 version)
-					if (p5.keyIsDown('w') && !context.player.inputIsLocked) {
+					if (context.inputs.keyJustPressed('w') && !context.player.inputIsLocked) {
 						context.player.jump(upTargetWorld);
 						break;
 					}

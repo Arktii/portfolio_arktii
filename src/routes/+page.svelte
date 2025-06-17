@@ -9,7 +9,7 @@
 
 	import grid128 from '$lib/images/background/grid-128.png';
 	import grid64 from '$lib/images/background/grid-64.png';
-	import { BadgeType } from '$lib/types/projectDisplay';
+	import { BadgeType } from '$lib/types/projectTypes';
 
 	let currentSection: number = -1;
 
@@ -128,9 +128,9 @@
 
 		<Section header="Internship" id="internship">
 			<p class="text-secondary my-10">
-				In 2024, I had an internship with the Department of Science and Technology (DOST), where I
-				worked on a mobile application using Flutter for the frontend, and Laravel for the backend.
-				I worked on both the frontend and backend.
+				In 2024, I had a 6 week internship with the Department of Science and Technology (DOST),
+				where I worked on a mobile application using Flutter for the frontend, and Laravel for the
+				backend. I worked on both the frontend and backend.
 			</p>
 
 			<br />
@@ -143,12 +143,47 @@
 		</Section>
 
 		<Section header="Personal Projects" headerSubtitle="Selected Works" id="projects">
+			<p class="text-secondary my-10">
+				Here are some selected projects I've completed in my free time. Click a card to see more
+				details.
+			</p>
+
 			<ProjectSection>
-				<div class="flex flex-row flex-wrap items-center justify-center space-y-2 space-x-2">
+				<div
+					class="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] items-center justify-center gap-2"
+				>
 					<ProjectCard
 						info={{
 							title: "Chasm's Call",
 							image: 'src/lib/images/projects/chasms-call.png',
+							description: '',
+							link: 'https://youtu.be/dQw4w9WgXcQ',
+							badges: [
+								{ name: 'C#', type: BadgeType.Language },
+								{ name: 'Godot', type: BadgeType.Framework }
+							]
+						}}
+					/>
+
+					<ProjectCard
+						info={{
+							title: 'Flickering Flame',
+							image: 'src/lib/images/projects/flickering-flame.png',
+							description: '',
+							link: 'https://youtu.be/dQw4w9WgXcQ',
+							badges: [
+								{ name: 'Rust', type: BadgeType.Language },
+								{ name: 'Bevy', type: BadgeType.Framework }
+							]
+						}}
+					/>
+
+					<ProjectCard
+						info={{
+							title: 'Wrecking Whiskers',
+							image: 'src/lib/images/projects/wrecking-whiskers.png',
+							description: '',
+							link: 'https://youtu.be/dQw4w9WgXcQ',
 							badges: [
 								{ name: 'C#', type: BadgeType.Language },
 								{ name: 'Godot', type: BadgeType.Framework }
@@ -160,31 +195,33 @@
 						info={{
 							title: 'Timeflowers',
 							image: 'src/lib/images/projects/timeflowers.png',
+							description: '',
 							badges: [
 								{ name: 'C#', type: BadgeType.Language },
 								{ name: 'Unity', type: BadgeType.Framework }
 							]
 						}}
 					/>
+
+					<ProjectCard
+						info={{
+							title: 'Beast Bonds',
+							image: 'src/lib/images/projects/beast-bonds.png',
+							description: '',
+							badges: [
+								{ name: 'C#', type: BadgeType.Language },
+								{ name: 'Unity', type: BadgeType.Framework }
+							]
+						}}
+					/>
+
+					<p></p>
 				</div>
 			</ProjectSection>
-			<p class="text-secondary my-10">
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam molestie erat risus, quis
-				sollicitudin leo lacinia in. Nam iaculis libero non arcu rutrum, vulputate aliquam neque
-				egestas. Nulla facilisi. Nullam vel metus quis ligula bibendum mattis a eget diam. Vivamus
-				viverra ex at nunc mattis, et elementum eros mattis. Pellentesque in nisl non dui commodo
-				posuere vitae vel sem. Quisque ut gravida ante.
-			</p>
 		</Section>
 
 		<Section header="School Projects" headerSubtitle="Selected Works">
-			<p>
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam molestie erat risus, quis
-				sollicitudin leo lacinia in. Nam iaculis libero non arcu rutrum, vulputate aliquam neque
-				egestas. Nulla facilisi. Nullam vel metus quis ligula bibendum mattis a eget diam. Vivamus
-				viverra ex at nunc mattis, et elementum eros mattis. Pellentesque in nisl non dui commodo
-				posuere vitae vel sem. Quisque ut gravida ante.
-			</p>
+			<p>Here are some selected project I've completed for different classes.</p>
 		</Section>
 
 		<Section header="Relevant Links" headerSubtitle="and contact information" id="links">

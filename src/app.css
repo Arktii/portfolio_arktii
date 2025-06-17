@@ -39,3 +39,8 @@
 		@apply font-urbanist text-secondary text-left;
 	}
 }
+
+/* Most images in here are pixel art or benefit from no anti-aliasing / smoothing */
+img {
+	image-rendering: pixelated;
+}

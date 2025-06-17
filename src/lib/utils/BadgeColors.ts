@@ -1,4 +1,4 @@
-import { BadgeType } from '$lib/types/projectDisplay';
+import { BadgeType } from '$lib/types/projectTypes';
 
 export function chooseBadgeColor(badgeType: BadgeType): string {
 	if (badgeType == BadgeType.Language) {

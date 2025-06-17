@@ -1,12 +1,11 @@
 <script lang="ts">
-	import type { ProjectCardInfo } from '$lib/types/projectDisplay';
+	import type { ProjectCardInfo } from '$lib/types/projectTypes';
 	import { getContext, onDestroy } from 'svelte';
 	import { type Readable } from 'svelte/store';
 	import Badge from './Badge.svelte';
 	import { chooseBadgeColor } from '$lib/utils/BadgeColors';
 
 	export let cardHeight: number = 40;
-	export let cardWidth: number = 50;
 
 	export let info: ProjectCardInfo;
 
@@ -32,24 +31,25 @@
 </script>
 
 <button
-	class="flex cursor-pointer flex-col justify-end
-        overflow-hidden rounded-sm bg-cover bg-top
-        shadow-[inset_0_35px_35px_rgba(0,0,0,1.0)]"
-	style="background-image: url('{info.image}'); 
-        height: calc(var(--spacing) * {cardHeight}); 
-        width: calc(var(--spacing) * {cardWidth});"
+	class="hover:border-secondary w-full overflow-hidden rounded-sm transition-all duration-500 hover:border-1 hover:p-1.5"
+	style="	height: calc(var(--spacing) * {cardHeight}); image-rendering: pixelated;"
 	on:click={selectThis}
 >
-	<!-- Footer Slot (badges, description, etc) -->
 	<div
-		class="bg-secondary-accent z-2 flex h-17.5 flex-col items-start justify-between px-2 py-1 shadow-white"
+		class="flex h-full flex-col justify-end overflow-hidden rounded-sm bg-cover bg-top shadow-[inset_0_15px_15px_rgba(0,0,0,0.7)] transition-all duration-500"
+		style="background-image: url('{info.image}');"
 	>
-		<p class="font-lexend text-primary text-xl">{info.title}</p>
-		<div class="flex-row items-start space-x-1">
-			{#each info.badges as badgeInfo}
-				<Badge bgColor={chooseBadgeColor(badgeInfo.type)}>{badgeInfo.name}</Badge>
-			{/each}
-			<slot />
+		<!-- Footer Slot (badges, description, etc) -->
+		<div
+			class="bg-secondary-accent z-2 flex h-17.5 flex-col items-start justify-between px-2 py-1 shadow-white"
+		>
+			<p class="font-lexend text-primary text-lg">{info.title}</p>
+			<div class="flex-row items-start space-x-1">
+				{#each info.badges as badgeInfo}
+					<Badge bgColor={chooseBadgeColor(badgeInfo.type)}>{badgeInfo.name}</Badge>
+				{/each}
+				<slot />
+			</div>
 		</div>
 	</div>
 </button>

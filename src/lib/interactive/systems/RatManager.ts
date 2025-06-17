@@ -13,9 +13,9 @@ export class RatManager {
 	async setup(context: Context) {
 		context.eventBus.subscribe('ratRequested', this.addRat.bind(this));
 
-		this.addRat(context, context.preloads.image('ratUnity'));
-		this.addRat(context, context.preloads.image('ratGodot'));
-		this.addRat(context, context.preloads.image('ratBevy'));
+		this.addRat(context, context.preloads.image('ratUnity'), false);
+		this.addRat(context, context.preloads.image('ratGodot'), false);
+		this.addRat(context, context.preloads.image('ratBevy'), false);
 	}
 
 	fixedUpdate(context: Context) {
@@ -56,7 +56,7 @@ export class RatManager {
 		}
 	}
 
-	addRat(context: Context, sprite: import('p5').Image) {
+	addRat(context: Context, sprite: import('p5').Image, sendWordBubble: boolean = true) {
 		if (this.#rats.length < RAT.MAX_RATS) {
 			let moveArea;
 			// prevent spawning rat on player
@@ -70,30 +70,34 @@ export class RatManager {
 
 			this.playSpawnParticles(context, position);
 
-			const isAre = this.#rats.length == 1 ? 'is' : 'are';
-			const s = this.#rats.length == 1 ? '' : 's';
+			if (sendWordBubble) {
+				const isAre = this.#rats.length == 1 ? 'is' : 'are';
+				const s = this.#rats.length == 1 ? '' : 's';
 
-			context.eventBus.publish(
-				'wordBubble',
-				context,
-				new WordBubble(
-					`Rat spawned somewhere.\nGo catch it!\n(there ${isAre} ${this.#rats.length} rat${s})`,
-					'word',
-					RAT.SPEECH_BUBBLE_DURATION,
-					RAT.SPEECH_BUBBLE_PRIORITY
-				)
-			);
+				context.eventBus.publish(
+					'wordBubble',
+					context,
+					new WordBubble(
+						`Rat spawned somewhere.\nGo catch it!\n(there ${isAre} ${this.#rats.length} rat${s})`,
+						'word',
+						RAT.SPEECH_BUBBLE_DURATION,
+						RAT.SPEECH_BUBBLE_PRIORITY
+					)
+				);
+			}
 		} else {
-			context.eventBus.publish(
-				'wordBubble',
-				context,
-				new WordBubble(
-					'Too many rats! Go catch some before spawning more.',
-					'word',
-					RAT.SPEECH_BUBBLE_DURATION,
-					RAT.SPEECH_BUBBLE_PRIORITY
-				)
-			);
+			if (sendWordBubble) {
+				context.eventBus.publish(
+					'wordBubble',
+					context,
+					new WordBubble(
+						'Too many rats! Go catch some before spawning more.',
+						'word',
+						RAT.SPEECH_BUBBLE_DURATION,
+						RAT.SPEECH_BUBBLE_PRIORITY
+					)
+				);
+			}
 		}
 	}
 

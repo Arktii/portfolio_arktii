@@ -1,0 +1,69 @@
+@font-face {
+	font-family: 'Fredoka';
+	src: url('$lib/fonts/Fredoka-VariableFont_wdth,wght.ttf') format('truetype');
+	font-weight: 100 900;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Lexend Giga';
+	src: url('$lib/fonts/LexendGiga-VariableFont_wght.ttf') format('truetype');
+	font-weight: 100 900;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Lexend';
+	src: url('$lib/fonts/Lexend-VariableFont_wght.ttf') format('truetype');
+	font-weight: 100 900;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Urbanist';
+	src: url('$lib/fonts/Urbanist-VariableFont_wght.ttf') format('truetype');
+	font-weight: 100 900;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Urbanist';
+	src: url('$lib/fonts/Urbanist-Italic-VariableFont_wght.ttf') format('truetype');
+	font-weight: 100 900;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Economica';
+	src: url('$lib/fonts/Economica-Regular.ttf') format('truetype');
+	font-weight: 400;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Economica';
+	src: url('$lib/fonts/Economica-Italic.ttf') format('truetype');
+	font-weight: 400;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Economica';
+	src: url('$lib/fonts/Economica-Bold.ttf') format('truetype');
+	font-weight: 700;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Economica';
+	src: url('$lib/fonts/Economica-BoldItalic.ttf') format('truetype');
+	font-weight: 700;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Candal';
+	src: url('$lib/fonts/Candal-Regular.ttf') format('truetype');
+	font-weight: 400;
+	font-style: normal;
+}

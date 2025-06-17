@@ -47,7 +47,11 @@ export class WordBubbleManager {
 				} else {
 					bubbleX = context.player.position.x - WORD_BUBBLE.WIDTH - WORD_BUBBLE.OFFSET_X;
 				}
-				bubbleX = clamp(bubbleX, 0, WORLD_SIZE.REFERENCE_WIDTH - WORD_BUBBLE.WIDTH);
+				bubbleX = clamp(
+					bubbleX,
+					context.world.toWorldX(0),
+					context.world.toWorldX(context.p5.width) - WORD_BUBBLE.WIDTH
+				);
 
 				this.drawTail(context, bubbleX, bubbleY);
 

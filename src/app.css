@@ -1,2 +1,64 @@
 @import 'tailwindcss';
+/* @import 'tailwindcss/preflight' layer(base); */
 @plugin '@tailwindcss/typography';
+
+@import './fonts.css';
+
+@theme {
+	--color-primary: #171412;
+	--color-secondary: #d8d9da;
+	--color-accent: #c6ac8f;
+	--color-secondary-accent: #eae0d5;
+	--color-neutral: #8a7f71;
+
+	--font-sans: 'Fredoka', sans-serif;
+	--font-lexend-giga: 'Lexend Giga', 'Lexend', sans-serif;
+	--font-lexend: 'Lexend', sans-serif;
+	--font-urbanist: 'Urbanist', sans-serif;
+	--font-economica: 'Economica', sans-serif;
+	--font-candal: 'Candal', sans-serif;
+}
+
+@layer base {
+	h1 {
+		@apply font-candal text-secondary text-left text-4xl font-bold;
+	}
+	h2 {
+		@apply font-candal text-accent text-left text-2xl font-bold;
+	}
+	h3 {
+		@apply font-candal text-secondary text-left text-xl font-bold;
+	}
+	h4 {
+		@apply font-urbanist text-accent text-left text-lg font-bold;
+	}
+	p {
+		@apply font-urbanist text-secondary text-left;
+	}
+	strong {
+		@apply font-urbanist text-secondary text-left;
+	}
+	input {
+		@apply bg-secondary font-urbanist text-primary rounded-sm p-2;
+	}
+	textarea {
+		@apply bg-secondary font-urbanist text-primary rounded-sm p-2;
+	}
+}
+
+/* Most images in here are pixel art or benefit from no anti-aliasing / smoothing */
+img {
+	image-rendering: pixelated;
+}
+
+/* https://stackoverflow.com/a/66436651 */
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+	display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+}

@@ -1,397 +1,359 @@
 <script lang="ts">
-	// import components
-	import Canvas from '$lib/components/interactive/Canvas.svelte';
-	import { CollisionSpace } from '$lib/interactive/core/CollisionSpace';
+	import Badge from '$lib/components/Badge.svelte';
+	import HeaderBar from '$lib/components/HeaderBar.svelte';
+	import Interactive from '$lib/components/interactive/Interactive.svelte';
+	import LinkedIcon from '$lib/components/LinkedIcon.svelte';
+	import ParallaxLayer from '$lib/components/ParallaxLayer.svelte';
+	import ProjectCard from '$lib/components/ProjectCard.svelte';
+	import ProjectSection from '$lib/components/ProjectSection.svelte';
+	import Section from '$lib/components/Section.svelte';
 
-	import type p5 from 'p5';
+	import grid128 from '$lib/images/background/grid-128.png';
+	import grid64 from '$lib/images/background/grid-64.png';
+	import { BadgeType } from '$lib/types/projectTypes';
+	import { chooseBadgeColor } from '$lib/utils/BadgeColors';
+	import { onMount } from 'svelte';
 
-	// import images
-	import building from '$lib/images/building.png';
-	import buildingForeground from '$lib/images/building-foreground.png';
-	import playerImg from '$lib/images/player.png';
+	import { SiMessenger, SiLinkedin, SiGithub, SiGmail } from 'svelte-icons-pack/si';
 
-	import keyW from '$lib/images/icons/key-w.png';
-	import keyA from '$lib/images/icons/key-a.png';
-	import keyS from '$lib/images/icons/key-s.png';
-	import keyD from '$lib/images/icons/key-d.png';
-	import keyE from '$lib/images/icons/key-e.png';
-	import keyQ from '$lib/images/icons/key-q.png';
-	import mouseLeft from '$lib/images/icons/mouse-left.png';
-	import mouseRight from '$lib/images/icons/mouse-right.png';
-	import arrowDown from '$lib/images/icons/arrow-down.png';
-	import arrowUp from '$lib/images/icons/arrow-up.png';
-	import arrowLeft from '$lib/images/icons/arrow-left.png';
-	import arrowRight from '$lib/images/icons/arrow-right.png';
+	let currentSection: number = -1;
 
-	import spawnSheet from '$lib/images/rat/spawn-particles-sheet.png';
-	import caughtSheet from '$lib/images/rat/caught-particles-sheet.png';
-	import scaredMark from '$lib/images/rat/scared-mark.png';
-	import ratUnity from '$lib/images/rat/rat-unity.png';
-	import ratGodot from '$lib/images/rat/rat-godot.png';
-	import ratBevy from '$lib/images/rat/rat-bevy.png';
-
-	import beastBonds from '$lib/images/projects/beast-bonds.png';
-	import chasmsCall from '$lib/images/projects/chasms-call.png';
-	import flickeringFlame from '$lib/images/projects/flickering-flame.png';
-	import timeflowers from '$lib/images/projects/timeflowers.png';
-	import wreckingWhiskers from '$lib/images/projects/wrecking-whiskers.png';
-
-	import charge from '$lib/images/projects/charge.png';
-	import specialProblem from '$lib/images/projects/special-problem.png';
-	import subaybay from '$lib/images/projects/subaybay.png';
-
-	// import fonts
-	import aldritch from '$lib/fonts/Aldrich-Regular.ttf';
-	import russoOne from '$lib/fonts/RussoOne-Regular.ttf';
-	import pressStart2p from '$lib/fonts/PressStart2P-Regular.ttf';
-
-	import {
-		BUILDING,
-		COLLISION_SPACE as COL_SPACE,
-		makeColliderGrid,
-		PLAYER,
-		PLAYER_COMPUTED,
-		TV,
-		WORLD_SIZE
-	} from '$lib/interactive/constants';
-
-	// import core
-	import { World } from '$lib/interactive/core/World';
-	import { EventBus } from '$lib/interactive/core/EventBus';
-	import { Drawing } from '$lib/interactive/core/Drawing';
-	import { Context } from '$lib/interactive/core/Context';
-	import { Inputs } from '$lib/interactive/core/Inputs';
-
-	// import systems & models
-	import { TvScreen } from '$lib/interactive/models/TvScreen';
-	import { InteractionManager } from '$lib/interactive/systems/InteractionManager';
-	import { MoveAreaManager } from '$lib/interactive/systems/MovementAreaManager';
-	import { Player } from '$lib/interactive/models/Player';
-	import { ShovableManager } from '$lib/interactive/systems/ShovableManager';
-	import { Vec2 } from '$lib/interactive/models/Vec2';
-	import { WordBubbleManager } from '$lib/interactive/systems/WordBubbleManager';
-	import { TvDisplay } from '$lib/interactive/models/TvDisplay';
-	import { TvImageInfo } from '$lib/interactive/models/TvImage';
-	import { FixedUpdateRunner } from '$lib/interactive/models/FixedUpdateRunner';
-	import { Preloads } from '$lib/interactive/core/Preloads';
-	import { RatManager } from '$lib/interactive/systems/RatManager';
-	import { COLORS } from '$lib/interactive/colors';
-
-	let buildingImage: p5.Image;
-	let buildingFgImage: p5.Image;
-	let playerImage: p5.Image;
-
-	let context: Context;
-	let inputs: Inputs;
-	let world: World;
-	let colSpace: CollisionSpace;
-	let drawing: Drawing;
-	let player: Player;
-	let preloads: Preloads;
-
-	let eventBus: EventBus;
-
-	let objects: any[] = [];
-
-	let hadFixedUpdateFrame: boolean = false;
-
-	async function preload(p5: import('p5')) {
-		buildingImage = await p5.loadImage(building);
-		buildingFgImage = await p5.loadImage(buildingForeground);
-		playerImage = await p5.loadImage(playerImg);
-	}
-
-	async function setup(p5: import('p5'), canvas: HTMLCanvasElement) {
-		// testPriorityQueue();
-
-		world = new World(canvas);
-		inputs = new Inputs();
-		drawing = new Drawing();
-		eventBus = new EventBus();
-		colSpace = new CollisionSpace(
-			Math.ceil(BUILDING.WIDTH / COL_SPACE.CELL_SIZE),
-			Math.ceil(BUILDING.HEIGHT / COL_SPACE.CELL_SIZE),
-			COL_SPACE.CELL_SIZE
-		);
-		player = new Player(new Vec2(WORLD_SIZE.REFERENCE_WIDTH / 2 - PLAYER_COMPUTED.HALF_WIDTH, 20));
-		preloads = new Preloads();
-		const moveAreaManager = register(new MoveAreaManager(colSpace));
-
-		context = new Context(
-			p5,
-			world,
-			inputs,
-			drawing,
-			colSpace,
-			eventBus,
-			player,
-			preloads,
-			moveAreaManager
-		);
-
-		register(player);
-		register(new InteractionManager(colSpace));
-		register(new ShovableManager());
-		register(new WordBubbleManager());
-		register(new RatManager());
-
-		register(
-			new TvScreen(
-				[
-					new TvDisplay(0, 54, 210, 101, 80, TV.GLOW_GROW),
-					new TvDisplay(1, 40, 303, 40, 32, TV.GLOW_GROW_SMALL),
-					new TvDisplay(2, 85, 303, 40, 32, TV.GLOW_GROW_SMALL),
-					new TvDisplay(3, 130, 303, 40, 32, TV.GLOW_GROW_SMALL)
-				],
-				[
-					new TvImageInfo(chasmsCall, "Chasm's Call, a strategy game, made in Godot"),
-					new TvImageInfo(
-						flickeringFlame,
-						'Flickering Flame, an arcade side-scroller, made in Bevy'
-					),
-					new TvImageInfo(
-						wreckingWhiskers,
-						'Wrecking Whiskers, an arcade game based on Ricochet, made in Godot'
-					),
-					new TvImageInfo(timeflowers, 'Timeflowers, a tile-based survival game, made in Unity'),
-					new TvImageInfo(beastBonds, 'Beast Bonds, card game made in Unity')
-				],
-				TV.IMAGE_DURATION
-			)
-		);
-		register(
-			new TvScreen(
-				[
-					new TvDisplay(4, 95, 460, 100, 70, TV.GLOW_GROW),
-					new TvDisplay(5, 95, 422, 46, 32, TV.GLOW_GROW_SMALL)
-				],
-				[
-					new TvImageInfo(
-						charge,
-						'Charge, a multiplayer game made using Unity and Amazon Web Services'
-					),
-					new TvImageInfo(
-						subaybay,
-						'UPB Subaybay, software for the Office of the University Registrar'
-					),
-					new TvImageInfo(specialProblem, 'Thesis equivalent, successfully defended May 26, 2025')
-				],
-				TV.IMAGE_DURATION
-			)
-		);
-
-		// setupDevDisplayDrawers();
-
-		setupBuildingDrawers();
-
-		// setup components
-		colSpace.colliderGrid = makeColliderGrid();
-
-		await preloads.loadImage(p5, 'keyW', keyW);
-		await preloads.loadImage(p5, 'keyA', keyA);
-		await preloads.loadImage(p5, 'keyS', keyS);
-		await preloads.loadImage(p5, 'keyD', keyD);
-		await preloads.loadImage(p5, 'keyE', keyE);
-		await preloads.loadImage(p5, 'keyQ', keyQ);
-		await preloads.loadImage(p5, 'mouseLeft', mouseLeft);
-		await preloads.loadImage(p5, 'mouseRight', mouseRight);
-		await preloads.loadImage(p5, 'arrowDown', arrowDown);
-		await preloads.loadImage(p5, 'arrowUp', arrowUp);
-		await preloads.loadImage(p5, 'arrowLeft', arrowLeft);
-		await preloads.loadImage(p5, 'arrowRight', arrowRight);
-
-		await preloads.loadImage(p5, 'caughtSheet', caughtSheet);
-		await preloads.loadImage(p5, 'spawnSheet', spawnSheet);
-		await preloads.loadImage(p5, 'scaredMark', scaredMark);
-		await preloads.loadImage(p5, 'ratUnity', ratUnity);
-		await preloads.loadImage(p5, 'ratGodot', ratGodot);
-		await preloads.loadImage(p5, 'ratBevy', ratBevy);
-
-		await preloads.loadFont(p5, 'Aldritch', aldritch);
-		await preloads.loadFont(p5, 'Russo One', russoOne);
-		await preloads.loadFont(p5, 'Press Start 2P', pressStart2p);
-
-		// setup and subscribe to update loop
-		for (let i = 0; i < objects.length; i++) {
-			let item = objects[i];
-			if (item.setup) {
-				await item.setup(context);
-			}
-		}
-
-		p5.resizeCanvas(p5.width, p5.width / BUILDING.ASPECT_RATIO);
-		world.canvasResizeRatio = p5.width / WORLD_SIZE.REFERENCE_WIDTH;
-	}
-
-	function setupBuildingDrawers() {
-		addFixedRunner((context) => {
-			context.drawing.image(
-				buildingImage,
-				0,
-				0,
-				BUILDING.WIDTH,
-				BUILDING.HEIGHT,
-				false,
-				BUILDING.Z_INDEX
-			);
-			context.drawing.image(
-				buildingFgImage,
-				0,
-				0,
-				BUILDING.WIDTH,
-				BUILDING.HEIGHT,
-				false,
-				BUILDING.FOREGROUND_Z_INDEX
-			);
-		});
-
-		const textColor = context.p5.color(BUILDING.TEXT_COLOR);
-		const strokeColor = context.p5.color(BUILDING.TEXT_OUTLINE_COLOR);
-
-		addFixedRunner((context) => {
-			context.drawing
-				.text(138, 157, 'INTERNSHIP', BUILDING.FONT_SIZE, BUILDING.Z_INDEX)
-				.font(context.preloads.font('Press Start 2P'))
-				.stroke(strokeColor, BUILDING.TEXT_OUTLINE_WEIGHT)
-				.textColor(textColor)
-				.textAlign(context.p5.LEFT, context.p5.CENTER);
-		});
-
-		addFixedRunner((context) => {
-			context.drawing
-				.text(35, 205, 'PERSONAL PROJECTS', BUILDING.FONT_SIZE, BUILDING.Z_INDEX)
-				.font(context.preloads.font('Press Start 2P'))
-				.stroke(strokeColor, BUILDING.TEXT_OUTLINE_WEIGHT)
-				.textColor(textColor)
-				.textAlign(context.p5.LEFT, context.p5.CENTER);
-		});
-
-		addFixedRunner((context) => {
-			context.drawing
-				.text(103, 359, 'SCHOOL PROJECTS', BUILDING.FONT_SIZE, BUILDING.Z_INDEX)
-				.font(context.preloads.font('Press Start 2P'))
-				.stroke(strokeColor, BUILDING.TEXT_OUTLINE_WEIGHT)
-				.textColor(textColor)
-				.textAlign(context.p5.LEFT, context.p5.CENTER);
-		});
-
-		addFixedRunner((context) => {
-			context.drawing
-				.text(32, 579, 'LINKS', BUILDING.FONT_SIZE, BUILDING.Z_INDEX)
-				.font(context.preloads.font('Press Start 2P'))
-				.stroke(strokeColor, BUILDING.TEXT_OUTLINE_WEIGHT)
-				.textColor(textColor)
-				.textAlign(context.p5.LEFT, context.p5.CENTER);
-		});
-	}
-
-	// draws ui to assist in development
-	function setupDevDisplayDrawers() {
-		addFixedRunner((context) => {
-			let playerAABB = player.calculateInteractAABB();
-			context.drawing
-				.rect(
-					playerAABB.left,
-					playerAABB.top,
-					playerAABB.right - playerAABB.left,
-					playerAABB.bottom - playerAABB.top,
-					PLAYER.Z_INDEX + 1
-				)
-				.fillColor(context.p5.color(COLORS.TRANSPARENT))
-				.stroke(context.p5.color(COLORS.BLACK), 0.5);
-		});
-
-		addFixedRunner((context) => {
-			let gridX = context.colSpace.worldToGrid(context.world.toWorld(context.p5.mouseX));
-			let gridY = context.colSpace.worldToGrid(context.world.toWorld(context.p5.mouseY));
-
-			let worldX = context.colSpace.gridToWorldCenter(gridX);
-			let worldY = context.colSpace.gridToWorldCenter(gridY);
-
-			context.drawing.gridRect(gridX, gridY, 1, 1, 50);
-			context.drawing.text(worldX, worldY, `${gridX}, ${gridY}`, 3.5, 50);
-		});
-	}
-
-	function addFixedRunner(toRun: (context: Context) => void) {
-		register(new FixedUpdateRunner(toRun));
-	}
-
-	function register(object: any): any {
-		objects.push(object);
-
-		if (object.fixedUpdate) {
-			eventBus.subscribe('fixedUpdate', object.fixedUpdate.bind(object));
-		}
-
-		return object;
-	}
-
-	function fixedUpdate(p5: import('p5')) {
-		drawing.emptyQueue();
-
-		eventBus.publish('fixedUpdate', context);
-
-		hadFixedUpdateFrame = true;
-
-		inputs.newFrame();
-	}
-
-	function update(p5: import('p5'), deltaSecs: number) {
-		display(p5);
-	}
-
-	function display(p5: import('p5')) {
-		if (hadFixedUpdateFrame) {
-			drawing.render(context);
-			hadFixedUpdateFrame = false;
-		}
-	}
-
-	function windowResized(p5: import('p5')) {
-		world.canvasResizeRatio = p5.width / WORLD_SIZE.REFERENCE_WIDTH;
-
-		p5.resizeCanvas(p5.width, world.toCanvas(BUILDING.HEIGHT));
-	}
-
-	function mouseClicked(p5: import('p5')) {
-		inputs?.setMouseClicked();
-	}
-
-	function mousePressed(p5: import('p5')) {
-		inputs?.setMouseJustPressed(p5.mouseButton);
-	}
-
-	function mouseReleased(p5: import('p5')) {
-		inputs?.setMouseJustReleased();
-	}
-
-	function keyPressed(p5: import('p5')) {
-		inputs?.setKeyJustPressed(p5.key);
-	}
-
-	function keyReleased(p5: import('p5')) {
-		inputs?.setKeyJustReleased(p5.key);
-	}
+	const languageBadgeColor = chooseBadgeColor(BadgeType.Language);
+	const frameworkBadgeColor = chooseBadgeColor(BadgeType.Framework);
+	const platformBadgeColor = chooseBadgeColor(BadgeType.Platform);
 </script>
 
-<main class="bg-[url(src/lib/images/background/night-sky.png)] bg-repeat">
-	<p>Top of the screen</p>
+<main>
+	<ParallaxLayer zIndex={-15} scrollSpeed={0.1} />
+	<ParallaxLayer
+		source={grid64}
+		zIndex={-13}
+		scrollSpeed={0.25}
+		mousePanSpeed={0.05}
+		offsetY={64}
+		offsetX={64}
+		opacity={0.05}
+	/>
+	<ParallaxLayer
+		source={grid128}
+		zIndex={-12}
+		scrollSpeed={0.5}
+		mousePanSpeed={0.1}
+		opacity={0.15}
+	/>
 
-	<div class="mx-auto w-fit">
-		<Canvas
-			{preload}
-			{setup}
-			{fixedUpdate}
-			{update}
-			{windowResized}
-			{mouseClicked}
-			{mousePressed}
-			{mouseReleased}
-			{keyPressed}
-			{keyReleased}
-		/>
+	<div class="flex flex-col items-center py-10">
+		<div
+			class="bg-primary/75 border-accent/35 w-9/10 max-w-225 rounded-t-lg border-x-2 border-t-2 p-5 lg:w-4/5"
+		>
+			<h1>Hi, I'm Emir.</h1>
+			<p class="font-lexend text-accent text-left text-2xl font-bold">
+				Software Developer (Fresh Graduate)
+			</p>
+
+			<p class="text-secondary my-15 text-xl">
+				Welcome to my portfolio. First, enjoy an interactive summary of everything. Click around,
+				catch some mice, then when you're done exploring, navigate to the more detailed sections
+				below it.
+			</p>
+		</div>
+
+		<HeaderBar {currentSection} />
+
+		<Section header="Interactive Summary" id="summary">
+			<div class="flex w-full flex-col items-center">
+				<h3 class="mb-3">Controls</h3>
+
+				<div class="mb-5 flex w-600 flex-row space-x-5">
+					<div class="flex w-full flex-col items-end">
+						<strong>A/D</strong>
+						<strong>W/S</strong>
+						<strong>Q/E</strong>
+						<strong>Mouse Buttons</strong>
+					</div>
+					<div class="flex w-full flex-col">
+						<p>Move left / right</p>
+						<p>Jump up / down</p>
+						<p>Interact</p>
+						<p>Interact</p>
+					</div>
+				</div>
+			</div>
+		</Section>
+
+		<hr class="border-accent w-full border-1" />
+
+		<Interactive />
+
+		<hr class="border-accent w-full border-1" />
+
+		<Section header="About Me" id="about">
+			<p class="my-5">
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam molestie erat risus, quis
+				sollicitudin leo lacinia in. Nam iaculis libero non arcu rutrum, vulputate aliquam neque
+				egestas. Nulla facilisi. Nullam vel metus quis ligula bibendum mattis a eget diam. Vivamus
+				viverra ex at nunc mattis, et elementum eros mattis. Pellentesque in nisl non dui commodo
+				posuere vitae vel sem. Quisque ut gravida ante.
+			</p>
+
+			<h3 class="pt-3">Skills</h3>
+			<p class="font-lexend text-neutral pb-3 text-left text-lg font-bold">
+				Languages, Engines, Frameworks, and Libraries
+			</p>
+
+			<h4 class="py-2">Favorites</h4>
+			<Badge type={BadgeType.Language}>C#</Badge>
+			<Badge type={BadgeType.Language}>Python</Badge>
+			<Badge type={BadgeType.Language}>Rust</Badge>
+			<Badge type={BadgeType.Framework}>Unity</Badge>
+			<Badge type={BadgeType.Framework}>Godot</Badge>
+
+			<h4 class="pt-2">Completed Projects Using</h4>
+			<p class="font-lexend text-neutral pb-2 text-left">(aside from the Favorites)</p>
+			<Badge type={BadgeType.Language}>TypeScript</Badge>
+			<Badge type={BadgeType.Language}>JavaScript</Badge>
+			<Badge type={BadgeType.Language}>Dart</Badge>
+			<Badge type={BadgeType.Framework}>Bevy</Badge>
+			<Badge type={BadgeType.Framework}>Svelte</Badge>
+			<Badge type={BadgeType.Framework}>Flutter</Badge>
+
+			<h4 class="pt-2">Exposed To</h4>
+			<p class="font-lexend text-neutral pb-2 text-left">
+				Used for smaller school and personal projects
+			</p>
+			<Badge type={BadgeType.Language}>C</Badge>
+			<Badge type={BadgeType.Language}>C++</Badge>
+			<Badge type={BadgeType.Language}>Php</Badge>
+			<Badge type={BadgeType.Language}>Lua</Badge>
+			<Badge type={BadgeType.Language}>Assembly (NASM x86)</Badge>
+			<Badge type={BadgeType.Framework}>Laravel</Badge>
+
+			<h3 class="py-3">Education</h3>
+
+			<p>Short section</p>
+		</Section>
+
+		<Section header="Internship" id="internship">
+			<p class="text-secondary my-3">
+				In 2024, I had a 6 week internship with the Department of Science and Technology (DOST),
+				where I worked on a mobile application using Flutter for the frontend, and Laravel for the
+				backend. I worked on both the frontend and backend.
+			</p>
+
+			<br />
+
+			<Badge type={BadgeType.Language}>Dart</Badge>
+			<Badge type={BadgeType.Language}>Php</Badge>
+			<Badge type={BadgeType.Framework}>Flutter</Badge>
+			<Badge type={BadgeType.Framework}>Laravel</Badge>
+			<Badge type={BadgeType.Framework}>MariaDB</Badge>
+			<Badge type={BadgeType.Platform}>Mobile</Badge>
+		</Section>
+
+		<Section header="Personal Projects" headerSubtitle="Selected Works" id="projects">
+			<p class="text-secondary my-5">
+				Here are some selected projects that I've completed in my free time.
+			</p>
+
+			<ProjectSection>
+				<div
+					class="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] items-center justify-center gap-2"
+				>
+					<ProjectCard
+						info={{
+							title: "Chasm's Call",
+							image: 'src/lib/images/projects/chasms-call.png',
+							description: 'Praesent mollis, eros sed efficitur condimentum, quam odio.',
+							date: '2024',
+							link: 'https://youtu.be/dQw4w9WgXcQ',
+							badges: [
+								{ name: 'C#', type: BadgeType.Language },
+								{ name: 'Godot', type: BadgeType.Framework }
+							]
+						}}
+					/>
+
+					<ProjectCard
+						info={{
+							title: 'Flickering Flame',
+							image: 'src/lib/images/projects/flickering-flame.png',
+							description: 'Nunc semper lacinia nisi, nec fermentum turpis imperdiet. ',
+							date: '2025',
+							link: 'https://youtu.be/dQw4w9WgXcQ',
+							badges: [
+								{ name: 'Rust', type: BadgeType.Language },
+								{ name: 'Bevy', type: BadgeType.Framework }
+							]
+						}}
+					/>
+
+					<ProjectCard
+						info={{
+							title: 'Wrecking Whiskers',
+							image: 'src/lib/images/projects/wrecking-whiskers.png',
+							description: 'Pellentesque sit amet mauris sed urna hendrerit sollicitudin. ',
+							date: '2023',
+							link: 'https://youtu.be/dQw4w9WgXcQ',
+							badges: [
+								{ name: 'C#', type: BadgeType.Language },
+								{ name: 'Godot', type: BadgeType.Framework }
+							]
+						}}
+					/>
+
+					<ProjectCard
+						info={{
+							title: 'Timeflowers',
+							image: 'src/lib/images/projects/timeflowers.png',
+							description:
+								'Curabitur iaculis est in hendrerit aliquam.\
+								 Suspendisse nec cursus magna. \
+								 Aenean at leo sit amet ligula feugiat pellentesque. \
+								 Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. \
+								 Phasellus pretium nisi sed feugiat malesuada.',
+							date: '2023',
+							badges: [
+								{ name: 'C#', type: BadgeType.Language },
+								{ name: 'Unity', type: BadgeType.Framework }
+							]
+						}}
+					/>
+
+					<ProjectCard
+						info={{
+							title: 'Beast Bonds',
+							image: 'src/lib/images/projects/beast-bonds.png',
+							description: 'Aenean ex tortor, vestibulum vitae congue in, mollis. ',
+							date: '2023',
+							badges: [
+								{ name: 'C#', type: BadgeType.Language },
+								{ name: 'Unity', type: BadgeType.Framework }
+							]
+						}}
+					/>
+
+					<p></p>
+				</div>
+			</ProjectSection>
+		</Section>
+
+		<Section header="School Projects" headerSubtitle="Selected Works">
+			<p class="text-secondary my-5">
+				Here are some selected projects that I've completed for different classes.
+			</p>
+
+			<ProjectSection>
+				<div
+					class="grid grid-cols-[repeat(auto-fill,minmax(225px,1fr))] items-center justify-center gap-2"
+				>
+					<ProjectCard
+						info={{
+							title: 'UPB Subaybay',
+							// TODO: swap this with actual screenshot
+							image: 'src/lib/images/projects/subaybay.png',
+							description: 'Praesent mollis, eros sed efficitur condimentum, quam odio.',
+							date: '2023',
+							link: 'https://youtu.be/dQw4w9WgXcQ',
+							badges: [
+								{ name: 'TypeScript', type: BadgeType.Language },
+								{ name: 'Tailwind', type: BadgeType.Framework },
+								{ name: 'Svelte', type: BadgeType.Framework },
+								{ name: 'MongoDB', type: BadgeType.Framework }
+							]
+						}}
+					/>
+
+					<ProjectCard
+						info={{
+							title: 'Charge!',
+							// TODO: swap this with actual screenshot
+							image: 'src/lib/images/projects/charge.png',
+							description: 'Nunc semper lacinia nisi, nec fermentum turpis imperdiet. ',
+							date: '2024',
+							link: 'https://youtu.be/dQw4w9WgXcQ',
+							badges: [
+								{ name: 'C#', type: BadgeType.Language },
+								{ name: 'Unity', type: BadgeType.Framework },
+								{ name: 'FishNet', type: BadgeType.Framework },
+								{ name: 'AWS', type: BadgeType.Platform }
+							]
+						}}
+					/>
+
+					<ProjectCard
+						info={{
+							title: 'Special Problem',
+							// TODO: swap this with actual screenshot
+							image: 'src/lib/images/projects/special-problem.png',
+							description: 'Pellentesque sit amet mauris sed urna hendrerit sollicitudin. ',
+							date: '2025',
+							link: 'https://youtu.be/dQw4w9WgXcQ',
+							badges: [
+								{ name: 'Rust', type: BadgeType.Language },
+								{ name: 'Python', type: BadgeType.Language }
+							]
+						}}
+					/>
+
+					<p></p>
+				</div>
+			</ProjectSection>
+		</Section>
+
+		<Section header="Relevant Links" headerSubtitle="and contact information" id="links">
+			<p class="text-secondary mb-5">
+				Here is where you can send me your 8-figure-pay entry-level job offer. ദ്ദി/ᐠ｡‸｡ᐟ\ Thank
+				you.
+			</p>
+
+			<div class="flex w-full flex-row items-center justify-center space-x-5">
+				<LinkedIcon href="https://youtu.be/dQw4w9WgXcQ" icon={SiLinkedin} />
+				<LinkedIcon href="https://youtu.be/dQw4w9WgXcQ" icon={SiGithub} />
+				<LinkedIcon href="https://youtu.be/dQw4w9WgXcQ" icon={SiMessenger} />
+			</div>
+
+			<h3>Contact Form</h3>
+			<div class="border-secondary-accent flex w-full rounded-xl border-1 p-5">
+				<form class="flex w-full flex-col" action="https://formspree.io/f/mzzgvpwk" method="POST">
+					<!-- identification details-->
+					<div class="flex flex-row flex-wrap justify-start gap-x-2.5">
+						<label>
+							<p class="text-secondary text-sm">Your name / organization:</p>
+							<input name="name" type="text" placeholder="Name (from Organization)" required />
+						</label>
+						<label>
+							<p class="text-secondary text-sm">Your email (where I can reply):</p>
+							<input type="email" name="email" placeholder="Email to receive reply" required />
+						</label>
+					</div>
+					<!-- actual message -->
+
+					<label>
+						<p class="text-secondary text-sm">Your message:</p>
+						<textarea
+							class="w-full"
+							name="message"
+							placeholder="Good aftermorning! We would like you offer you 1,000,000Php per month. By the way, don't worry about an interview, there is none, you just have to accept : )."
+							required
+						></textarea>
+					</label>
+					<button
+						class="	border-accent text-secondary-accent font-urbanist
+								hover:bg-secondary hover:text-primary hover:text-bold hover:border-secondary mt-2.5
+								w-fit cursor-pointer self-center rounded-lg border-1
+								px-1.5 text-lg transition-all duration-300 hover:px-5 hover:py-0.5"
+						type="submit"
+					>
+						Send
+					</button>
+				</form>
+			</div>
+		</Section>
+
+		<div
+			class="bg-primary/75 border-accent/35 w-9/10 max-w-225 rounded-b-lg border-x-2 border-b-2 p-5 lg:w-4/5"
+		>
+			<p class="text-secondary my-5 w-full text-center text-xl">(=^･ｪ･^=))ﾉ彡☆</p>
+		</div>
 	</div>
-
-	<p>Bottom of the screen</p>
 </main>

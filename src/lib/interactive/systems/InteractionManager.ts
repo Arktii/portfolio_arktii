@@ -120,8 +120,8 @@ export class InteractionManager {
 
 		// check click areas
 		let worldMousePos = new Vec2(
-			context.world.toWorld(p5.mouseX),
-			context.world.toWorld(p5.mouseY)
+			context.world.toWorldX(p5.mouseX),
+			context.world.toWorldY(p5.mouseY)
 		);
 		for (let i = 0; i < this.#clickAreas.length; i++) {
 			let clickArea = this.#clickAreas[i];
@@ -177,49 +177,49 @@ export class InteractionManager {
 	private setupInteractionAreas() {
 		var clickArea = this.addClickArea(
 			new BoundingBox(120.5, 147.5, 52.5, 79.5),
-			'Inspect',
+			'View Code',
 			InteractionManager.makeSpeechBubbleFunc(
 				'// C#\nConsole.WriteLine(\n(int)1.6==Convert.ToInt32(1.6)\n)'
 			),
-			'Run',
+			'Run Script',
 			InteractionManager.makeSpeechBubbleFunc('False')
 		);
 		this.addInteractArea(12, 13, 3, clickArea);
 
 		var clickArea = this.addClickArea(
 			new BoundingBox(135.5, 162.5, 81.5, 108.5),
-			'Inspect',
+			'View Code',
 			InteractionManager.makeSpeechBubbleFunc('// Dart\nprint(0.1 + 0.2)'),
-			'Run',
+			'Run Script',
 			InteractionManager.makeSpeechBubbleFunc('0.30000000000000004')
 		);
 		this.addInteractArea(14, 14.5, 3, clickArea);
 
 		var clickArea = this.addClickArea(
 			new BoundingBox(150.5, 177.5, 52.5, 79.5),
-			'Inspect',
+			'View Code',
 			InteractionManager.makeSpeechBubbleFunc('# Python\nprint(True + True)'),
-			'Run',
+			'Run Script',
 			InteractionManager.makeSpeechBubbleFunc('2')
 		);
 		this.addInteractArea(15.5, 16.5, 3, clickArea);
 
 		var clickArea = this.addClickArea(
 			new BoundingBox(165.5, 192.5, 81.5, 108.5),
-			'Inspect',
+			'View Code',
 			InteractionManager.makeSpeechBubbleFunc(
 				'// JavaScript / TypeScript\nconsole.log(typeof(NaN))'
 			),
-			'Run',
+			'Run Script',
 			InteractionManager.makeSpeechBubbleFunc('number')
 		);
 		this.addInteractArea(17.5, 18, 3, clickArea);
 
 		var clickArea = this.addClickArea(
 			new BoundingBox(180.5, 207.5, 52.5, 79.5),
-			'Inspect',
+			'View Code',
 			InteractionManager.makeSpeechBubbleFunc('// Rust\nprint!("{}", "🦀")'),
-			'Run',
+			'Run Script',
 			InteractionManager.makeSpeechBubbleFunc('🦀')
 		);
 		this.addInteractArea(19, 20, 3, clickArea);
@@ -231,10 +231,8 @@ export class InteractionManager {
 		var clickArea = this.addClickArea(
 			new BoundingBox(33.5, 89.5, 110.5, 137.5),
 			'Inspect',
-			InteractionManager.makeSpeechBubbleFunc(
-				'// Unity\nInstantiate(ratPrefab)\n// will spawn a rat to catch'
-			),
-			'Run',
+			InteractionManager.makeSpeechBubbleFunc('// Unity\nInstantiate(ratPrefab)'),
+			'Spawn Rat',
 			InteractionManager.makeRatSpawnFunc('ratUnity')
 		);
 		this.addInteractArea(3, 8, 13, clickArea);
@@ -242,10 +240,9 @@ export class InteractionManager {
 		var clickArea = this.addClickArea(
 			new BoundingBox(92.5, 148.5, 110.5, 137.5),
 			'Inspect',
-			InteractionManager.makeSpeechBubbleFunc(
-				'# Godot\nratScene.instantiate()\n# will spawn a rat to catch'
-			),
-			'Run',
+			// TODO: add details about the engine instead?
+			InteractionManager.makeSpeechBubbleFunc('# Godot\nratScene.instantiate()'),
+			'Spawn Rat',
 			InteractionManager.makeRatSpawnFunc('ratGodot')
 		);
 		this.addInteractArea(9, 14, 13, clickArea);
@@ -253,10 +250,8 @@ export class InteractionManager {
 		var clickArea = this.addClickArea(
 			new BoundingBox(151.5, 207.5, 110.5, 137.5),
 			'Inspect',
-			InteractionManager.makeSpeechBubbleFunc(
-				'// Bevy\ncommands.spawn(Rat::default())\n// will spawn a rat to catch'
-			),
-			'Run',
+			InteractionManager.makeSpeechBubbleFunc('// Bevy\ncommands.spawn(\nRat::default()\n)'),
+			'Spawn Rat',
 			InteractionManager.makeRatSpawnFunc('ratBevy')
 		);
 		this.addInteractArea(15, 20, 13, clickArea);

@@ -1,12 +1,19 @@
 # portfolio
 
+⚠️ This portfolio still under development, some **links may not yet work**. See video: https://youtu.be/2xx_2XNxxfA.
+
+Additionally, the design is far from finished (probably).
+
 ## Developing
+
 To run the app, first ensure dependencies are installed
+
 ```bash
 npm i
 ```
 
-Then run the following commadn
+Then run the following command
+
 ```bash
 npm run dev
 
@@ -16,13 +23,12 @@ npm run dev -- --open
 
 ## Building
 
-To create a production version of your app:
+To create a production version of the app:
 
 ```bash
 npm run build
 ```
 
-You can preview the production build with `npm run preview`.
+Preview the production build with `npm run preview`.
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
-(the vercel adapter should already be installed)
+> To deploy the app, an [adapter](https://svelte.dev/docs/kit/adapters) may need to be installed for the target target environment.

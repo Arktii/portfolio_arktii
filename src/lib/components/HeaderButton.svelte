@@ -3,11 +3,11 @@
 	export let link: string = '';
 </script>
 
+<!-- TODO: highlight current section -->
 <a
+	class="	font-economica text-primary text-base font-bold transition-all duration-300
+			ease-in-out hover:text-2xl hover:font-black"
 	href={link}
-	class="transition-all duration-300 ease-in-out {isCurrent
-		? 'font-lexend-giga text-xl font-bold'
-		: 'font-economica text-base font-bold'}"
 >
 	<slot />
 </a>

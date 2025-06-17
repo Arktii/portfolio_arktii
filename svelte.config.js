@@ -5,11 +5,11 @@ const config = {
 	preprocess: vitePreprocess(),
 	kit: {
 		adapter: adapter({
-			fallback: '200.html'
-		})
-	},
-	paths: {
-		base: process.env.NODE_ENV === 'production' ? '/portfolio_arktii' : ''
+			fallback: '404.html'
+		}),
+		paths: {
+			base: process.argv.includes('dev') ? '' : '/portfolio_arktii'
+		}
 	}
 };
 

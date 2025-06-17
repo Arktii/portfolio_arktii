@@ -13,7 +13,8 @@
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
 		"test:unit": "vitest",
-		"test": "npm run test:unit -- --run"
+		"test": "npm run test:unit -- --run",
+		"deploy": "npm run build && npx gh-pages -d build -t"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.5",
@@ -31,6 +32,7 @@
 		"eslint": "^9.18.0",
 		"eslint-config-prettier": "^10.0.1",
 		"eslint-plugin-svelte": "^3.0.0",
+		"gh-pages": "^6.3.0",
 		"globals": "^16.0.0",
 		"jsdom": "^26.0.0",
 		"postcss": "^8.5.5",

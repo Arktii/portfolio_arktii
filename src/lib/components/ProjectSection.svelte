@@ -1,14 +1,18 @@
 <script lang="ts">
-	import { BadgeType, type ProjectCardInfo } from '$lib/types/projectTypes';
-	import { onMount, setContext } from 'svelte';
+	import { type ProjectCardInfo } from '$lib/types/projectTypes';
+	import { setContext } from 'svelte';
 	import { writable } from 'svelte/store';
 	import Badge from './Badge.svelte';
 	import { chooseBadgeColor } from '$lib/utils/BadgeColors';
+	//@ts-ignore (unsure why this is reporting an error, but there's no actual error in the app)
+	import { Icon } from 'svelte-icons-pack';
+	import { FiX } from 'svelte-icons-pack/fi';
 
 	const placeholderInfo = {
 		title: '',
 		image: '',
 		description: '',
+		date: '',
 		badges: []
 	};
 
@@ -59,19 +63,32 @@
 
 <!-- Display -->
 <div
-	hidden={activeId === -1}
-	class="border-accent mb-3 flex flex-col items-stretch rounded-xl border-1 p-2 transition-all duration-500 md:flex-row"
+	class=" flex flex-col items-stretch rounded-xl md:flex-row
+	{activeId === -1
+		? 'max-h-0 scale-y-0'
+		: 'border-accent mb-3 scale-y-100 border-1 p-2'} transition-all duration-300 ease-in-out"
 >
+	<button
+		class="hover:border-accent absolute top-2 right-2 rounded-full border-1 border-transparent p-1
+			transition-all duration-300 hover:scale-125"
+		aria-label="Close"
+		on:click={deselect}
+	>
+		<Icon src={FiX} color="#d8d9da" />
+	</button>
+
 	<img
 		src={active.image}
 		alt={active.title}
 		class="aspect-[1.264] w-200 rounded-tl-lg rounded-tr-lg md:rounded-tr-none md:rounded-bl-lg"
 	/>
 	<div class="flex w-full flex-col items-start">
-		<div class="flex grow p-5">
-			<p class="text-secondary">Description{active.description}</p>
+		<div class="flex grow flex-col md:pl-2">
+			<p class="text-secondary text-bold text-2xl">{active.title}</p>
+			<p class="text-neutral">{active.date}</p>
+			<p class="text-secondary">{active.description}</p>
 		</div>
-		<div class="flex flex-row-reverse items-end justify-between self-stretch pl-2">
+		<div class="flex flex-row-reverse items-end justify-between self-stretch md:pl-2">
 			<div class="flex flex-row justify-end space-x-1 self-end">
 				{#each active.badges as badgeInfo}
 					<Badge bgColor={chooseBadgeColor(badgeInfo.type)}>{badgeInfo.name}</Badge>

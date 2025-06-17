@@ -46,6 +46,7 @@
 		"vitest": "^3.0.0"
 	},
 	"dependencies": {
-		"p5": "^2.0.2"
+		"p5": "^2.0.2",
+		"svelte-icons-pack": "^3.1.3"
 	}
 }

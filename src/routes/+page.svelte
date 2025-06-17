@@ -158,7 +158,8 @@
 						info={{
 							title: "Chasm's Call",
 							image: 'src/lib/images/projects/chasms-call.png',
-							description: '',
+							description: 'Praesent mollis, eros sed efficitur condimentum, quam odio.',
+							date: '2023',
 							link: 'https://youtu.be/dQw4w9WgXcQ',
 							badges: [
 								{ name: 'C#', type: BadgeType.Language },
@@ -171,7 +172,8 @@
 						info={{
 							title: 'Flickering Flame',
 							image: 'src/lib/images/projects/flickering-flame.png',
-							description: '',
+							description: 'Nunc semper lacinia nisi, nec fermentum turpis imperdiet. ',
+							date: '2025',
 							link: 'https://youtu.be/dQw4w9WgXcQ',
 							badges: [
 								{ name: 'Rust', type: BadgeType.Language },
@@ -184,7 +186,8 @@
 						info={{
 							title: 'Wrecking Whiskers',
 							image: 'src/lib/images/projects/wrecking-whiskers.png',
-							description: '',
+							description: 'Pellentesque sit amet mauris sed urna hendrerit sollicitudin. ',
+							date: '2023',
 							link: 'https://youtu.be/dQw4w9WgXcQ',
 							badges: [
 								{ name: 'C#', type: BadgeType.Language },
@@ -197,7 +200,13 @@
 						info={{
 							title: 'Timeflowers',
 							image: 'src/lib/images/projects/timeflowers.png',
-							description: '',
+							description:
+								'Curabitur iaculis est in hendrerit aliquam.\
+								 Suspendisse nec cursus magna. \
+								 Aenean at leo sit amet ligula feugiat pellentesque. \
+								 Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. \
+								 Phasellus pretium nisi sed feugiat malesuada.',
+							date: '2023',
 							badges: [
 								{ name: 'C#', type: BadgeType.Language },
 								{ name: 'Unity', type: BadgeType.Framework }
@@ -209,7 +218,8 @@
 						info={{
 							title: 'Beast Bonds',
 							image: 'src/lib/images/projects/beast-bonds.png',
-							description: '',
+							description: 'Aenean ex tortor, vestibulum vitae congue in, mollis. ',
+							date: '2023',
 							badges: [
 								{ name: 'C#', type: BadgeType.Language },
 								{ name: 'Unity', type: BadgeType.Framework }

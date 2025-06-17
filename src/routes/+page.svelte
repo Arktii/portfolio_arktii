@@ -11,15 +11,15 @@
 	import grid128 from '$lib/images/background/grid-128.png';
 	import grid64 from '$lib/images/background/grid-64.png';
 	import { BadgeType } from '$lib/types/projectTypes';
+	import { chooseBadgeColor } from '$lib/utils/BadgeColors';
 
-	import { Icon } from 'svelte-icons-pack';
 	import { SiMessenger, SiLinkedin, SiGithub, SiGmail } from 'svelte-icons-pack/si';
 
 	let currentSection: number = -1;
 
-	const languageBadgeColor = '#d8d9da';
-	const frameworkBadgeColor = '#e2d9be';
-	const platformBadgeColor = '#8a7f71';
+	const languageBadgeColor = chooseBadgeColor(BadgeType.Language);
+	const frameworkBadgeColor = chooseBadgeColor(BadgeType.Framework);
+	const platformBadgeColor = chooseBadgeColor(BadgeType.Platform);
 </script>
 
 <main>
@@ -87,7 +87,7 @@
 		<hr class="border-accent w-full border-1" />
 
 		<Section header="About Me" id="about">
-			<p class="my-10">
+			<p class="my-5">
 				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam molestie erat risus, quis
 				sollicitudin leo lacinia in. Nam iaculis libero non arcu rutrum, vulputate aliquam neque
 				egestas. Nulla facilisi. Nullam vel metus quis ligula bibendum mattis a eget diam. Vivamus
@@ -101,31 +101,31 @@
 			</p>
 
 			<h4 class="py-2">Favorites</h4>
-			<Badge bgColor={languageBadgeColor}>C#</Badge>
-			<Badge bgColor={languageBadgeColor}>Python</Badge>
-			<Badge bgColor={languageBadgeColor}>Rust</Badge>
-			<Badge bgColor={frameworkBadgeColor}>Unity</Badge>
-			<Badge bgColor={frameworkBadgeColor}>Godot</Badge>
+			<Badge type={BadgeType.Language}>C#</Badge>
+			<Badge type={BadgeType.Language}>Python</Badge>
+			<Badge type={BadgeType.Language}>Rust</Badge>
+			<Badge type={BadgeType.Framework}>Unity</Badge>
+			<Badge type={BadgeType.Framework}>Godot</Badge>
 
 			<h4 class="pt-2">Completed Projects Using</h4>
 			<p class="font-lexend text-neutral pb-2 text-left">(aside from the Favorites)</p>
-			<Badge bgColor={languageBadgeColor}>TypeScript</Badge>
-			<Badge bgColor={languageBadgeColor}>JavaScript</Badge>
-			<Badge bgColor={languageBadgeColor}>Dart</Badge>
-			<Badge bgColor={frameworkBadgeColor}>Bevy</Badge>
-			<Badge bgColor={frameworkBadgeColor}>Svelte</Badge>
-			<Badge bgColor={frameworkBadgeColor}>Flutter</Badge>
+			<Badge type={BadgeType.Language}>TypeScript</Badge>
+			<Badge type={BadgeType.Language}>JavaScript</Badge>
+			<Badge type={BadgeType.Language}>Dart</Badge>
+			<Badge type={BadgeType.Framework}>Bevy</Badge>
+			<Badge type={BadgeType.Framework}>Svelte</Badge>
+			<Badge type={BadgeType.Framework}>Flutter</Badge>
 
 			<h4 class="pt-2">Exposed To</h4>
 			<p class="font-lexend text-neutral pb-2 text-left">
 				Used for smaller school and personal projects
 			</p>
-			<Badge bgColor={languageBadgeColor}>C</Badge>
-			<Badge bgColor={languageBadgeColor}>C++</Badge>
-			<Badge bgColor={languageBadgeColor}>Php</Badge>
-			<Badge bgColor={languageBadgeColor}>Lua</Badge>
-			<Badge bgColor={languageBadgeColor}>Assembly (NASM x86)</Badge>
-			<Badge bgColor={frameworkBadgeColor}>Laravel</Badge>
+			<Badge type={BadgeType.Language}>C</Badge>
+			<Badge type={BadgeType.Language}>C++</Badge>
+			<Badge type={BadgeType.Language}>Php</Badge>
+			<Badge type={BadgeType.Language}>Lua</Badge>
+			<Badge type={BadgeType.Language}>Assembly (NASM x86)</Badge>
+			<Badge type={BadgeType.Framework}>Laravel</Badge>
 
 			<h3 class="py-3">Education</h3>
 
@@ -141,11 +141,11 @@
 
 			<br />
 
-			<Badge bgColor={languageBadgeColor}>Dart</Badge>
-			<Badge bgColor={languageBadgeColor}>Php</Badge>
-			<Badge bgColor={frameworkBadgeColor}>Flutter</Badge>
-			<Badge bgColor={frameworkBadgeColor}>Laravel</Badge>
-			<Badge bgColor={platformBadgeColor}>Mobile</Badge>
+			<Badge type={BadgeType.Language}>Dart</Badge>
+			<Badge type={BadgeType.Language}>Php</Badge>
+			<Badge type={BadgeType.Framework}>Flutter</Badge>
+			<Badge type={BadgeType.Framework}>Laravel</Badge>
+			<Badge type={BadgeType.Platform}>Mobile</Badge>
 		</Section>
 
 		<Section header="Personal Projects" headerSubtitle="Selected Works" id="projects">

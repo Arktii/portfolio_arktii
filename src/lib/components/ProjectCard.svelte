@@ -41,12 +41,12 @@
 	>
 		<!-- Footer Slot (badges, description, etc) -->
 		<div
-			class="bg-secondary-accent z-2 flex h-17.5 flex-col items-start justify-between px-2 py-1 shadow-white"
+			class="bg-secondary z-2 flex h-17.5 flex-col items-start justify-between px-2 py-1 shadow-white"
 		>
 			<p class="font-lexend text-primary text-lg">{info.title}</p>
 			<div class="flex-row items-start space-x-1">
 				{#each info.badges as badgeInfo}
-					<Badge bgColor={chooseBadgeColor(badgeInfo.type)}>{badgeInfo.name}</Badge>
+					<Badge type={badgeInfo.type}>{badgeInfo.name}</Badge>
 				{/each}
 				<slot />
 			</div>

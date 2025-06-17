@@ -77,7 +77,7 @@
 		out:fade={{ duration: 300 }}
 	>
 		<button
-			class="hover:border-accent absolute top-2 right-2 rounded-full border-1 border-transparent p-1
+			class="hover:border-accent absolute top-2 right-2 cursor-pointer rounded-full border-1 border-transparent p-1
 transition-all duration-300 hover:scale-125"
 			aria-label="Close"
 			on:click={deselect}
@@ -99,16 +99,20 @@ transition-all duration-300 hover:scale-125"
 			<div class="flex flex-row-reverse items-end justify-between self-stretch md:pl-2">
 				<div class="flex flex-row justify-end space-x-1 self-end">
 					{#each active.badges as badgeInfo}
-						<Badge bgColor={chooseBadgeColor(badgeInfo.type)}>{badgeInfo.name}</Badge>
+						<Badge type={badgeInfo.type}>{badgeInfo.name}</Badge>
 					{/each}
 				</div>
 
 				{#if active.link}
-					<div
-						class="border-secondary-accent inline-block scale-100 rounded-sm border-1 px-2 py-1 text-center text-sm transition-[scale] duration-250 hover:scale-120"
+					<a
+						href={active.link!}
+						target="_blank"
+						class="	text-secondary-accent border-secondary-accent inline-block
+								rounded-sm border-1 px-2 py-1 text-center text-sm
+								transition-[scale] duration-250 hover:scale-120"
 					>
-						<a href={active.link!} target="_blank" class="text-secondary-accent text-sm">Visit</a>
-					</div>
+						Visit
+					</a>
 				{/if}
 			</div>
 		</div>

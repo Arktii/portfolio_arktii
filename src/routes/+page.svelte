@@ -282,7 +282,10 @@
 							description: 'Pellentesque sit amet mauris sed urna hendrerit sollicitudin. ',
 							date: '2025',
 							link: 'https://youtu.be/dQw4w9WgXcQ',
-							badges: [{ name: 'Rust', type: BadgeType.Language }]
+							badges: [
+								{ name: 'Rust', type: BadgeType.Language },
+								{ name: 'Python', type: BadgeType.Language }
+							]
 						}}
 					/>
 

@@ -129,7 +129,7 @@
 		</Section>
 
 		<Section header="Internship" id="internship">
-			<p class="text-secondary my-10">
+			<p class="text-secondary my-3">
 				In 2024, I had a 6 week internship with the Department of Science and Technology (DOST),
 				where I worked on a mobile application using Flutter for the frontend, and Laravel for the
 				backend. I worked on both the frontend and backend.
@@ -145,9 +145,8 @@
 		</Section>
 
 		<Section header="Personal Projects" headerSubtitle="Selected Works" id="projects">
-			<p class="text-secondary my-10">
-				Here are some selected projects I've completed in my free time. Click a card to see more
-				details.
+			<p class="text-secondary my-5">
+				Here are some selected projects I've completed in my free time.
 			</p>
 
 			<ProjectSection>
@@ -233,7 +232,59 @@
 		</Section>
 
 		<Section header="School Projects" headerSubtitle="Selected Works">
-			<p>Here are some selected project I've completed for different classes.</p>
+			<p class="text-secondary my-5">
+				Here are some selected project I've completed for different classes.
+			</p>
+
+			<ProjectSection>
+				<div
+					class="grid grid-cols-[repeat(auto-fill,minmax(225px,1fr))] items-center justify-center gap-2"
+				>
+					<ProjectCard
+						info={{
+							title: 'UPB Subaybay',
+							// TODO: swap this with actual screenshot
+							image: 'src/lib/images/projects/subaybay.png',
+							description: 'Praesent mollis, eros sed efficitur condimentum, quam odio.',
+							date: '2023',
+							link: 'https://youtu.be/dQw4w9WgXcQ',
+							badges: [
+								{ name: 'C#', type: BadgeType.Language },
+								{ name: 'Godot', type: BadgeType.Framework }
+							]
+						}}
+					/>
+
+					<ProjectCard
+						info={{
+							title: 'Charge!',
+							// TODO: swap this with actual screenshot
+							image: 'src/lib/images/projects/charge.png',
+							description: 'Nunc semper lacinia nisi, nec fermentum turpis imperdiet. ',
+							date: '2024',
+							link: 'https://youtu.be/dQw4w9WgXcQ',
+							badges: [
+								{ name: 'C#', type: BadgeType.Language },
+								{ name: 'Unity', type: BadgeType.Framework }
+							]
+						}}
+					/>
+
+					<ProjectCard
+						info={{
+							title: 'Special Problem',
+							// TODO: swap this with actual screenshot
+							image: 'src/lib/images/projects/special-problem.png',
+							description: 'Pellentesque sit amet mauris sed urna hendrerit sollicitudin. ',
+							date: '2025',
+							link: 'https://youtu.be/dQw4w9WgXcQ',
+							badges: [{ name: 'Rust', type: BadgeType.Language }]
+						}}
+					/>
+
+					<p></p>
+				</div>
+			</ProjectSection>
 		</Section>
 
 		<Section header="Relevant Links" headerSubtitle="and contact information" id="links">

@@ -7,6 +7,7 @@
 	//@ts-ignore (unsure why this is reporting an error, but there's no actual error in the app)
 	import { Icon } from 'svelte-icons-pack';
 	import { FiX } from 'svelte-icons-pack/fi';
+	import { fade } from 'svelte/transition';
 
 	const placeholderInfo = {
 		title: '',
@@ -62,48 +63,56 @@
 </script>
 
 <!-- Display -->
-<div
-	class=" flex flex-col items-stretch rounded-xl md:flex-row
-	{activeId === -1
-		? 'max-h-0 scale-y-0'
-		: 'border-accent mb-3 scale-y-100 border-1 p-2'} transition-all duration-300 ease-in-out"
->
-	<button
-		class="hover:border-accent absolute top-2 right-2 rounded-full border-1 border-transparent p-1
-			transition-all duration-300 hover:scale-125"
-		aria-label="Close"
-		on:click={deselect}
+{#if activeId === -1}
+	<div
+		in:fade={{ delay: 300, duration: 300 }}
+		class="border-accent mb-3 rounded-xl border-1 p-1 md:flex-row"
 	>
-		<Icon src={FiX} color="#d8d9da" />
-	</button>
+		<p class="text-secondary w-full text-center">Click a card to see more details.</p>
+	</div>
+{:else}
+	<div
+		class="border-accent mb-3 flex scale-y-100 flex-col items-stretch rounded-xl border-1 p-2 md:flex-row"
+		in:fade={{ duration: 300 }}
+		out:fade={{ duration: 300 }}
+	>
+		<button
+			class="hover:border-accent absolute top-2 right-2 rounded-full border-1 border-transparent p-1
+transition-all duration-300 hover:scale-125"
+			aria-label="Close"
+			on:click={deselect}
+		>
+			<Icon src={FiX} color="#d8d9da" />
+		</button>
 
-	<img
-		src={active.image}
-		alt={active.title}
-		class="aspect-[1.264] w-200 rounded-tl-lg rounded-tr-lg md:rounded-tr-none md:rounded-bl-lg"
-	/>
-	<div class="flex w-full flex-col items-start">
-		<div class="flex grow flex-col md:pl-2">
-			<p class="text-secondary text-bold text-2xl">{active.title}</p>
-			<p class="text-neutral">{active.date}</p>
-			<p class="text-secondary">{active.description}</p>
-		</div>
-		<div class="flex flex-row-reverse items-end justify-between self-stretch md:pl-2">
-			<div class="flex flex-row justify-end space-x-1 self-end">
-				{#each active.badges as badgeInfo}
-					<Badge bgColor={chooseBadgeColor(badgeInfo.type)}>{badgeInfo.name}</Badge>
-				{/each}
+		<img
+			src={active.image}
+			alt={active.title}
+			class="aspect-[1.264] w-200 rounded-tl-lg rounded-tr-lg md:rounded-tr-none md:rounded-bl-lg"
+		/>
+		<div class="flex w-full flex-col items-start">
+			<div class="flex grow flex-col md:pl-2">
+				<p class="text-secondary text-bold text-2xl">{active.title}</p>
+				<p class="text-neutral">{active.date}</p>
+				<p class="text-secondary">{active.description}</p>
 			</div>
-
-			{#if active.link}
-				<div
-					class="border-secondary-accent inline-block scale-100 rounded-sm border-1 px-2 py-1 text-center text-sm transition-[scale] duration-250 hover:scale-120"
-				>
-					<a href={active.link!} target="_blank" class="text-secondary-accent text-sm">Visit</a>
+			<div class="flex flex-row-reverse items-end justify-between self-stretch md:pl-2">
+				<div class="flex flex-row justify-end space-x-1 self-end">
+					{#each active.badges as badgeInfo}
+						<Badge bgColor={chooseBadgeColor(badgeInfo.type)}>{badgeInfo.name}</Badge>
+					{/each}
 				</div>
-			{/if}
+
+				{#if active.link}
+					<div
+						class="border-secondary-accent inline-block scale-100 rounded-sm border-1 px-2 py-1 text-center text-sm transition-[scale] duration-250 hover:scale-120"
+					>
+						<a href={active.link!} target="_blank" class="text-secondary-accent text-sm">Visit</a>
+					</div>
+				{/if}
+			</div>
 		</div>
 	</div>
-</div>
+{/if}
 
 <slot />

@@ -37,8 +37,10 @@
 		opacity={0.15}
 	/>
 
-	<div class="flex flex-col items-center pt-10">
-		<div class="bg-primary w-9/10 max-w-225 p-5 lg:w-4/5">
+	<div class="flex flex-col items-center py-10">
+		<div
+			class="bg-primary/75 border-accent/35 w-9/10 max-w-225 rounded-t-lg border-x-2 border-t-2 p-5 lg:w-4/5"
+		>
 			<h1>Hi, I'm Emir.</h1>
 			<p class="font-lexend text-accent text-left text-2xl font-bold">
 				Software Developer (Fresh Graduate)
@@ -233,5 +235,11 @@
 				posuere vitae vel sem. Quisque ut gravida ante.
 			</p>
 		</Section>
+
+		<div
+			class="bg-primary/75 border-accent/35 w-9/10 max-w-225 rounded-b-lg border-x-2 border-b-2 p-5 lg:w-4/5"
+		>
+			<p class="text-secondary my-5 w-full text-center text-xl">(=^･ｪ･^=))ﾉ彡☆</p>
+		</div>
 	</div>
 </main>

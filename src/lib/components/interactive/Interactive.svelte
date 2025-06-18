@@ -2,6 +2,8 @@
 	// import components
 	import Canvas from '$lib/components/interactive/Canvas.svelte';
 	import { CollisionSpace } from '$lib/interactive/core/CollisionSpace';
+	import { Icon } from 'svelte-icons-pack';
+	import { AiOutlineLoading3Quarters } from 'svelte-icons-pack/ai';
 
 	// import type p5 from 'p5';
 
@@ -83,6 +85,9 @@
 	let buildingFgImage: import('p5').Image;
 	let playerImage: import('p5').Image;
 
+	let loadingText: string = '';
+	let loading: boolean = true;
+
 	let context: Context;
 	let inputs: Inputs;
 	let world: World;
@@ -105,6 +110,9 @@
 
 	async function setup(p5: import('p5'), canvas: HTMLCanvasElement) {
 		// testPriorityQueue();
+
+		loading = true;
+		loadingText = 'Preparing world...';
 
 		world = new World(canvas);
 		inputs = new Inputs();
@@ -186,6 +194,8 @@
 
 		setupBuildingDrawers();
 
+		loadingText = 'Loading Assets...';
+
 		// setup components
 		colSpace.colliderGrid = makeColliderGrid();
 
@@ -213,6 +223,8 @@
 		await preloads.loadFont(p5, 'Russo One', russoOne);
 		await preloads.loadFont(p5, 'Press Start 2P', pressStart2p);
 
+		loadingText = 'Finalizing...';
+
 		// setup and subscribe to update loop
 		for (let i = 0; i < objects.length; i++) {
 			let item = objects[i];
@@ -225,6 +237,8 @@
 
 		// p5.resizeCanvas(p5.width, p5.width / BUILDING.ASPECT_RATIO);
 		// world.canvasResizeRatio = p5.width / WORLD_SIZE.REFERENCE_WIDTH;
+
+		loading = false;
 	}
 
 	function setupBuildingDrawers() {
@@ -384,6 +398,19 @@
 </script>
 
 <div class="mx-auto w-fit">
+	{#if loading}
+		<div class="my-2 flex flex-col items-center">
+			<Icon
+				className="animate-spin m-5"
+				src={AiOutlineLoading3Quarters}
+				size="36"
+				color="#d8d9da"
+			/>
+			<!-- <div class="border-secondary mb-4 h-12 w-12 animate-spin rounded-full border-t-3"></div> -->
+			<p class="text-secondary font-lexend text-xl">{loadingText}</p>
+		</div>
+	{/if}
+
 	<Canvas
 		{preload}
 		{setup}

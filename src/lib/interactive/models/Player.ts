@@ -99,7 +99,7 @@ export class Player extends Mobile {
 
 	fixedUpdate(context: Context) {
 		if (!this.#inputIsLocked) {
-			this.moveHorizontally(context.p5);
+			this.moveHorizontally(context);
 
 			this.applyGravity();
 
@@ -146,12 +146,18 @@ export class Player extends Mobile {
 		this.#animatedSprite.flipX = direction < 1;
 	}
 
-	private moveHorizontally(p5: import('p5')) {
+	private moveHorizontally(context: Context) {
 		// movement inputs (checked in update for greater responsiveness)
-		// @ts-ignore (typescript definitions aren't up to date with p5 version)
-		this.#directionInputs.left = p5.keyIsDown(p5.LEFT_ARROW) || p5.keyIsDown('a');
-		// @ts-ignore (typescript definitions aren't up to date with p5 version)
-		this.#directionInputs.right = p5.keyIsDown(p5.RIGHT_ARROW) || p5.keyIsDown('d');
+
+		if (context.inputs.playerIsPlaying()) {
+			this.#directionInputs.left =
+				// @ts-ignore (typescript definitions aren't up to date with p5 version)
+				context.p5.keyIsDown(context.p5.LEFT_ARROW) || context.p5.keyIsDown('a');
+
+			this.#directionInputs.right =
+				// @ts-ignore (typescript definitions aren't up to date with p5 version)
+				context.p5.keyIsDown(context.p5.RIGHT_ARROW) || context.p5.keyIsDown('d');
+		}
 
 		// horizontal movement
 		this.velocity.x = this.#directionInputs.xAxis() * PLAYER.SPEED;

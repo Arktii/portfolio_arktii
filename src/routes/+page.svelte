@@ -8,19 +8,24 @@
 	import ProjectSection from '$lib/components/ProjectSection.svelte';
 	import Section from '$lib/components/Section.svelte';
 
+	// images
 	import grid128 from '$lib/images/background/grid-128.png';
 	import grid64 from '$lib/images/background/grid-64.png';
+	import beastBonds from '$lib/images/projects/beast-bonds.png';
+	import chasmsCall from '$lib/images/projects/chasms-call.png';
+	import flickeringFlame from '$lib/images/projects/flickering-flame.png';
+	import timeflowers from '$lib/images/projects/timeflowers.png';
+	import wreckingWhiskers from '$lib/images/projects/wrecking-whiskers.png';
+
+	import charge from '$lib/images/projects/charge.png';
+	import specialProblem from '$lib/images/projects/special-problem.png';
+	import subaybay from '$lib/images/projects/subaybay.png';
+
 	import { BadgeType } from '$lib/types/projectTypes';
-	import { chooseBadgeColor } from '$lib/utils/BadgeColors';
-	import { onMount } from 'svelte';
 
 	import { SiMessenger, SiLinkedin, SiGithub, SiGmail } from 'svelte-icons-pack/si';
 
 	let currentSection: number = -1;
-
-	const languageBadgeColor = chooseBadgeColor(BadgeType.Language);
-	const frameworkBadgeColor = chooseBadgeColor(BadgeType.Framework);
-	const platformBadgeColor = chooseBadgeColor(BadgeType.Platform);
 </script>
 
 <main>
@@ -150,7 +155,7 @@
 			<Badge type={BadgeType.Platform}>Mobile</Badge>
 		</Section>
 
-		<Section header="Personal Projects" headerSubtitle="Selected Works" id="projects">
+		<Section header="Personal Projects" headerSubtitle="Selected Works" id="personal-projects">
 			<p class="text-secondary my-5">
 				Here are some selected projects that I've completed in my free time.
 			</p>
@@ -162,7 +167,7 @@
 					<ProjectCard
 						info={{
 							title: "Chasm's Call",
-							image: 'src/lib/images/projects/chasms-call.png',
+							image: chasmsCall,
 							description: 'Praesent mollis, eros sed efficitur condimentum, quam odio.',
 							date: '2024',
 							link: 'https://youtu.be/dQw4w9WgXcQ',
@@ -176,7 +181,7 @@
 					<ProjectCard
 						info={{
 							title: 'Flickering Flame',
-							image: 'src/lib/images/projects/flickering-flame.png',
+							image: flickeringFlame,
 							description: 'Nunc semper lacinia nisi, nec fermentum turpis imperdiet. ',
 							date: '2025',
 							link: 'https://youtu.be/dQw4w9WgXcQ',
@@ -190,7 +195,7 @@
 					<ProjectCard
 						info={{
 							title: 'Wrecking Whiskers',
-							image: 'src/lib/images/projects/wrecking-whiskers.png',
+							image: wreckingWhiskers,
 							description: 'Pellentesque sit amet mauris sed urna hendrerit sollicitudin. ',
 							date: '2023',
 							link: 'https://youtu.be/dQw4w9WgXcQ',
@@ -204,7 +209,7 @@
 					<ProjectCard
 						info={{
 							title: 'Timeflowers',
-							image: 'src/lib/images/projects/timeflowers.png',
+							image: timeflowers,
 							description:
 								'Curabitur iaculis est in hendrerit aliquam.\
 								 Suspendisse nec cursus magna. \
@@ -222,7 +227,7 @@
 					<ProjectCard
 						info={{
 							title: 'Beast Bonds',
-							image: 'src/lib/images/projects/beast-bonds.png',
+							image: beastBonds,
 							description: 'Aenean ex tortor, vestibulum vitae congue in, mollis. ',
 							date: '2023',
 							badges: [
@@ -237,7 +242,7 @@
 			</ProjectSection>
 		</Section>
 
-		<Section header="School Projects" headerSubtitle="Selected Works">
+		<Section header="School Projects" headerSubtitle="Selected Works" id="school-projects">
 			<p class="text-secondary my-5">
 				Here are some selected projects that I've completed for different classes.
 			</p>
@@ -250,7 +255,7 @@
 						info={{
 							title: 'UPB Subaybay',
 							// TODO: swap this with actual screenshot
-							image: 'src/lib/images/projects/subaybay.png',
+							image: subaybay,
 							description: 'Praesent mollis, eros sed efficitur condimentum, quam odio.',
 							date: '2023',
 							link: 'https://youtu.be/dQw4w9WgXcQ',
@@ -267,7 +272,7 @@
 						info={{
 							title: 'Charge!',
 							// TODO: swap this with actual screenshot
-							image: 'src/lib/images/projects/charge.png',
+							image: charge,
 							description: 'Nunc semper lacinia nisi, nec fermentum turpis imperdiet. ',
 							date: '2024',
 							link: 'https://youtu.be/dQw4w9WgXcQ',
@@ -284,7 +289,7 @@
 						info={{
 							title: 'Special Problem',
 							// TODO: swap this with actual screenshot
-							image: 'src/lib/images/projects/special-problem.png',
+							image: specialProblem,
 							description: 'Pellentesque sit amet mauris sed urna hendrerit sollicitudin. ',
 							date: '2025',
 							link: 'https://youtu.be/dQw4w9WgXcQ',
@@ -307,9 +312,9 @@
 			</p>
 
 			<div class="flex w-full flex-row items-center justify-center space-x-5">
-				<LinkedIcon href="https://youtu.be/dQw4w9WgXcQ" icon={SiLinkedin} />
-				<LinkedIcon href="https://youtu.be/dQw4w9WgXcQ" icon={SiGithub} />
-				<LinkedIcon href="https://youtu.be/dQw4w9WgXcQ" icon={SiMessenger} />
+				<LinkedIcon href={import.meta.env.VITE_LINKEDIN_LINK} icon={SiLinkedin} />
+				<LinkedIcon href={import.meta.env.VITE_GITHUB_LINK} icon={SiGithub} />
+				<LinkedIcon href={import.meta.env.VITE_MESSENGER_LINK} icon={SiMessenger} />
 			</div>
 
 			<h3>Contact Form</h3>

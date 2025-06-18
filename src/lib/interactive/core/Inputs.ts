@@ -19,6 +19,8 @@ export class Inputs {
 
 	#lastKeyPressed: string | null = null;
 
+	#playerIsTyping: boolean = false;
+
 	newFrame() {
 		this.#keyJustPressed = null;
 		this.#keyJustReleased = null;
@@ -26,6 +28,17 @@ export class Inputs {
 		this.#mouseJustReleased = false;
 
 		this.#mouseClicked = false;
+
+		const tagName = (document.activeElement as HTMLElement)?.tagName;
+
+		this.#playerIsTyping =
+			tagName == 'INPUT' ||
+			tagName == 'TEXTAREA' ||
+			(document.activeElement as HTMLElement)?.isContentEditable;
+	}
+
+	playerIsPlaying(): boolean {
+		return !this.#playerIsTyping;
 	}
 
 	setMouseJustPressed(button: MouseButton) {
@@ -37,6 +50,10 @@ export class Inputs {
 	}
 
 	setKeyJustPressed(key: string) {
+		if (this.#playerIsTyping) {
+			return;
+		}
+
 		if (this.#lastKeyPressed === null || this.#lastKeyPressed !== key) {
 			this.#keyJustPressed = key;
 			this.#lastKeyPressed = key;

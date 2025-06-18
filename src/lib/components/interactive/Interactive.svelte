@@ -85,7 +85,7 @@
 	let buildingFgImage: import('p5').Image;
 	let playerImage: import('p5').Image;
 
-	let loadingText: string = '';
+	let loadingText: string = 'Preparing world...';
 	let loading: boolean = true;
 
 	let context: Context;

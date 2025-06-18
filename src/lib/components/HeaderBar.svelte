@@ -38,6 +38,6 @@
 	<HeaderButton isCurrent={currentSection == 1} link="#summary">Summary</HeaderButton>
 	<HeaderButton isCurrent={currentSection == 2} link="#about">About</HeaderButton>
 	<HeaderButton isCurrent={currentSection == 3} link="#internship">Internship</HeaderButton>
-	<HeaderButton isCurrent={currentSection == 4} link="#projects">Projects</HeaderButton>
+	<HeaderButton isCurrent={currentSection == 4} link="#personal-projects">Projects</HeaderButton>
 	<HeaderButton isCurrent={currentSection == 5} link="#links">Links</HeaderButton>
 </header>

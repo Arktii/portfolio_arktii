@@ -22,16 +22,10 @@
 	import subaybay from '$lib/images/projects/subaybay.png';
 
 	import { BadgeType } from '$lib/types/projectTypes';
-	import { chooseBadgeColor } from '$lib/utils/BadgeColors';
-	import { onMount } from 'svelte';
 
 	import { SiMessenger, SiLinkedin, SiGithub, SiGmail } from 'svelte-icons-pack/si';
 
 	let currentSection: number = -1;
-
-	const languageBadgeColor = chooseBadgeColor(BadgeType.Language);
-	const frameworkBadgeColor = chooseBadgeColor(BadgeType.Framework);
-	const platformBadgeColor = chooseBadgeColor(BadgeType.Platform);
 </script>
 
 <main>
@@ -161,7 +155,7 @@
 			<Badge type={BadgeType.Platform}>Mobile</Badge>
 		</Section>
 
-		<Section header="Personal Projects" headerSubtitle="Selected Works" id="projects">
+		<Section header="Personal Projects" headerSubtitle="Selected Works" id="personal-projects">
 			<p class="text-secondary my-5">
 				Here are some selected projects that I've completed in my free time.
 			</p>
@@ -248,7 +242,7 @@
 			</ProjectSection>
 		</Section>
 
-		<Section header="School Projects" headerSubtitle="Selected Works">
+		<Section header="School Projects" headerSubtitle="Selected Works" id="school-projects">
 			<p class="text-secondary my-5">
 				Here are some selected projects that I've completed for different classes.
 			</p>
@@ -318,9 +312,9 @@
 			</p>
 
 			<div class="flex w-full flex-row items-center justify-center space-x-5">
-				<LinkedIcon href="https://youtu.be/dQw4w9WgXcQ" icon={SiLinkedin} />
-				<LinkedIcon href="https://youtu.be/dQw4w9WgXcQ" icon={SiGithub} />
-				<LinkedIcon href="https://youtu.be/dQw4w9WgXcQ" icon={SiMessenger} />
+				<LinkedIcon href={import.meta.env.VITE_LINKEDIN_LINK} icon={SiLinkedin} />
+				<LinkedIcon href={import.meta.env.VITE_GITHUB_LINK} icon={SiGithub} />
+				<LinkedIcon href={import.meta.env.VITE_MESSENGER_LINK} icon={SiMessenger} />
 			</div>
 
 			<h3>Contact Form</h3>

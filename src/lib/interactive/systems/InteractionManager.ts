@@ -224,7 +224,13 @@ export class InteractionManager {
 		);
 		this.addInteractArea(19, 20, 3, clickArea);
 
-		var clickArea = this.addClickArea(new BoundingBox(221.5, 233.5, 46.5, 90.5), 'More (New Tab)');
+		var clickArea = this.addClickArea(
+			new BoundingBox(221.5, 233.5, 46.5, 90.5),
+			'More (Jump)',
+			(context) => {
+				location.hash = '#about';
+			}
+		);
 		this.addInteractArea(21, 21, 3, clickArea);
 
 		// engines
@@ -346,7 +352,10 @@ export class InteractionManager {
 
 		var clickArea = this.addClickArea(
 			new BoundingBox(185.5, 228.5, 268.5, 282.5),
-			'More Details (New Tab)'
+			'More Details (Jump)',
+			(context) => {
+				location.hash = '#personal-projects';
+			}
 		);
 		this.addInteractArea(18, 21, 25, clickArea);
 
@@ -380,7 +389,10 @@ export class InteractionManager {
 
 		var clickArea = this.addClickArea(
 			new BoundingBox(151.5, 196.5, 544.5, 556.5),
-			'More Details (New Tab)'
+			'More Details (Jump)',
+			(context) => {
+				location.hash = '#school-projects';
+			}
 		);
 		this.addInteractArea(15, 19, 52, clickArea);
 

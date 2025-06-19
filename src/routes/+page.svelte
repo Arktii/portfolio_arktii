@@ -256,9 +256,11 @@
 							title: 'UPB Subaybay',
 							// TODO: swap this with actual screenshot
 							image: subaybay,
-							description: 'Praesent mollis, eros sed efficitur condimentum, quam odio.',
+							description:
+								'UPB Subaybay is a request tracker made for the Office of the University Registrar.\
+								The application allows staff members to synchronize the progress in processing various requests for documents\
+								and pass tasks between each other.',
 							date: '2023',
-							link: 'https://youtu.be/dQw4w9WgXcQ',
 							badges: [
 								{ name: 'TypeScript', type: BadgeType.Language },
 								{ name: 'Tailwind', type: BadgeType.Framework },
@@ -273,9 +275,12 @@
 							title: 'Charge!',
 							// TODO: swap this with actual screenshot
 							image: charge,
-							description: 'Nunc semper lacinia nisi, nec fermentum turpis imperdiet. ',
+							description:
+								'	"Charge!" is a 3d, multiplayer, turn-based strategy game made in Unity.\
+							The networking and connections were managed using the third-party networking solution, FishNet.\
+							The game was hosted remotely using Amazon Web Services\' (AWS) Elastic Cloud Compute (EC2) service.',
 							date: '2024',
-							link: 'https://youtu.be/dQw4w9WgXcQ',
+							link: 'https://github.com/Arktii/charge_game_releases',
 							badges: [
 								{ name: 'C#', type: BadgeType.Language },
 								{ name: 'Unity', type: BadgeType.Framework },
@@ -290,9 +295,13 @@
 							title: 'Special Problem',
 							// TODO: swap this with actual screenshot
 							image: specialProblem,
-							description: 'Pellentesque sit amet mauris sed urna hendrerit sollicitudin. ',
+							description:
+								'My Bachelor\'s degree course did not have a thesis, but it did have\
+							a "Special Problem", which needs to be defended like a thesis. My "Special Problem",\
+							which I did with a pair, was titled "Genetic Programming in the Synthesis of Algebraic\
+							Heuristic Functions for Pathfinding. The algorithm itself was implemented in Rust, but\
+							the statistical tests were done using Python.',
 							date: '2025',
-							link: 'https://youtu.be/dQw4w9WgXcQ',
 							badges: [
 								{ name: 'Rust', type: BadgeType.Language },
 								{ name: 'Python', type: BadgeType.Language }
@@ -307,7 +316,7 @@
 
 		<Section header="Relevant Links" headerSubtitle="and contact information" id="links">
 			<p class="text-secondary mb-5">
-				Here is where you can send me your 8-figure-pay entry-level job offer. ദ്ദി/ᐠ｡‸｡ᐟ\ Thank
+				Here is where you can send me your 6-figure-pay entry-level job offer. ദ്ദി/ᐠ｡‸｡ᐟ\ Thank
 				you.
 			</p>
 
@@ -324,21 +333,20 @@
 					<div class="flex flex-row flex-wrap justify-start gap-x-2.5">
 						<label>
 							<p class="text-secondary text-sm">Your name / organization:</p>
-							<input name="name" type="text" placeholder="Name (from Organization)" required />
+							<input name="name" type="text" placeholder="Name / Organization" required />
 						</label>
 						<label>
 							<p class="text-secondary text-sm">Your email (where I can reply):</p>
-							<input type="email" name="email" placeholder="Email to receive reply" required />
+							<input type="email" name="email" placeholder="Email" required />
 						</label>
 					</div>
 					<!-- actual message -->
-
 					<label>
 						<p class="text-secondary text-sm">Your message:</p>
 						<textarea
 							class="w-full"
 							name="message"
-							placeholder="Good aftermorning! We would like you offer you 1,000,000Php per month. By the way, don't worry about an interview, there is none, you just have to accept : )."
+							placeholder="Good aftermorning! We would like to offer you a job that pays 1,000,000Php per month. By the way, don't worry about an interview, there is none, you just have to accept : )."
 							required
 						></textarea>
 					</label>

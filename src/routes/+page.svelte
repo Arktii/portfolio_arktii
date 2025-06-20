@@ -168,7 +168,11 @@
 						info={{
 							title: "Chasm's Call",
 							image: chasmsCall,
-							description: 'Praesent mollis, eros sed efficitur condimentum, quam odio.',
+							description:
+								'"Chasm\'s Call" is a singleplayer turn-based strategy rougelike\
+							that takes place on a hexagonal grid. Although the game\'s scope is quite small,\
+							it is more complete that my previous games as it contains a progress-saving\
+							system, unlikes the previous ones which at most had saving of high-scores.',
 							date: '2024',
 							link: 'https://youtu.be/dQw4w9WgXcQ',
 							badges: [
@@ -182,7 +186,12 @@
 						info={{
 							title: 'Flickering Flame',
 							image: flickeringFlame,
-							description: 'Nunc semper lacinia nisi, nec fermentum turpis imperdiet. ',
+							description:
+								'"Flickering Flame" was made almost entirely for the purpose of\
+							studying Rust and Bevy, which uses an Entity-Component-System approach as opposed to\
+							other game engines\' object-oriented approach. The game is a simple arcade platformer,\
+							with the special mechanic that the player\'s size and abilities change at certain health\
+							milestones.',
 							date: '2025',
 							link: 'https://youtu.be/dQw4w9WgXcQ',
 							badges: [
@@ -196,7 +205,9 @@
 						info={{
 							title: 'Wrecking Whiskers',
 							image: wreckingWhiskers,
-							description: 'Pellentesque sit amet mauris sed urna hendrerit sollicitudin. ',
+							description:
+								'"Wrecking Whiskers" is a small arcade game based on the old game, Ricochet.\
+							The game was made to learn the Godot game engine before moving on to more complex projects.',
 							date: '2023',
 							link: 'https://youtu.be/dQw4w9WgXcQ',
 							badges: [
@@ -211,11 +222,10 @@
 							title: 'Timeflowers',
 							image: timeflowers,
 							description:
-								'Curabitur iaculis est in hendrerit aliquam.\
-								 Suspendisse nec cursus magna. \
-								 Aenean at leo sit amet ligula feugiat pellentesque. \
-								 Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. \
-								 Phasellus pretium nisi sed feugiat malesuada.',
+								'"Timeflowers" was the first game that I completed enough to publish on itch.io.\
+								The tile-based strategy game features the special mechanic of certain flowers\
+								affecting the rate at which time passes. Combat-wise, the game uses a trap-based system, where\
+								the player can only indirectly deal damage through the placing of traps.',
 							date: '2023',
 							badges: [
 								{ name: 'C#', type: BadgeType.Language },
@@ -228,7 +238,11 @@
 						info={{
 							title: 'Beast Bonds',
 							image: beastBonds,
-							description: 'Aenean ex tortor, vestibulum vitae congue in, mollis. ',
+							description:
+								'"Beast Bonds" is a simple card-game inspired by a mix of games like Spellstone\
+							and Texas Hold \'Em Poker. As it was made during the school year, it was my first experience\
+							having to juggle multiple projects. Admittedly, the game suffers from a lack of a proper tutorial\
+							and time to flesh out the game design, however, it still served as a useful learning experience.',
 							date: '2023',
 							badges: [
 								{ name: 'C#', type: BadgeType.Language },
@@ -258,7 +272,7 @@
 							image: subaybay,
 							description:
 								'UPB Subaybay is a request tracker made for the Office of the University Registrar.\
-								The application allows staff members to synchronize the progress in processing various requests for documents\
+								The application allows staff members to synchronize the progress in processing various requests for documents,\
 								and pass tasks between each other.',
 							date: '2023',
 							badges: [

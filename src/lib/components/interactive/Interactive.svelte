@@ -85,7 +85,7 @@
 	let buildingFgImage: import('p5').Image;
 	let playerImage: import('p5').Image;
 
-	let loadingText: string = '';
+	let loadingText: string = 'Preparing world...';
 	let loading: boolean = true;
 
 	let context: Context;
@@ -300,6 +300,33 @@
 				.stroke(strokeColor, BUILDING.TEXT_OUTLINE_WEIGHT)
 				.textColor(textColor)
 				.textAlign(context.p5.LEFT, context.p5.CENTER);
+		});
+
+		addFixedRunner((context) => {
+			context.drawing
+				.text(228, 69, 'M\nO\nR\nE', BUILDING.FONT_SIZE, BUILDING.Z_INDEX)
+				.font(context.preloads.font('Press Start 2P'))
+				.stroke(strokeColor, BUILDING.TEXT_OUTLINE_WEIGHT)
+				.textColor(textColor)
+				.textAlign(context.p5.CENTER, context.p5.CENTER);
+		});
+
+		addFixedRunner((context) => {
+			context.drawing
+				.text(208, 276, 'MORE', BUILDING.FONT_SIZE, BUILDING.Z_INDEX)
+				.font(context.preloads.font('Press Start 2P'))
+				.stroke(strokeColor, BUILDING.TEXT_OUTLINE_WEIGHT)
+				.textColor(textColor)
+				.textAlign(context.p5.CENTER, context.p5.CENTER);
+		});
+
+		addFixedRunner((context) => {
+			context.drawing
+				.text(174, 551, 'MORE', BUILDING.FONT_SIZE, BUILDING.Z_INDEX)
+				.font(context.preloads.font('Press Start 2P'))
+				.stroke(strokeColor, BUILDING.TEXT_OUTLINE_WEIGHT)
+				.textColor(textColor)
+				.textAlign(context.p5.CENTER, context.p5.CENTER);
 		});
 	}
 

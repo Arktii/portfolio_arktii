@@ -228,7 +228,7 @@ export class InteractionManager {
 			new BoundingBox(221.5, 233.5, 46.5, 90.5),
 			'More (Jump)',
 			(context) => {
-				location.hash = '#about';
+				location.hash = '#skills';
 			}
 		);
 		this.addInteractArea(21, 21, 3, clickArea);

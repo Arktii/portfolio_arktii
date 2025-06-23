@@ -2,8 +2,6 @@
 	import { onMount } from 'svelte';
 	import HeaderButton from './HeaderButton.svelte';
 
-	export let currentSection: number = 0;
-
 	let fixed: boolean = false;
 
 	let referencePoint: Element;
@@ -34,10 +32,10 @@
 		? 'fixed top-0 w-full justify-start rounded-none'
 		: 'relative mb-5 w-8/10 justify-center rounded-full lg:w-4/5'}"
 >
-	<HeaderButton isCurrent={currentSection == 0} link="#">Intro</HeaderButton>
-	<HeaderButton isCurrent={currentSection == 1} link="#summary">Summary</HeaderButton>
-	<HeaderButton isCurrent={currentSection == 2} link="#about">About</HeaderButton>
-	<HeaderButton isCurrent={currentSection == 3} link="#internship">Internship</HeaderButton>
-	<HeaderButton isCurrent={currentSection == 4} link="#personal-projects">Projects</HeaderButton>
-	<HeaderButton isCurrent={currentSection == 5} link="#links">Contact</HeaderButton>
+	<HeaderButton link="#">About</HeaderButton>
+	<HeaderButton link="#summary">Summary</HeaderButton>
+	<HeaderButton link="#skills">Skills</HeaderButton>
+	<HeaderButton link="#internship">Internship</HeaderButton>
+	<HeaderButton link="#personal-projects">Projects</HeaderButton>
+	<HeaderButton link="#contact">Contact</HeaderButton>
 </header>

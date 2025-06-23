@@ -5,7 +5,7 @@
 	export let offsetX: number = 0;
 	export let offsetY: number = 0;
 
-	export let gradientColorCode: string = 'rgba(95, 169, 173, 0.15) 10%, var(--color-primary) 80%';
+	export let gradientColorCode: string = 'rgba(95, 169, 173, 0.15) 10%, var(--color-primary) 70%';
 	export let opacity: number = 1.0;
 	export let mousePanSpeed: number = 0;
 
@@ -48,4 +48,3 @@
             {gradientColorCode});
         z-index: {zIndex}; opacity: {opacity};"
 ></div>
-<!-- <div class="bg-secondary fixed z-[{zIndex}] h-full w-full"></div> -->

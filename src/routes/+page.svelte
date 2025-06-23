@@ -25,8 +25,6 @@
 
 	import { SiMessenger, SiLinkedin, SiGithub, SiGmail } from 'svelte-icons-pack/si';
 	import GradientLayer from '$lib/components/GradientLayer.svelte';
-
-	let currentSection: number = -1;
 </script>
 
 <main>
@@ -44,7 +42,7 @@
 		source={grid128}
 		zIndex={-12}
 		scrollSpeed={0.5}
-		mousePanSpeed={0.1}
+		mousePanSpeed={0.125}
 		opacity={0.2}
 	/>
 
@@ -54,19 +52,22 @@
 		<div
 			class="bg-primary/75 border-accent/35 w-9/10 max-w-225 rounded-t-lg border-x-2 border-t-2 p-5 lg:w-4/5"
 		>
-			<h1>Hi, I'm Emir.</h1>
-			<p class="font-lexend text-accent text-left text-2xl font-bold">
-				Software Developer (Fresh Graduate)
-			</p>
+			<h1>Hi, I'm Emir. ≽^⎚˕⎚^≼</h1>
+			<p class="font-lexend text-accent text-left text-2xl font-bold">Software Developer</p>
 
-			<p class="text-secondary my-15 text-xl">
-				Welcome to my portfolio. First, enjoy an interactive summary of everything. Click around,
-				catch some mice, then when you're done exploring, navigate to the more detailed sections
-				below it.
+			<p class="my-5 text-lg">
+				Hello. I'm Grandemir Baysa-Pee, a computer science graduate and programmer from the
+				Philippines. I enjoy software development in general, but I have a particular interest in
+				game dev. Outside of code, I like cats, reading fiction, and making art.
+				<br />
+				<br />
+				Below, you'll find details of my skills and some projects I've completed. But first, enjoy an
+				interactive summary: click around, catch some mice, then when you're done, explore the detailed
+				sections below it.
 			</p>
 		</div>
 
-		<HeaderBar {currentSection} />
+		<HeaderBar />
 
 		<Section header="Interactive Summary" id="summary">
 			<div class="flex w-full flex-col items-center">
@@ -95,16 +96,8 @@
 
 		<hr class="border-accent w-full border-1" />
 
-		<Section header="About Me" id="about">
-			<p class="my-5">
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam molestie erat risus, quis
-				sollicitudin leo lacinia in. Nam iaculis libero non arcu rutrum, vulputate aliquam neque
-				egestas. Nulla facilisi. Nullam vel metus quis ligula bibendum mattis a eget diam. Vivamus
-				viverra ex at nunc mattis, et elementum eros mattis. Pellentesque in nisl non dui commodo
-				posuere vitae vel sem. Quisque ut gravida ante.
-			</p>
-
-			<h3 class="pt-3">Skills</h3>
+		<Section header="Skills" id="skills">
+			<h3 class="pt-3">Technologies</h3>
 			<p class="font-lexend text-neutral pb-3 text-left text-lg font-bold">
 				Languages, Engines, Frameworks, and Libraries
 			</p>
@@ -139,9 +132,18 @@
 			<Badge type={BadgeType.Language}>Assembly (NASM x86)</Badge>
 			<Badge type={BadgeType.Framework}>Laravel</Badge>
 
-			<h3 class="py-3">Education</h3>
+			<h3 class="pt-10 pb-3">Education</h3>
+			<h4>Degree</h4>
+			<p class="text-lg">
+				BS Computer Science | University of the Philippines, Baguio (UPB). <br />
+				Graduation: July 23, 2025. <br />
+			</p>
 
-			<p>Short section</p>
+			<!-- TODO: after confirmation, include this section -->
+			<!-- <h4>Academic Honors</h4>
+			<p class="text-lg">
+				<strong>Summa Cum Laude</strong>
+			</p> -->
 		</Section>
 
 		<Section header="Internship" id="internship">
@@ -337,10 +339,9 @@
 			</ProjectSection>
 		</Section>
 
-		<Section header="Relevant Links" headerSubtitle="and contact information" id="links">
-			<p class="text-secondary mb-5">
-				Here is where you can send me your 6-figure-pay entry-level job offer. ദ്ദി/ᐠ｡‸｡ᐟ\ Thank
-				you.
+		<Section header="Contact" id="contact">
+			<p class="font-lexend text-neutral pb-2 text-left">
+				Here's where you can reach me. Thank you in advance for any job offers ദ്ദി/ᐠ｡‸｡ᐟ\.
 			</p>
 
 			<div class="flex w-full flex-row items-center justify-center space-x-5">
@@ -349,31 +350,44 @@
 				<LinkedIcon href={import.meta.env.VITE_MESSENGER_LINK} icon={SiMessenger} />
 			</div>
 
-			<h3>Contact Form</h3>
+			<h3 id="contact-form">Contact Form</h3>
+
 			<p class="font-lexend text-neutral pb-2 text-left">
-				If you prefer to reach out via email, feel free to use this contact form, which will pass
-				your message to me through Formspree.
+				If you prefer to communicate through email, please use this contact form, powered by
+				Formspree, and I'll get back to you promptly.
 			</p>
 			<div class="border-secondary-accent flex w-full rounded-xl border-1 p-5">
 				<form class="flex w-full flex-col" action="https://formspree.io/f/mzzgvpwk" method="POST">
 					<!-- identification details-->
-					<div class="flex flex-row flex-wrap justify-start gap-x-2.5">
+					<div class="flex flex-row flex-wrap justify-stretch gap-x-2.5">
 						<label>
-							<p class="text-secondary text-sm">Your name / organization:</p>
-							<input name="name" type="text" placeholder="Name / Organization" required />
+							<p class="text-secondary text-sm">Name / Organization</p>
+							<input
+								class="min-w-70"
+								name="name"
+								type="text"
+								placeholder="John Doe (Company Name Corp.)"
+								required
+							/>
 						</label>
 						<label>
-							<p class="text-secondary text-sm">Your email (where I can reply):</p>
-							<input type="email" name="email" placeholder="Email" required />
+							<p class="text-secondary text-sm">Email (Where I can reply)</p>
+							<input
+								class="min-w-70"
+								name="email"
+								type="email"
+								placeholder="email@example.com"
+								required
+							/>
 						</label>
 					</div>
 					<!-- actual message -->
 					<label>
-						<p class="text-secondary text-sm">Your message:</p>
+						<p class="text-secondary text-sm">Message</p>
 						<textarea
 							class="w-full"
 							name="message"
-							placeholder="Good aftermorning! We would like to offer you a job that pays 1,000,000Php per month. By the way, don't worry about an interview, there is none, you just have to accept : )."
+							placeholder="Greetings! We at [Company Name] have a [Role] opportunity that we believe aligns with your skills =^･ω･^=."
 							required
 						></textarea>
 					</label>
@@ -391,7 +405,6 @@
 		</Section>
 
 		<div
-			id="contact-form"
 			class="bg-primary/75 border-accent/35 w-9/10 max-w-225 rounded-b-lg border-x-2 border-b-2 p-5 lg:w-4/5"
 		>
 			<p class="text-secondary my-5 w-full text-center text-xl">(=^･ｪ･^=))ﾉ彡☆</p>

@@ -109,10 +109,7 @@
 				Languages, Engines, Frameworks, and Libraries
 			</p>
 
-			<h4 class="py-2">Favorites / Core Strengths</h4>
-			<p class="font-lexend text-neutral pb-2 text-left">
-				these are my go-to technologies that I have the most experience with
-			</p>
+			<h4 class="py-2">Favorites</h4>
 			<Badge type={BadgeType.Language}>C#</Badge>
 			<Badge type={BadgeType.Language}>Python</Badge>
 			<Badge type={BadgeType.Language}>Rust</Badge>
@@ -136,8 +133,9 @@
 			</p>
 			<Badge type={BadgeType.Language}>C</Badge>
 			<Badge type={BadgeType.Language}>C++</Badge>
-			<Badge type={BadgeType.Language}>Php</Badge>
+			<Badge type={BadgeType.Language}>Java</Badge>
 			<Badge type={BadgeType.Language}>Lua</Badge>
+			<Badge type={BadgeType.Language}>Php</Badge>
 			<Badge type={BadgeType.Language}>Assembly (NASM x86)</Badge>
 			<Badge type={BadgeType.Framework}>Laravel</Badge>
 
@@ -180,9 +178,9 @@
 								'"Chasm\'s Call" is a singleplayer turn-based strategy rougelike\
 							that takes place on a hexagonal grid. Although the game\'s scope is quite small,\
 							it is more complete that my previous games as it contains a progress-saving\
-							system, unlikes the previous ones which at most had saving of high-scores.',
+							system, unlike the previous ones which at most could save high-scores.',
 							date: '2024',
-							link: 'https://youtu.be/dQw4w9WgXcQ',
+							link: 'https://fluff-feli.itch.io/chasms-call',
 							badges: [
 								{ name: 'C#', type: BadgeType.Language },
 								{ name: 'Godot', type: BadgeType.Framework }
@@ -201,7 +199,7 @@
 							with the special mechanic that the player\'s size and abilities change at certain health\
 							milestones.',
 							date: '2025',
-							link: 'https://youtu.be/dQw4w9WgXcQ',
+							link: 'https://fluff-feli.itch.io/flickering-flame',
 							badges: [
 								{ name: 'Rust', type: BadgeType.Language },
 								{ name: 'Bevy', type: BadgeType.Framework }
@@ -217,7 +215,7 @@
 								'"Wrecking Whiskers" is a small arcade game based on the old game, Ricochet.\
 							The game was made to learn the Godot game engine before moving on to more complex projects.',
 							date: '2023',
-							link: 'https://youtu.be/dQw4w9WgXcQ',
+							link: 'https://fluff-feli.itch.io/wrecking-whiskers',
 							badges: [
 								{ name: 'C#', type: BadgeType.Language },
 								{ name: 'Godot', type: BadgeType.Framework }
@@ -235,6 +233,7 @@
 								affecting the rate at which time passes. Combat-wise, the game uses a trap-based system, where\
 								the player can only indirectly deal damage through the placing of traps.',
 							date: '2023',
+							link: 'https://fluff-feli.itch.io/timeflowers',
 							badges: [
 								{ name: 'C#', type: BadgeType.Language },
 								{ name: 'Unity', type: BadgeType.Framework }
@@ -252,6 +251,7 @@
 							having to juggle multiple projects. Admittedly, the game suffers from a lack of a proper tutorial\
 							and time to flesh out the game design, however, it still served as a useful learning experience.',
 							date: '2023',
+							link: 'https://fluff-feli.itch.io/beast-bonds',
 							badges: [
 								{ name: 'C#', type: BadgeType.Language },
 								{ name: 'Unity', type: BadgeType.Framework }
@@ -279,10 +279,11 @@
 							// TODO: swap this with actual screenshot
 							image: subaybay,
 							description:
-								'UPB Subaybay is a request tracker made for the Office of the University Registrar.\
+								'"UPB Subaybay" is a request tracker made for the Office of the University Registrar.\
 								The application allows staff members to synchronize the progress in processing various requests for documents,\
 								and pass tasks between each other.',
 							date: '2023',
+							link: 'https://github.com/brymer-meneses/Subaybay',
 							badges: [
 								{ name: 'TypeScript', type: BadgeType.Language },
 								{ name: 'Tailwind', type: BadgeType.Framework },
@@ -390,6 +391,7 @@
 		</Section>
 
 		<div
+			id="contact-form"
 			class="bg-primary/75 border-accent/35 w-9/10 max-w-225 rounded-b-lg border-x-2 border-b-2 p-5 lg:w-4/5"
 		>
 			<p class="text-secondary my-5 w-full text-center text-xl">(=^･ｪ･^=))ﾉ彡☆</p>

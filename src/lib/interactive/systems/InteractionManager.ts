@@ -410,11 +410,11 @@ export class InteractionManager {
 
 		var clickArea = this.addClickArea(
 			new BoundingBox(72.5, 97.5, 635.5, 660.5),
-			'Show email',
-			InteractionManager.makeSpeechBubbleFunc(import.meta.env.VITE_CONTACT_EMAIL, 'char'),
-			'Email Contact Form (New Tab)',
+			'Show Link',
+			InteractionManager.makeSpeechBubbleFunc(import.meta.env.VITE_MESSENGER_LINK, 'char'),
+			'Messenger (New Tab)',
 			(context) => {
-				window.open(import.meta.env.VITE_CONTACT_EMAIL, '_blank');
+				window.open(import.meta.env.VITE_MESSENGER_LINK, '_blank');
 			}
 		);
 		this.addInteractArea(7, 9, 61, clickArea);
@@ -432,11 +432,9 @@ export class InteractionManager {
 
 		var clickArea = this.addClickArea(
 			new BoundingBox(132.5, 157.5, 635.5, 660.5),
-			'Show Link',
-			InteractionManager.makeSpeechBubbleFunc(import.meta.env.VITE_MESSENGER_LINK, 'char'),
-			'Messenger (New Tab)',
+			'Email Contact Form (Jump)',
 			(context) => {
-				window.open(import.meta.env.VITE_MESSENGER_LINK, '_blank');
+				location.hash = '#contact-form';
 			}
 		);
 		this.addInteractArea(13, 15, 61, clickArea);

@@ -24,6 +24,7 @@
 	import { BadgeType } from '$lib/types/projectTypes';
 
 	import { SiMessenger, SiLinkedin, SiGithub, SiGmail } from 'svelte-icons-pack/si';
+	import GradientLayer from '$lib/components/GradientLayer.svelte';
 
 	let currentSection: number = -1;
 </script>
@@ -46,6 +47,8 @@
 		mousePanSpeed={0.1}
 		opacity={0.2}
 	/>
+
+	<GradientLayer zIndex={-11} mousePanSpeed={0.15} opacity={1.0} />
 
 	<div class="flex flex-col items-center py-10">
 		<div
@@ -284,7 +287,7 @@
 								{ name: 'TypeScript', type: BadgeType.Language },
 								{ name: 'Tailwind', type: BadgeType.Framework },
 								{ name: 'Svelte', type: BadgeType.Framework },
-								{ name: 'MongoDB', type: BadgeType.Framework }
+								{ name: 'MongoDB', type: BadgeType.Platform }
 							]
 						}}
 					/>
@@ -295,8 +298,8 @@
 							// TODO: swap this with actual screenshot
 							image: charge,
 							description:
-								'	"Charge!" is a 3d, multiplayer, turn-based strategy game made in Unity.\
-							The networking and connections were managed using the third-party networking solution, FishNet.\
+								'"Charge!" is a 3d, multiplayer, turn-based strategy game made in Unity.\
+							The networking aspects and connections were managed using the third-party networking solution, FishNet.\
 							The game was hosted remotely using Amazon Web Services\' (AWS) Elastic Cloud Compute (EC2) service.',
 							date: '2024',
 							link: 'https://github.com/Arktii/charge_game_releases',

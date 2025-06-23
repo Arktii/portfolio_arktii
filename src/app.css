@@ -5,11 +5,11 @@
 @import './fonts.css';
 
 @theme {
-	--color-primary: #171412;
-	--color-secondary: #d8d9da;
-	--color-accent: #c6ac8f;
-	--color-secondary-accent: #eae0d5;
-	--color-neutral: #8a7f71;
+	--color-primary: #191d24;
+	--color-secondary: #eeeeee;
+	--color-accent: #5fa9ad;
+	--color-secondary-accent: #c7f0f2;
+	--color-neutral: #757c8f;
 
 	--font-sans: 'Fredoka', sans-serif;
 	--font-lexend-giga: 'Lexend Giga', 'Lexend', sans-serif;
@@ -17,17 +17,18 @@
 	--font-urbanist: 'Urbanist', sans-serif;
 	--font-economica: 'Economica', sans-serif;
 	--font-candal: 'Candal', sans-serif;
+	--font-russo: 'Russo One', sans-serif;
 }
 
 @layer base {
 	h1 {
-		@apply font-candal text-secondary text-left text-4xl font-bold;
+		@apply font-russo text-secondary text-left text-4xl font-bold;
 	}
 	h2 {
-		@apply font-candal text-accent text-left text-2xl font-bold;
+		@apply font-russo text-accent text-left text-2xl font-bold;
 	}
 	h3 {
-		@apply font-candal text-secondary text-left text-xl font-bold;
+		@apply font-russo text-secondary text-left text-xl font-bold;
 	}
 	h4 {
 		@apply font-urbanist text-accent text-left text-lg font-bold;

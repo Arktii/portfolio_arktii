@@ -37,14 +37,14 @@
 		mousePanSpeed={0.05}
 		offsetY={64}
 		offsetX={64}
-		opacity={0.05}
+		opacity={0.075}
 	/>
 	<ParallaxLayer
 		source={grid128}
 		zIndex={-12}
 		scrollSpeed={0.5}
 		mousePanSpeed={0.1}
-		opacity={0.15}
+		opacity={0.2}
 	/>
 
 	<div class="flex flex-col items-center py-10">
@@ -106,7 +106,10 @@
 				Languages, Engines, Frameworks, and Libraries
 			</p>
 
-			<h4 class="py-2">Favorites</h4>
+			<h4 class="py-2">Favorites / Core Strengths</h4>
+			<p class="font-lexend text-neutral pb-2 text-left">
+				these are my go-to technologies that I have the most experience with
+			</p>
 			<Badge type={BadgeType.Language}>C#</Badge>
 			<Badge type={BadgeType.Language}>Python</Badge>
 			<Badge type={BadgeType.Language}>Rust</Badge>
@@ -114,7 +117,9 @@
 			<Badge type={BadgeType.Framework}>Godot</Badge>
 
 			<h4 class="pt-2">Completed Projects Using</h4>
-			<p class="font-lexend text-neutral pb-2 text-left">(aside from the Favorites)</p>
+			<p class="font-lexend text-neutral pb-2 text-left">
+				aside from the Favorites, I've completed projects with these technologies
+			</p>
 			<Badge type={BadgeType.Language}>TypeScript</Badge>
 			<Badge type={BadgeType.Language}>JavaScript</Badge>
 			<Badge type={BadgeType.Language}>Dart</Badge>
@@ -124,7 +129,7 @@
 
 			<h4 class="pt-2">Exposed To</h4>
 			<p class="font-lexend text-neutral pb-2 text-left">
-				Used for smaller school and personal projects
+				I've used these for smaller school and personal projects
 			</p>
 			<Badge type={BadgeType.Language}>C</Badge>
 			<Badge type={BadgeType.Language}>C++</Badge>
@@ -341,6 +346,10 @@
 			</div>
 
 			<h3>Contact Form</h3>
+			<p class="font-lexend text-neutral pb-2 text-left">
+				If you prefer to reach out via email, feel free to use this contact form, which will pass
+				your message to me through Formspree.
+			</p>
 			<div class="border-secondary-accent flex w-full rounded-xl border-1 p-5">
 				<form class="flex w-full flex-col" action="https://formspree.io/f/mzzgvpwk" method="POST">
 					<!-- identification details-->

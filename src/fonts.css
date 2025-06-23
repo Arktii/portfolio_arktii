@@ -67,3 +67,10 @@
 	font-weight: 400;
 	font-style: normal;
 }
+
+@font-face {
+	font-family: 'Russo One';
+	src: url('$lib/fonts/RussoOne-Regular.ttf') format('truetype');
+	font-weight: 400;
+	font-style: normal;
+}

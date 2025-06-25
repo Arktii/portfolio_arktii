@@ -11,6 +11,7 @@
 	// images
 	import grid128 from '$lib/images/background/grid-128.png';
 	import grid64 from '$lib/images/background/grid-64.png';
+	import grid32 from '$lib/images/background/grid-32.png';
 	import beastBonds from '$lib/images/projects/beast-bonds.png';
 	import chasmsCall from '$lib/images/projects/chasms-call.png';
 	import flickeringFlame from '$lib/images/projects/flickering-flame.png';
@@ -30,20 +31,29 @@
 <main>
 	<ParallaxLayer zIndex={-15} scrollSpeed={0.1} />
 	<ParallaxLayer
+		source={grid32}
+		zIndex={-14}
+		scrollSpeed={0.15}
+		mousePanSpeed={0.025}
+		offsetY={32}
+		offsetX={32}
+		opacity={0.04}
+	/>
+	<ParallaxLayer
 		source={grid64}
 		zIndex={-13}
 		scrollSpeed={0.25}
 		mousePanSpeed={0.05}
 		offsetY={64}
 		offsetX={64}
-		opacity={0.075}
+		opacity={0.08}
 	/>
 	<ParallaxLayer
 		source={grid128}
 		zIndex={-12}
 		scrollSpeed={0.5}
 		mousePanSpeed={0.125}
-		opacity={0.2}
+		opacity={0.21}
 	/>
 
 	<GradientLayer zIndex={-11} mousePanSpeed={0.15} opacity={1.0} />
@@ -132,18 +142,15 @@
 			<Badge type={BadgeType.Language}>Assembly (NASM x86)</Badge>
 			<Badge type={BadgeType.Framework}>Laravel</Badge>
 
-			<h3 class="pt-10 pb-3">Education</h3>
+			<h3 class="pt-15 pb-3">Education</h3>
 			<h4>Degree</h4>
 			<p class="text-lg">
 				BS Computer Science | University of the Philippines, Baguio (UPB). <br />
 				Graduation: July 23, 2025. <br />
 			</p>
 
-			<!-- TODO: after confirmation, include this section -->
-			<!-- <h4>Academic Honors</h4>
-			<p class="text-lg">
-				<strong>Summa Cum Laude</strong>
-			</p> -->
+			<h4 class="mt-5">Academic Honors</h4>
+			<p class="text-lg">Summa Cum Laude</p>
 		</Section>
 
 		<Section header="Internship" id="internship">
@@ -341,7 +348,8 @@
 
 		<Section header="Contact" id="contact">
 			<p class="font-lexend text-neutral pb-2 text-left">
-				Here's where you can reach me. Thank you in advance for any job offers ദ്ദി/ᐠ｡‸｡ᐟ\.
+				You can reach me here or through the contact form below. Thank you in advance for any job
+				offers ദ്ദി/ᐠ｡‸｡ᐟ\.
 			</p>
 
 			<div class="flex w-full flex-row items-center justify-center space-x-5">
@@ -350,12 +358,9 @@
 				<LinkedIcon href={import.meta.env.VITE_MESSENGER_LINK} icon={SiMessenger} />
 			</div>
 
-			<h3 id="contact-form">Contact Form</h3>
+			<h4 id="contact-form">Contact Form</h4>
 
-			<p class="font-lexend text-neutral pb-2 text-left">
-				If you prefer to communicate through email, please use this contact form, powered by
-				Formspree, and I'll get back to you promptly.
-			</p>
+			<p class="font-lexend text-neutral pb-2 text-left">powered by Formspree</p>
 			<div class="border-secondary-accent flex w-full rounded-xl border-1 p-5">
 				<form class="flex w-full flex-col" action="https://formspree.io/f/mzzgvpwk" method="POST">
 					<!-- identification details-->
@@ -371,7 +376,7 @@
 							/>
 						</label>
 						<label>
-							<p class="text-secondary text-sm">Email (Where I can reply)</p>
+							<p class="text-secondary text-sm">Email (where I can reply)</p>
 							<input
 								class="min-w-70"
 								name="email"
@@ -393,9 +398,9 @@
 					</label>
 					<button
 						class="	border-accent text-secondary-accent font-urbanist
-								hover:bg-secondary hover:text-primary hover:text-bold hover:border-secondary mt-2.5
-								w-fit cursor-pointer self-center rounded-lg border-1
-								px-1.5 text-lg transition-all duration-300 hover:px-5 hover:py-0.5"
+								hover:bg-secondary hover:text-primary hover:border-secondary mt-2.5 w-fit
+								cursor-pointer self-center rounded-lg border-1 px-5
+								py-1 text-lg transition-all duration-300 hover:font-black"
 						type="submit"
 					>
 						Send

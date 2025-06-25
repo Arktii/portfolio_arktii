@@ -26,6 +26,8 @@
 
 	import { SiMessenger, SiLinkedin, SiGithub, SiGmail } from 'svelte-icons-pack/si';
 	import GradientLayer from '$lib/components/GradientLayer.svelte';
+
+	let interactiveEnabled = true;
 </script>
 
 <main>
@@ -67,12 +69,12 @@
 
 			<p class="my-5 text-lg">
 				Hello. I'm Grandemir Baysa-Pee, a computer science graduate and programmer from the
-				Philippines. I enjoy software development in general, but I have a particular interest in
-				game dev. Outside of code, I like cats, reading fiction, and making art.
+				Philippines. While I enjoy software development in general, I have a particular interest in
+				game dev. Apart from code, I like cats, reading fiction, and making art.
 				<br />
 				<br />
 				Below, you'll find details of my skills and some projects I've completed. But first, enjoy an
-				interactive summary: click around, catch some mice, then when you're done, explore the detailed
+				interactive summary—click around, catch some mice, then when you're done, explore the detailed
 				sections below it.
 			</p>
 		</div>
@@ -98,13 +100,39 @@
 					</div>
 				</div>
 			</div>
+
+			<div class="mt-3 -mb-5 flex w-full flex-col items-center">
+				<p class="text-sm">
+					{#if interactiveEnabled}
+						If you find the interactive summary distracting, you can close it using the button
+						below.
+					{:else}
+						To open the interactive summary again, click the button below.
+					{/if}
+				</p>
+				<button
+					onclick={() => (interactiveEnabled = !interactiveEnabled)}
+					class="border-accent text-secondary-accent font-urbanist
+								hover:bg-secondary hover:text-primary hover:border-secondary mt-2.5 w-fit
+								cursor-pointer self-center rounded-lg border-1 px-5
+								py-1 text-base transition-all duration-300 hover:font-black"
+				>
+					{#if interactiveEnabled}
+						Close
+					{:else}
+						Open
+					{/if}
+				</button>
+			</div>
 		</Section>
 
-		<hr class="border-accent w-full border-1" />
+		{#if interactiveEnabled}
+			<hr class="border-accent w-full border-1" />
 
-		<Interactive />
+			<Interactive />
 
-		<hr class="border-accent w-full border-1" />
+			<hr class="border-accent w-full border-1" />
+		{/if}
 
 		<Section header="Skills" id="skills">
 			<h3 class="pt-3">Technologies</h3>

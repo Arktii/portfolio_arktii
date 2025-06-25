@@ -3,8 +3,8 @@
 </script>
 
 <a
-	class="	font-economica text-primary text-base font-bold transition-all duration-300
-			ease-in-out hover:text-2xl hover:font-black"
+	class=" font-urbanist text-secondary text-base font-bold transition-all
+			duration-300 ease-in-out hover:font-black hover:underline md:text-lg"
 	href={link}
 >
 	<slot />

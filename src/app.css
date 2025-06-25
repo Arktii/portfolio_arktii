@@ -41,10 +41,10 @@
 		@apply font-rubik text-secondary text-left;
 	}
 	input {
-		@apply bg-secondary font-urbanist text-primary rounded-sm p-2;
+		@apply bg-secondary font-rubik text-primary rounded-sm p-2;
 	}
 	textarea {
-		@apply bg-secondary font-urbanist text-primary rounded-sm p-2;
+		@apply bg-secondary font-rubik text-primary rounded-sm p-2;
 	}
 }
 

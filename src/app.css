@@ -18,6 +18,7 @@
 	--font-economica: 'Economica', sans-serif;
 	--font-candal: 'Candal', sans-serif;
 	--font-russo: 'Russo One', sans-serif;
+	--font-rubik: 'Rubik', sans-serif;
 }
 
 @layer base {
@@ -25,19 +26,19 @@
 		@apply font-russo text-secondary text-left text-4xl font-bold;
 	}
 	h2 {
-		@apply font-russo text-accent text-left text-2xl font-bold;
+		@apply font-rubik text-accent text-left text-3xl font-bold;
 	}
 	h3 {
-		@apply font-russo text-secondary text-left text-xl font-bold;
+		@apply font-rubik text-secondary text-left text-2xl font-bold;
 	}
 	h4 {
-		@apply font-urbanist text-accent text-left text-lg font-bold;
+		@apply font-rubik text-accent text-left text-xl font-bold;
 	}
 	p {
-		@apply font-urbanist text-secondary text-left;
+		@apply font-rubik text-secondary text-left;
 	}
 	strong {
-		@apply font-urbanist text-secondary text-left;
+		@apply font-rubik text-secondary text-left;
 	}
 	input {
 		@apply bg-secondary font-urbanist text-primary rounded-sm p-2;
@@ -50,6 +51,10 @@
 /* Most images in here are pixel art or benefit from no anti-aliasing / smoothing */
 img {
 	image-rendering: pixelated;
+}
+
+html {
+	scroll-behavior: smooth;
 }
 
 /* https://stackoverflow.com/a/66436651 */

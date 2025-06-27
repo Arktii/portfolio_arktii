@@ -210,7 +210,7 @@
 					<ProjectCard
 						info={{
 							title: "Chasm's Call",
-							image: chasmsCall,
+							images: [chasmsCall],
 							description:
 								'"Chasm\'s Call" is a singleplayer turn-based strategy rougelike\
 							that takes place on a hexagonal grid. Although the game\'s scope is quite small,\
@@ -228,7 +228,7 @@
 					<ProjectCard
 						info={{
 							title: 'Flickering Flame',
-							image: flickeringFlame,
+							images: [flickeringFlame],
 							description:
 								'"Flickering Flame" was made almost entirely for the purpose of\
 							studying Rust and Bevy, which uses an Entity-Component-System approach as opposed to\
@@ -247,7 +247,7 @@
 					<ProjectCard
 						info={{
 							title: 'Wrecking Whiskers',
-							image: wreckingWhiskers,
+							images: [wreckingWhiskers],
 							description:
 								'"Wrecking Whiskers" is a small arcade game based on the old game, Ricochet.\
 							The game was made to learn the Godot game engine before moving on to more complex projects.',
@@ -263,7 +263,7 @@
 					<ProjectCard
 						info={{
 							title: 'Timeflowers',
-							image: timeflowers,
+							images: [timeflowers],
 							description:
 								'"Timeflowers" was the first game that I completed enough to publish on itch.io.\
 								The tile-based strategy game features the special mechanic of certain flowers\
@@ -281,7 +281,7 @@
 					<ProjectCard
 						info={{
 							title: 'Beast Bonds',
-							image: beastBonds,
+							images: [beastBonds],
 							description:
 								'"Beast Bonds" is a simple card-game inspired by a mix of games like Spellstone\
 							and Texas Hold \'Em Poker. As it was made during the school year, it was my first experience\
@@ -314,7 +314,7 @@
 						info={{
 							title: 'UPB Subaybay',
 							// TODO: swap this with actual screenshot
-							image: subaybay,
+							images: [subaybay],
 							description:
 								'"UPB Subaybay" is a request tracker made for the Office of the University Registrar.\
 								The application allows staff members to synchronize the progress in processing various requests for documents,\
@@ -334,7 +334,7 @@
 						info={{
 							title: 'Charge!',
 							// TODO: swap this with actual screenshot
-							image: charge,
+							images: [charge],
 							description:
 								'"Charge!" is a 3d, multiplayer, turn-based strategy game made in Unity.\
 							The networking aspects and connections were managed using the third-party networking solution, FishNet.\
@@ -354,7 +354,7 @@
 						info={{
 							title: 'Special Problem',
 							// TODO: swap this with actual screenshot
-							image: specialProblem,
+							images: [specialProblem, subaybay, chasmsCall],
 							description:
 								'My Bachelor\'s degree course did not have a thesis, but it did have\
 							a "Special Problem", which needs to be defended like a thesis. My "Special Problem",\
@@ -376,8 +376,8 @@
 
 		<Section header="Contact" id="contact">
 			<p class="font-lexend text-neutral pb-2 text-left">
-				You can reach me here or through the contact form below. Thank you in advance for any job
-				offers ദ്ദി/ᐠ｡‸｡ᐟ\.
+				You can reach me here or through the contact form below. <br />
+				Thank you in advance for any job offers ദ്ദി/ᐠ｡‸｡ᐟ\.
 			</p>
 
 			<div class="flex w-full flex-row items-center justify-center space-x-5">

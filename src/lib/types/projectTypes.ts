@@ -10,7 +10,7 @@ export interface BadgeInfo {
 }
 
 export interface ProjectCardInfo {
-	image: string;
+	images: string[];
 	title: string;
 	description: string;
 	date: string;

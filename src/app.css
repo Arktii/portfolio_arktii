@@ -48,13 +48,12 @@
 	}
 }
 
-/* Most images in here are pixel art or benefit from no anti-aliasing / smoothing */
-img {
-	image-rendering: pixelated;
-}
-
 html {
 	scroll-behavior: smooth;
+}
+
+.pixelated {
+	image-rendering: pixelated;
 }
 
 /* https://stackoverflow.com/a/66436651 */

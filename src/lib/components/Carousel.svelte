@@ -8,8 +8,13 @@
 	export let alt: string;
 
 	export let className: string = '';
+	export let pixelArt: boolean = false;
 
 	let current: number = 0;
+
+	export function resetIndex() {
+		current = 0;
+	}
 
 	function next() {
 		current = (current + 1) % images.length;
@@ -22,7 +27,7 @@
 
 <div class="relative inline-block w-full {className}">
 	{#if images.length > 0}
-		<img class="h-full w-full" src={images[current]} {alt} />
+		<img class="h-full w-full {pixelArt ? 'pixelated' : ''}" src={images[current]} {alt} />
 	{/if}
 	{#if images.length > 1}
 		<button

@@ -7,6 +7,7 @@
 	export let cardHeight: number = 65;
 
 	export let info: ProjectCardInfo;
+	export let pixelated: boolean = false;
 
 	let isActive = false;
 
@@ -32,8 +33,10 @@
 </script>
 
 <button
-	class="hover:border-secondary w-full overflow-hidden rounded-sm transition-all duration-500 hover:border-1 hover:p-1.5"
-	style="	height: calc(var(--spacing) * {cardHeight}); image-rendering: pixelated;"
+	class="hover:border-secondary w-full overflow-hidden rounded-sm transition-all duration-500 hover:border-1 hover:p-1.5 {pixelated
+		? 'pixelated'
+		: ''}"
+	style="	height: calc(var(--spacing) * {cardHeight});"
 	on:click={selectThis}
 >
 	<div

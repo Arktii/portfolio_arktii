@@ -17,6 +17,8 @@
 		badges: []
 	};
 
+	export let pixelated: boolean = false;
+
 	let count = 0;
 	let activeId = -1;
 	let active: ProjectCardInfo = placeholderInfo;
@@ -24,6 +26,8 @@
 	// Use a writable store for reactivity across context consumers
 	const activeCardId = writable(-1);
 	const activeCardInfo = writable<ProjectCardInfo>(placeholderInfo);
+
+	let carousel: Carousel;
 
 	activeCardId.subscribe(updateActiveId);
 	activeCardInfo.subscribe(updateActiveInfo);
@@ -47,11 +51,13 @@
 	function select(id: number, cardInfo: ProjectCardInfo) {
 		activeCardId.set(id);
 		activeCardInfo.set(cardInfo);
+		carousel.resetIndex();
 	}
 
 	function deselect() {
 		activeCardId.set(-1);
 		activeCardInfo.set(placeholderInfo);
+		carousel.resetIndex();
 	}
 
 	setContext('projectSection', {
@@ -83,7 +89,13 @@ transition-all duration-300 hover:scale-125"
 		</button>
 
 		<div class="flex w-full flex-col items-start p-3">
-			<Carousel images={active.images} alt={active.title} className="rounded-lg overflow-clip" />
+			<Carousel
+				bind:this={carousel}
+				images={active.images}
+				alt={active.title}
+				pixelArt={pixelated}
+				className="rounded-lg overflow-clip"
+			/>
 			{#if active.link}
 				<a
 					class="text-secondary text-bold hover:border-secondary font-urbanist

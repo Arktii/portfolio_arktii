@@ -18,10 +18,6 @@
 	import timeflowers from '$lib/images/projects/timeflowers.png';
 	import wreckingWhiskers from '$lib/images/projects/wrecking-whiskers.png';
 
-	import charge from '$lib/images/projects/charge.png';
-	import specialProblem from '$lib/images/projects/special-problem.png';
-	import subaybay from '$lib/images/projects/subaybay.png';
-
 	import beastBonds1 from '$lib/images/projects/screenshots/beast-bonds-1.png';
 	import beastBonds2 from '$lib/images/projects/screenshots/beast-bonds-2.png';
 	import beastBonds3 from '$lib/images/projects/screenshots/beast-bonds-3.png';
@@ -43,17 +39,17 @@
 	import wreckingWhiskers2 from '$lib/images/projects/screenshots/wrecking-whiskers-2.png';
 	import wreckingWhiskers3 from '$lib/images/projects/screenshots/wrecking-whiskers-3.png';
 
-	import subaybay1 from '$lib/images/projects/screenshots/subaybay-1.png';
-	import subaybay2 from '$lib/images/projects/screenshots/subaybay-2.png';
-	import subaybay3 from '$lib/images/projects/screenshots/subaybay-3.png';
-	import subaybay4 from '$lib/images/projects/screenshots/subaybay-4.png';
-	import subaybay5 from '$lib/images/projects/screenshots/subaybay-5.png';
-
 	import charge1 from '$lib/images/projects/screenshots/charge-1.png';
 	import charge2 from '$lib/images/projects/screenshots/charge-2.png';
 	import charge3 from '$lib/images/projects/screenshots/charge-3.png';
 	import charge4 from '$lib/images/projects/screenshots/charge-4.png';
 	import charge5 from '$lib/images/projects/screenshots/charge-5.png';
+
+	import subaybay1 from '$lib/images/projects/screenshots/subaybay-1.png';
+	import subaybay2 from '$lib/images/projects/screenshots/subaybay-2.png';
+	import subaybay3 from '$lib/images/projects/screenshots/subaybay-3.png';
+	import subaybay4 from '$lib/images/projects/screenshots/subaybay-4.png';
+	import subaybay5 from '$lib/images/projects/screenshots/subaybay-5.png';
 
 	import specialProblem1 from '$lib/images/projects/screenshots/special-problem-1.png';
 
@@ -61,10 +57,38 @@
 
 	import { SiMessenger, SiLinkedin, SiGithub, SiGmail } from 'svelte-icons-pack/si';
 	import GradientLayer from '$lib/components/GradientLayer.svelte';
+	import { onMount } from 'svelte';
 
 	let interactiveEnabled = true;
 
-	// TODO: preload images
+	const preload = [
+		beastBonds1,
+		beastBonds2,
+		beastBonds3,
+		timeflowers1,
+		timeflowers2,
+		timeflowers3,
+		timeflowers4,
+		wreckingWhiskers1,
+		wreckingWhiskers2,
+		wreckingWhiskers3,
+		charge1,
+		charge2,
+		charge3,
+		subaybay1,
+		subaybay2,
+		subaybay3,
+		subaybay4,
+		subaybay5,
+		specialProblem1
+	];
+
+	onMount(() => {
+		preload.forEach((src) => {
+			const img = new Image();
+			img.src = src;
+		});
+	});
 </script>
 
 <main>

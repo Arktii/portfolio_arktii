@@ -22,6 +22,20 @@
 	import specialProblem from '$lib/images/projects/special-problem.png';
 	import subaybay from '$lib/images/projects/subaybay.png';
 
+	import subaybay1 from '$lib/images/projects/screenshots/subaybay-1.png';
+	import subaybay2 from '$lib/images/projects/screenshots/subaybay-2.png';
+	import subaybay3 from '$lib/images/projects/screenshots/subaybay-3.png';
+	import subaybay4 from '$lib/images/projects/screenshots/subaybay-4.png';
+	import subaybay5 from '$lib/images/projects/screenshots/subaybay-5.png';
+
+	import charge1 from '$lib/images/projects/screenshots/charge-1.png';
+	import charge2 from '$lib/images/projects/screenshots/charge-2.png';
+	import charge3 from '$lib/images/projects/screenshots/charge-3.png';
+	import charge4 from '$lib/images/projects/screenshots/charge-4.png';
+	import charge5 from '$lib/images/projects/screenshots/charge-5.png';
+
+	import specialProblem1 from '$lib/images/projects/screenshots/special-problem-1.png';
+
 	import { BadgeType } from '$lib/types/projectTypes';
 
 	import { SiMessenger, SiLinkedin, SiGithub, SiGmail } from 'svelte-icons-pack/si';
@@ -203,7 +217,7 @@
 				Here are some selected projects that I've completed in my free time.
 			</p>
 
-			<ProjectSection>
+			<ProjectSection pixelated={true}>
 				<div
 					class="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] items-center justify-center gap-2"
 				>
@@ -223,6 +237,7 @@
 								{ name: 'Godot', type: BadgeType.Framework }
 							]
 						}}
+						pixelated={true}
 					/>
 
 					<ProjectCard
@@ -242,6 +257,7 @@
 								{ name: 'Bevy', type: BadgeType.Framework }
 							]
 						}}
+						pixelated={true}
 					/>
 
 					<ProjectCard
@@ -258,6 +274,7 @@
 								{ name: 'Godot', type: BadgeType.Framework }
 							]
 						}}
+						pixelated={true}
 					/>
 
 					<ProjectCard
@@ -276,6 +293,7 @@
 								{ name: 'Unity', type: BadgeType.Framework }
 							]
 						}}
+						pixelated={true}
 					/>
 
 					<ProjectCard
@@ -294,6 +312,7 @@
 								{ name: 'Unity', type: BadgeType.Framework }
 							]
 						}}
+						pixelated={true}
 					/>
 
 					<p></p>
@@ -313,8 +332,7 @@
 					<ProjectCard
 						info={{
 							title: 'UPB Subaybay',
-							// TODO: swap this with actual screenshot
-							images: [subaybay],
+							images: [subaybay1, subaybay2, subaybay3, subaybay4, subaybay5],
 							description:
 								'"UPB Subaybay" is a request tracker made for the Office of the University Registrar.\
 								The application allows staff members to synchronize the progress in processing various requests for documents,\
@@ -333,8 +351,7 @@
 					<ProjectCard
 						info={{
 							title: 'Charge!',
-							// TODO: swap this with actual screenshot
-							images: [charge],
+							images: [charge1, charge2, charge3, charge4, charge5],
 							description:
 								'"Charge!" is a 3d, multiplayer, turn-based strategy game made in Unity.\
 							The networking aspects and connections were managed using the third-party networking solution, FishNet.\
@@ -353,8 +370,7 @@
 					<ProjectCard
 						info={{
 							title: 'Special Problem',
-							// TODO: swap this with actual screenshot
-							images: [specialProblem, subaybay, chasmsCall],
+							images: [specialProblem1],
 							description:
 								'My Bachelor\'s degree course did not have a thesis, but it did have\
 							a "Special Problem", which needs to be defended like a thesis. My "Special Problem",\

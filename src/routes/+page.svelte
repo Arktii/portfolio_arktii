@@ -22,6 +22,27 @@
 	import specialProblem from '$lib/images/projects/special-problem.png';
 	import subaybay from '$lib/images/projects/subaybay.png';
 
+	import beastBonds1 from '$lib/images/projects/screenshots/beast-bonds-1.png';
+	import beastBonds2 from '$lib/images/projects/screenshots/beast-bonds-2.png';
+	import beastBonds3 from '$lib/images/projects/screenshots/beast-bonds-3.png';
+
+	import chasmsCall1 from '$lib/images/projects/screenshots/chasms-call-1.png';
+	import chasmsCall2 from '$lib/images/projects/screenshots/chasms-call-2.png';
+	import chasmsCall3 from '$lib/images/projects/screenshots/chasms-call-3.png';
+
+	import flickeringFlame1 from '$lib/images/projects/screenshots/flickering-flame-1.png';
+	import flickeringFlame2 from '$lib/images/projects/screenshots/flickering-flame-2.png';
+	import flickeringFlame3 from '$lib/images/projects/screenshots/flickering-flame-3.png';
+
+	import timeflowers1 from '$lib/images/projects/screenshots/timeflowers-1.png';
+	import timeflowers2 from '$lib/images/projects/screenshots/timeflowers-2.png';
+	import timeflowers3 from '$lib/images/projects/screenshots/timeflowers-3.png';
+	import timeflowers4 from '$lib/images/projects/screenshots/timeflowers-4.png';
+
+	import wreckingWhiskers1 from '$lib/images/projects/screenshots/wrecking-whiskers-1.png';
+	import wreckingWhiskers2 from '$lib/images/projects/screenshots/wrecking-whiskers-2.png';
+	import wreckingWhiskers3 from '$lib/images/projects/screenshots/wrecking-whiskers-3.png';
+
 	import subaybay1 from '$lib/images/projects/screenshots/subaybay-1.png';
 	import subaybay2 from '$lib/images/projects/screenshots/subaybay-2.png';
 	import subaybay3 from '$lib/images/projects/screenshots/subaybay-3.png';
@@ -42,6 +63,8 @@
 	import GradientLayer from '$lib/components/GradientLayer.svelte';
 
 	let interactiveEnabled = true;
+
+	// TODO: preload images
 </script>
 
 <main>
@@ -224,7 +247,7 @@
 					<ProjectCard
 						info={{
 							title: "Chasm's Call",
-							images: [chasmsCall],
+							images: [chasmsCall, chasmsCall1, chasmsCall2, chasmsCall3],
 							description:
 								'"Chasm\'s Call" is a singleplayer turn-based strategy rougelike\
 							that takes place on a hexagonal grid. Although the game\'s scope is quite small,\
@@ -243,7 +266,7 @@
 					<ProjectCard
 						info={{
 							title: 'Flickering Flame',
-							images: [flickeringFlame],
+							images: [flickeringFlame, flickeringFlame1, flickeringFlame2, flickeringFlame3],
 							description:
 								'"Flickering Flame" was made almost entirely for the purpose of\
 							studying Rust and Bevy, which uses an Entity-Component-System approach as opposed to\
@@ -263,7 +286,7 @@
 					<ProjectCard
 						info={{
 							title: 'Wrecking Whiskers',
-							images: [wreckingWhiskers],
+							images: [wreckingWhiskers, wreckingWhiskers1, wreckingWhiskers2, wreckingWhiskers3],
 							description:
 								'"Wrecking Whiskers" is a small arcade game based on the old game, Ricochet.\
 							The game was made to learn the Godot game engine before moving on to more complex projects.',
@@ -280,7 +303,7 @@
 					<ProjectCard
 						info={{
 							title: 'Timeflowers',
-							images: [timeflowers],
+							images: [timeflowers, timeflowers1, timeflowers2, timeflowers3, timeflowers4],
 							description:
 								'"Timeflowers" was the first game that I completed enough to publish on itch.io.\
 								The tile-based strategy game features the special mechanic of certain flowers\
@@ -299,11 +322,11 @@
 					<ProjectCard
 						info={{
 							title: 'Beast Bonds',
-							images: [beastBonds],
+							images: [beastBonds, beastBonds1, beastBonds2, beastBonds3],
 							description:
 								'"Beast Bonds" is a simple card-game inspired by a mix of games like Spellstone\
 							and Texas Hold \'Em Poker. As it was made during the school year, it was my first experience\
-							having to juggle multiple projects. Admittedly, the game suffers from a lack of a proper tutorial\
+							having to juggle multiple projects. Admittedly, the game suffers from a lack of a proper tutorial, making the gameplay confusing,\
 							and time to flesh out the game design, however, it still served as a useful learning experience.',
 							date: '2023',
 							link: 'https://fluff-feli.itch.io/beast-bonds',

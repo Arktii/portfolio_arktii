@@ -51,13 +51,15 @@
 	function select(id: number, cardInfo: ProjectCardInfo) {
 		activeCardId.set(id);
 		activeCardInfo.set(cardInfo);
-		carousel.resetIndex();
+
+		carousel?.resetIndex();
 	}
 
 	function deselect() {
 		activeCardId.set(-1);
 		activeCardInfo.set(placeholderInfo);
-		carousel.resetIndex();
+
+		carousel?.resetIndex();
 	}
 
 	setContext('projectSection', {

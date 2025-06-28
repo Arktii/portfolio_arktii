@@ -75,7 +75,7 @@ export class Player extends Mobile {
 			.addAnim('walk', new SpriteAnimation(await p5.loadImage(walkSheet), 32, 32, 8, 1, 8, 0.125))
 			.addAnim(
 				'jump-land',
-				new SpriteAnimation(await p5.loadImage(jumpLandSheet), 32, 32, 3, 1, 3, 0.125)
+				new SpriteAnimation(await p5.loadImage(jumpLandSheet), 32, 32, 4, 1, 4, 0.11)
 			)
 			.addAnim(
 				'jump-up-start',

@@ -275,8 +275,8 @@
 							description:
 								'"Chasm\'s Call" is a singleplayer turn-based strategy rougelike\
 							that takes place on a hexagonal grid. Although the game\'s scope is quite small,\
-							it is more complete that my previous games as it contains a progress-saving\
-							system, unlike the previous ones which at most could save high-scores.',
+							it is more complete than my previous games as it contains a progress-saving\
+							system, unlike the previous ones which, at most, could save high-scores.',
 							date: '2024',
 							link: 'https://fluff-feli.itch.io/chasms-call',
 							badges: [
@@ -443,16 +443,16 @@
 				Thank you in advance for any job offers ദ്ദി/ᐠ｡‸｡ᐟ\.
 			</p>
 
-			<div class="flex w-full flex-row items-center justify-center space-x-5">
+			<div class="flex w-full flex-row items-center justify-center space-x-5 p-5">
 				<LinkedIcon href={import.meta.env.VITE_LINKEDIN_LINK} icon={SiLinkedin} />
 				<LinkedIcon href={import.meta.env.VITE_GITHUB_LINK} icon={SiGithub} />
 				<LinkedIcon href={import.meta.env.VITE_MESSENGER_LINK} icon={SiMessenger} />
 			</div>
 
-			<h4 id="contact-form">Contact Form</h4>
+			<div class="border-secondary-accent flex w-full flex-col rounded-xl border-1 p-5">
+				<h4 id="contact-form">Contact Form</h4>
+				<p class="font-lexend text-neutral mb-7 text-left">powered by Formspree</p>
 
-			<p class="font-lexend text-neutral pb-2 text-left">powered by Formspree</p>
-			<div class="border-secondary-accent flex w-full rounded-xl border-1 p-5">
 				<form class="flex w-full flex-col" action="https://formspree.io/f/mzzgvpwk" method="POST">
 					<!-- identification details-->
 					<div class="flex flex-row flex-wrap justify-stretch gap-x-2.5">
@@ -483,7 +483,8 @@
 						<textarea
 							class="w-full"
 							name="message"
-							placeholder="Greetings! We at [Company Name] have a [Role] opportunity that we believe aligns with your skills =^･ω･^=."
+							placeholder="Greetings! We at [Company Name] have a [Role] opportunity that we believe aligns with your skills
+=^･ω･^=."
 							required
 						></textarea>
 					</label>

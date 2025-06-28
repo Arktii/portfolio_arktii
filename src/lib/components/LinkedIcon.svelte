@@ -8,7 +8,7 @@
 <a
 	{href}
 	target="_blank"
-	class="hover:border-secondary-accent overflow-hidden rounded-2xl border-transparent p-1 transition-all duration-300 hover:border-1 hover:p-2"
+	class="hover:border-secondary-accent overflow-hidden rounded-2xl border-1 border-transparent p-2 transition-all duration-300"
 >
 	<Icon src={icon} size={'35px'} color={'var(--color-secondary-accent)'} />
 </a>

@@ -11,24 +11,97 @@
 	// images
 	import grid128 from '$lib/images/background/grid-128.png';
 	import grid64 from '$lib/images/background/grid-64.png';
+	import grid32 from '$lib/images/background/grid-32.png';
 	import beastBonds from '$lib/images/projects/beast-bonds.png';
 	import chasmsCall from '$lib/images/projects/chasms-call.png';
 	import flickeringFlame from '$lib/images/projects/flickering-flame.png';
 	import timeflowers from '$lib/images/projects/timeflowers.png';
 	import wreckingWhiskers from '$lib/images/projects/wrecking-whiskers.png';
 
-	import charge from '$lib/images/projects/charge.png';
-	import specialProblem from '$lib/images/projects/special-problem.png';
-	import subaybay from '$lib/images/projects/subaybay.png';
+	import beastBonds1 from '$lib/images/projects/screenshots/beast-bonds-1.png';
+	import beastBonds2 from '$lib/images/projects/screenshots/beast-bonds-2.png';
+	import beastBonds3 from '$lib/images/projects/screenshots/beast-bonds-3.png';
+
+	import chasmsCall1 from '$lib/images/projects/screenshots/chasms-call-1.png';
+	import chasmsCall2 from '$lib/images/projects/screenshots/chasms-call-2.png';
+	import chasmsCall3 from '$lib/images/projects/screenshots/chasms-call-3.png';
+
+	import flickeringFlame1 from '$lib/images/projects/screenshots/flickering-flame-1.png';
+	import flickeringFlame2 from '$lib/images/projects/screenshots/flickering-flame-2.png';
+	import flickeringFlame3 from '$lib/images/projects/screenshots/flickering-flame-3.png';
+
+	import timeflowers1 from '$lib/images/projects/screenshots/timeflowers-1.png';
+	import timeflowers2 from '$lib/images/projects/screenshots/timeflowers-2.png';
+	import timeflowers3 from '$lib/images/projects/screenshots/timeflowers-3.png';
+	import timeflowers4 from '$lib/images/projects/screenshots/timeflowers-4.png';
+
+	import wreckingWhiskers1 from '$lib/images/projects/screenshots/wrecking-whiskers-1.png';
+	import wreckingWhiskers2 from '$lib/images/projects/screenshots/wrecking-whiskers-2.png';
+	import wreckingWhiskers3 from '$lib/images/projects/screenshots/wrecking-whiskers-3.png';
+
+	import charge1 from '$lib/images/projects/screenshots/charge-1.png';
+	import charge2 from '$lib/images/projects/screenshots/charge-2.png';
+	import charge3 from '$lib/images/projects/screenshots/charge-3.png';
+	import charge4 from '$lib/images/projects/screenshots/charge-4.png';
+	import charge5 from '$lib/images/projects/screenshots/charge-5.png';
+
+	import subaybay1 from '$lib/images/projects/screenshots/subaybay-1.png';
+	import subaybay2 from '$lib/images/projects/screenshots/subaybay-2.png';
+	import subaybay3 from '$lib/images/projects/screenshots/subaybay-3.png';
+	import subaybay4 from '$lib/images/projects/screenshots/subaybay-4.png';
+	import subaybay5 from '$lib/images/projects/screenshots/subaybay-5.png';
+
+	import specialProblem1 from '$lib/images/projects/screenshots/special-problem-1.png';
 
 	import { BadgeType } from '$lib/types/projectTypes';
 
 	import { SiMessenger, SiLinkedin, SiGithub, SiGmail } from 'svelte-icons-pack/si';
 	import GradientLayer from '$lib/components/GradientLayer.svelte';
+	import { onMount } from 'svelte';
+
+	let interactiveEnabled = true;
+
+	const preload = [
+		beastBonds1,
+		beastBonds2,
+		beastBonds3,
+		timeflowers1,
+		timeflowers2,
+		timeflowers3,
+		timeflowers4,
+		wreckingWhiskers1,
+		wreckingWhiskers2,
+		wreckingWhiskers3,
+		charge1,
+		charge2,
+		charge3,
+		subaybay1,
+		subaybay2,
+		subaybay3,
+		subaybay4,
+		subaybay5,
+		specialProblem1
+	];
+
+	onMount(() => {
+		preload.forEach((src) => {
+			const img = new Image();
+			img.src = src;
+		});
+	});
 </script>
 
 <main>
 	<ParallaxLayer zIndex={-15} scrollSpeed={0.1} />
+	<ParallaxLayer
+		source={grid32}
+		zIndex={-14}
+		scrollSpeed={0.15}
+		mousePanSpeed={0.025}
+		offsetY={32}
+		offsetX={32}
+		opacity={0.04}
+	/>
 	<ParallaxLayer
 		source={grid64}
 		zIndex={-13}
@@ -36,14 +109,14 @@
 		mousePanSpeed={0.05}
 		offsetY={64}
 		offsetX={64}
-		opacity={0.075}
+		opacity={0.08}
 	/>
 	<ParallaxLayer
 		source={grid128}
 		zIndex={-12}
 		scrollSpeed={0.5}
 		mousePanSpeed={0.125}
-		opacity={0.2}
+		opacity={0.21}
 	/>
 
 	<GradientLayer zIndex={-11} mousePanSpeed={0.15} opacity={1.0} />
@@ -57,12 +130,12 @@
 
 			<p class="my-5 text-lg">
 				Hello. I'm Grandemir Baysa-Pee, a computer science graduate and programmer from the
-				Philippines. I enjoy software development in general, but I have a particular interest in
-				game dev. Outside of code, I like cats, reading fiction, and making art.
+				Philippines. While I enjoy software development in general, I have a particular interest in
+				game dev. Apart from code, I like cats, reading fiction, and making art.
 				<br />
 				<br />
 				Below, you'll find details of my skills and some projects I've completed. But first, enjoy an
-				interactive summary: click around, catch some mice, then when you're done, explore the detailed
+				interactive summary—click around, catch some mice, then when you're done, explore the detailed
 				sections below it.
 			</p>
 		</div>
@@ -88,13 +161,39 @@
 					</div>
 				</div>
 			</div>
+
+			<div class="mt-3 -mb-5 flex w-full flex-col items-center">
+				<p class="text-sm">
+					{#if interactiveEnabled}
+						If you find the interactive summary distracting, you can close it using the button
+						below.
+					{:else}
+						To open the interactive summary again, click the button below.
+					{/if}
+				</p>
+				<button
+					onclick={() => (interactiveEnabled = !interactiveEnabled)}
+					class="border-accent text-secondary-accent font-urbanist
+								hover:bg-secondary hover:text-primary hover:border-secondary mt-2.5 w-fit
+								cursor-pointer self-center rounded-lg border-1 px-5
+								py-1 text-base transition-all duration-300 hover:font-black"
+				>
+					{#if interactiveEnabled}
+						Close
+					{:else}
+						Open
+					{/if}
+				</button>
+			</div>
 		</Section>
 
-		<hr class="border-accent w-full border-1" />
+		{#if interactiveEnabled}
+			<hr class="border-accent w-full border-1" />
 
-		<Interactive />
+			<Interactive />
 
-		<hr class="border-accent w-full border-1" />
+			<hr class="border-accent w-full border-1" />
+		{/if}
 
 		<Section header="Skills" id="skills">
 			<h3 class="pt-3">Technologies</h3>
@@ -132,18 +231,15 @@
 			<Badge type={BadgeType.Language}>Assembly (NASM x86)</Badge>
 			<Badge type={BadgeType.Framework}>Laravel</Badge>
 
-			<h3 class="pt-10 pb-3">Education</h3>
+			<h3 class="pt-15 pb-3">Education</h3>
 			<h4>Degree</h4>
 			<p class="text-lg">
 				BS Computer Science | University of the Philippines, Baguio (UPB). <br />
 				Graduation: July 23, 2025. <br />
 			</p>
 
-			<!-- TODO: after confirmation, include this section -->
-			<!-- <h4>Academic Honors</h4>
-			<p class="text-lg">
-				<strong>Summa Cum Laude</strong>
-			</p> -->
+			<h4 class="mt-5">Academic Honors</h4>
+			<p class="text-lg">Summa Cum Laude</p>
 		</Section>
 
 		<Section header="Internship" id="internship">
@@ -168,19 +264,19 @@
 				Here are some selected projects that I've completed in my free time.
 			</p>
 
-			<ProjectSection>
+			<ProjectSection pixelated={true}>
 				<div
 					class="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] items-center justify-center gap-2"
 				>
 					<ProjectCard
 						info={{
 							title: "Chasm's Call",
-							image: chasmsCall,
+							images: [chasmsCall, chasmsCall1, chasmsCall2, chasmsCall3],
 							description:
 								'"Chasm\'s Call" is a singleplayer turn-based strategy rougelike\
 							that takes place on a hexagonal grid. Although the game\'s scope is quite small,\
-							it is more complete that my previous games as it contains a progress-saving\
-							system, unlike the previous ones which at most could save high-scores.',
+							it is more complete than my previous games as it contains a progress-saving\
+							system, unlike the previous ones which, at most, could save high-scores.',
 							date: '2024',
 							link: 'https://fluff-feli.itch.io/chasms-call',
 							badges: [
@@ -188,12 +284,13 @@
 								{ name: 'Godot', type: BadgeType.Framework }
 							]
 						}}
+						pixelated={true}
 					/>
 
 					<ProjectCard
 						info={{
 							title: 'Flickering Flame',
-							image: flickeringFlame,
+							images: [flickeringFlame, flickeringFlame1, flickeringFlame2, flickeringFlame3],
 							description:
 								'"Flickering Flame" was made almost entirely for the purpose of\
 							studying Rust and Bevy, which uses an Entity-Component-System approach as opposed to\
@@ -207,12 +304,13 @@
 								{ name: 'Bevy', type: BadgeType.Framework }
 							]
 						}}
+						pixelated={true}
 					/>
 
 					<ProjectCard
 						info={{
 							title: 'Wrecking Whiskers',
-							image: wreckingWhiskers,
+							images: [wreckingWhiskers, wreckingWhiskers1, wreckingWhiskers2, wreckingWhiskers3],
 							description:
 								'"Wrecking Whiskers" is a small arcade game based on the old game, Ricochet.\
 							The game was made to learn the Godot game engine before moving on to more complex projects.',
@@ -223,12 +321,13 @@
 								{ name: 'Godot', type: BadgeType.Framework }
 							]
 						}}
+						pixelated={true}
 					/>
 
 					<ProjectCard
 						info={{
 							title: 'Timeflowers',
-							image: timeflowers,
+							images: [timeflowers, timeflowers1, timeflowers2, timeflowers3, timeflowers4],
 							description:
 								'"Timeflowers" was the first game that I completed enough to publish on itch.io.\
 								The tile-based strategy game features the special mechanic of certain flowers\
@@ -241,16 +340,17 @@
 								{ name: 'Unity', type: BadgeType.Framework }
 							]
 						}}
+						pixelated={true}
 					/>
 
 					<ProjectCard
 						info={{
 							title: 'Beast Bonds',
-							image: beastBonds,
+							images: [beastBonds, beastBonds1, beastBonds2, beastBonds3],
 							description:
 								'"Beast Bonds" is a simple card-game inspired by a mix of games like Spellstone\
 							and Texas Hold \'Em Poker. As it was made during the school year, it was my first experience\
-							having to juggle multiple projects. Admittedly, the game suffers from a lack of a proper tutorial\
+							having to juggle multiple projects. Admittedly, the game suffers from a lack of a proper tutorial, making the gameplay confusing,\
 							and time to flesh out the game design, however, it still served as a useful learning experience.',
 							date: '2023',
 							link: 'https://fluff-feli.itch.io/beast-bonds',
@@ -259,6 +359,7 @@
 								{ name: 'Unity', type: BadgeType.Framework }
 							]
 						}}
+						pixelated={true}
 					/>
 
 					<p></p>
@@ -278,8 +379,7 @@
 					<ProjectCard
 						info={{
 							title: 'UPB Subaybay',
-							// TODO: swap this with actual screenshot
-							image: subaybay,
+							images: [subaybay1, subaybay2, subaybay3, subaybay4, subaybay5],
 							description:
 								'"UPB Subaybay" is a request tracker made for the Office of the University Registrar.\
 								The application allows staff members to synchronize the progress in processing various requests for documents,\
@@ -298,8 +398,7 @@
 					<ProjectCard
 						info={{
 							title: 'Charge!',
-							// TODO: swap this with actual screenshot
-							image: charge,
+							images: [charge1, charge2, charge3, charge4, charge5],
 							description:
 								'"Charge!" is a 3d, multiplayer, turn-based strategy game made in Unity.\
 							The networking aspects and connections were managed using the third-party networking solution, FishNet.\
@@ -318,8 +417,7 @@
 					<ProjectCard
 						info={{
 							title: 'Special Problem',
-							// TODO: swap this with actual screenshot
-							image: specialProblem,
+							images: [specialProblem1],
 							description:
 								'My Bachelor\'s degree course did not have a thesis, but it did have\
 							a "Special Problem", which needs to be defended like a thesis. My "Special Problem",\
@@ -341,22 +439,20 @@
 
 		<Section header="Contact" id="contact">
 			<p class="font-lexend text-neutral pb-2 text-left">
-				Here's where you can reach me. Thank you in advance for any job offers ദ്ദി/ᐠ｡‸｡ᐟ\.
+				You can reach me here or through the contact form below. <br />
+				Thank you in advance for any job offers ദ്ദി/ᐠ｡‸｡ᐟ\.
 			</p>
 
-			<div class="flex w-full flex-row items-center justify-center space-x-5">
+			<div class="flex w-full flex-row items-center justify-center space-x-5 p-5">
 				<LinkedIcon href={import.meta.env.VITE_LINKEDIN_LINK} icon={SiLinkedin} />
 				<LinkedIcon href={import.meta.env.VITE_GITHUB_LINK} icon={SiGithub} />
 				<LinkedIcon href={import.meta.env.VITE_MESSENGER_LINK} icon={SiMessenger} />
 			</div>
 
-			<h3 id="contact-form">Contact Form</h3>
+			<div class="border-secondary-accent flex w-full flex-col rounded-xl border-1 p-5">
+				<h4 id="contact-form">Contact Form</h4>
+				<p class="font-lexend text-neutral mb-7 text-left">powered by Formspree</p>
 
-			<p class="font-lexend text-neutral pb-2 text-left">
-				If you prefer to communicate through email, please use this contact form, powered by
-				Formspree, and I'll get back to you promptly.
-			</p>
-			<div class="border-secondary-accent flex w-full rounded-xl border-1 p-5">
 				<form class="flex w-full flex-col" action="https://formspree.io/f/mzzgvpwk" method="POST">
 					<!-- identification details-->
 					<div class="flex flex-row flex-wrap justify-stretch gap-x-2.5">
@@ -371,7 +467,7 @@
 							/>
 						</label>
 						<label>
-							<p class="text-secondary text-sm">Email (Where I can reply)</p>
+							<p class="text-secondary text-sm">Email (where I can reply)</p>
 							<input
 								class="min-w-70"
 								name="email"
@@ -387,15 +483,16 @@
 						<textarea
 							class="w-full"
 							name="message"
-							placeholder="Greetings! We at [Company Name] have a [Role] opportunity that we believe aligns with your skills =^･ω･^=."
+							placeholder="Greetings! We at [Company Name] have a [Role] opportunity that we believe aligns with your skills
+=^･ω･^=."
 							required
 						></textarea>
 					</label>
 					<button
 						class="	border-accent text-secondary-accent font-urbanist
-								hover:bg-secondary hover:text-primary hover:text-bold hover:border-secondary mt-2.5
-								w-fit cursor-pointer self-center rounded-lg border-1
-								px-1.5 text-lg transition-all duration-300 hover:px-5 hover:py-0.5"
+								hover:bg-secondary hover:text-primary hover:border-secondary mt-2.5 w-fit
+								cursor-pointer self-center rounded-lg border-1 px-5
+								py-1 text-lg transition-all duration-300 hover:font-black"
 						type="submit"
 					>
 						Send

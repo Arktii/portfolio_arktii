@@ -96,7 +96,6 @@ transition-all duration-300 hover:scale-125"
 				images={active.images}
 				alt={active.title}
 				pixelArt={pixelated}
-				className="rounded-lg overflow-clip"
 			/>
 			{#if active.link}
 				<a

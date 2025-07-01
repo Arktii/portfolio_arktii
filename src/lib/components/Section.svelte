@@ -5,7 +5,7 @@
 </script>
 
 <div
-	class="bg-primary/75 border-accent/35 w-9/10 max-w-225 scroll-mt-2.5 border-x-2 px-5 pt-5 pb-15 lg:w-4/5"
+	class="bg-primary/75 border-accent/35 w-9/10 max-w-225 scroll-mt-5 border-x-2 px-5 pt-5 pb-15 lg:w-4/5"
 	{id}
 >
 	<h2>{header}</h2>

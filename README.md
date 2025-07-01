@@ -1,8 +1,6 @@
 # portfolio
 
-⚠️ This portfolio still under development, some **links may not yet work**. See video: https://youtu.be/2xx_2XNxxfA.
-
-Additionally, the design is far from finished (probably).
+This portfolio is **almost** complete, but is still lacking some content.
 
 ## Developing
 
@@ -17,8 +15,8 @@ Then run the following command
 ```bash
 npm run dev
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+# or to expose on the network:
+npm run dev -- --host
 ```
 
 ## Building
@@ -31,11 +29,9 @@ npm run build
 
 Preview the production build with `npm run preview`.
 
-> To deploy the app, an [adapter](https://svelte.dev/docs/kit/adapters) may need to be installed for the target target environment.
-
 ## Deploying
 
-To deploy to github pages, run the following command from the main branch
+To deploy to github pages, run the following command from the main branch:
 
 ```bash
 npm run deploy

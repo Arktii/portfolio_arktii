@@ -463,21 +463,21 @@
 
 				<form class="flex w-full flex-col" action="https://formspree.io/f/mzzgvpwk" method="POST">
 					<!-- identification details-->
-					<div class="flex flex-row flex-wrap justify-stretch gap-x-2.5">
-						<label>
+					<div class="flex flex-row flex-wrap justify-between gap-x-2.5">
+						<label class="min-w-50 flex-grow">
 							<p class="text-secondary text-sm">Name / Organization</p>
 							<input
-								class="min-w-70"
+								class="w-full"
 								name="name"
 								type="text"
 								placeholder="John Doe (Company Name Corp.)"
 								required
 							/>
 						</label>
-						<label>
+						<label class="min-w-50 flex-grow">
 							<p class="text-secondary text-sm">Email (where I can reply)</p>
 							<input
-								class="min-w-70"
+								class="w-full"
 								name="email"
 								type="email"
 								placeholder="email@example.com"
@@ -486,10 +486,10 @@
 						</label>
 					</div>
 					<!-- actual message -->
-					<label>
+					<label class="w-full">
 						<p class="text-secondary text-sm">Message</p>
 						<textarea
-							class="w-full"
+							class="min-h-45 w-full"
 							name="message"
 							placeholder="Greetings! We at [Company Name] have a [Role] opportunity that we believe aligns with your skills
 =^･ω･^=."

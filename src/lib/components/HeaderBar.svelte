@@ -28,7 +28,7 @@
 <div class="mt-5" bind:this={referencePoint}></div>
 <header
 	bind:this={header}
-	class="bg-accent/25 border-secondary/35 shadow-primary/10 z-50 mx-5 flex min-w-fit flex-row items-center justify-center space-x-2.5 px-2.5 shadow-xl backdrop-blur-lg
+	class="bg-accent/25 border-secondary/35 shadow-primary/10 overflow-scroll-x z-50 mx-5 flex min-w-fit flex-row items-center justify-center space-x-2.5 px-2.5 shadow-xl backdrop-blur-lg
 		transition-all duration-200 ease-in-out md:space-x-5 {fixed
 		? 'fixed top-0 w-full rounded-none border-b-1 md:justify-start'
 		: 'relative mb-5 w-9/10 rounded-lg border-1 lg:w-8/10'}"

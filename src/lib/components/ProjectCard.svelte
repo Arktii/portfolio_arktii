@@ -8,6 +8,7 @@
 
 	export let info: ProjectCardInfo;
 	export let pixelated: boolean = false;
+	export let jumpTo: string | undefined = undefined;
 
 	let isActive = false;
 
@@ -27,6 +28,9 @@
 
 	function selectThis() {
 		select(cardId, info);
+		if (jumpTo) {
+			location.hash = jumpTo;
+		}
 	}
 
 	onDestroy(unsubscribe);

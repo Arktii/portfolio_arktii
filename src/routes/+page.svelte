@@ -285,6 +285,7 @@
 							]
 						}}
 						pixelated={true}
+						jumpTo={'#personal-projects'}
 					/>
 
 					<ProjectCard
@@ -305,6 +306,7 @@
 							]
 						}}
 						pixelated={true}
+						jumpTo={'#personal-projects'}
 					/>
 
 					<ProjectCard
@@ -322,6 +324,7 @@
 							]
 						}}
 						pixelated={true}
+						jumpTo={'#personal-projects'}
 					/>
 
 					<ProjectCard
@@ -341,6 +344,7 @@
 							]
 						}}
 						pixelated={true}
+						jumpTo={'#personal-projects'}
 					/>
 
 					<ProjectCard
@@ -360,6 +364,7 @@
 							]
 						}}
 						pixelated={true}
+						jumpTo={'#personal-projects'}
 					/>
 
 					<p></p>
@@ -393,6 +398,7 @@
 								{ name: 'MongoDB', type: BadgeType.Platform }
 							]
 						}}
+						jumpTo={'#school-projects'}
 					/>
 
 					<ProjectCard
@@ -412,6 +418,7 @@
 								{ name: 'AWS', type: BadgeType.Platform }
 							]
 						}}
+						jumpTo={'#school-projects'}
 					/>
 
 					<ProjectCard
@@ -430,6 +437,7 @@
 								{ name: 'Python', type: BadgeType.Language }
 							]
 						}}
+						jumpTo={'#school-projects'}
 					/>
 
 					<p></p>

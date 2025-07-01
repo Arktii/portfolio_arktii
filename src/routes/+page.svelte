@@ -171,6 +171,9 @@
 						To open the interactive summary again, click the button below.
 					{/if}
 				</p>
+				<p class="mt-2 text-center text-xs">
+					Note: The Interactive view may not work well on mobile devices.
+				</p>
 				<button
 					onclick={() => (interactiveEnabled = !interactiveEnabled)}
 					class="border-accent text-secondary-accent font-urbanist

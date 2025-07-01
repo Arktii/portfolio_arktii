@@ -91,7 +91,7 @@
 	});
 </script>
 
-<main>
+<main class="w-full overflow-clip">
 	<ParallaxLayer zIndex={-15} scrollSpeed={0.1} />
 	<ParallaxLayer
 		source={grid32}

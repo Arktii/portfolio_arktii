@@ -81,4 +81,4 @@
 	});
 </script>
 
-<div class="mx-auto w-fit" bind:this={canvas}></div>
+<div class="w-fit" bind:this={canvas}></div>

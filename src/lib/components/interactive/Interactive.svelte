@@ -424,7 +424,7 @@
 	}
 </script>
 
-<div class="mx-auto w-fit">
+<div class="w-full">
 	{#if loading}
 		<div class="my-2 flex flex-col items-center">
 			<Icon

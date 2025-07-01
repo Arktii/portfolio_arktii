@@ -91,7 +91,7 @@
 	});
 </script>
 
-<main>
+<main class="w-full overflow-clip">
 	<ParallaxLayer zIndex={-15} scrollSpeed={0.1} />
 	<ParallaxLayer
 		source={grid32}
@@ -170,6 +170,9 @@
 					{:else}
 						To open the interactive summary again, click the button below.
 					{/if}
+				</p>
+				<p class="mt-2 text-center text-xs">
+					Note: The Interactive view may not work well on mobile devices.
 				</p>
 				<button
 					onclick={() => (interactiveEnabled = !interactiveEnabled)}
@@ -285,6 +288,7 @@
 							]
 						}}
 						pixelated={true}
+						jumpTo={'#personal-projects'}
 					/>
 
 					<ProjectCard
@@ -305,6 +309,7 @@
 							]
 						}}
 						pixelated={true}
+						jumpTo={'#personal-projects'}
 					/>
 
 					<ProjectCard
@@ -322,6 +327,7 @@
 							]
 						}}
 						pixelated={true}
+						jumpTo={'#personal-projects'}
 					/>
 
 					<ProjectCard
@@ -341,6 +347,7 @@
 							]
 						}}
 						pixelated={true}
+						jumpTo={'#personal-projects'}
 					/>
 
 					<ProjectCard
@@ -360,6 +367,7 @@
 							]
 						}}
 						pixelated={true}
+						jumpTo={'#personal-projects'}
 					/>
 
 					<p></p>
@@ -393,6 +401,7 @@
 								{ name: 'MongoDB', type: BadgeType.Platform }
 							]
 						}}
+						jumpTo={'#school-projects'}
 					/>
 
 					<ProjectCard
@@ -412,6 +421,7 @@
 								{ name: 'AWS', type: BadgeType.Platform }
 							]
 						}}
+						jumpTo={'#school-projects'}
 					/>
 
 					<ProjectCard
@@ -430,6 +440,7 @@
 								{ name: 'Python', type: BadgeType.Language }
 							]
 						}}
+						jumpTo={'#school-projects'}
 					/>
 
 					<p></p>
@@ -455,21 +466,21 @@
 
 				<form class="flex w-full flex-col" action="https://formspree.io/f/mzzgvpwk" method="POST">
 					<!-- identification details-->
-					<div class="flex flex-row flex-wrap justify-stretch gap-x-2.5">
-						<label>
+					<div class="flex flex-row flex-wrap justify-between gap-x-2.5">
+						<label class="min-w-50 flex-grow">
 							<p class="text-secondary text-sm">Name / Organization</p>
 							<input
-								class="min-w-70"
+								class="w-full"
 								name="name"
 								type="text"
 								placeholder="John Doe (Company Name Corp.)"
 								required
 							/>
 						</label>
-						<label>
+						<label class="min-w-50 flex-grow">
 							<p class="text-secondary text-sm">Email (where I can reply)</p>
 							<input
-								class="min-w-70"
+								class="w-full"
 								name="email"
 								type="email"
 								placeholder="email@example.com"
@@ -478,10 +489,10 @@
 						</label>
 					</div>
 					<!-- actual message -->
-					<label>
+					<label class="w-full">
 						<p class="text-secondary text-sm">Message</p>
 						<textarea
-							class="w-full"
+							class="min-h-45 w-full"
 							name="message"
 							placeholder="Greetings! We at [Company Name] have a [Role] opportunity that we believe aligns with your skills
 =^･ω･^=."

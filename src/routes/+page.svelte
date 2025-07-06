@@ -39,6 +39,8 @@
 	import wreckingWhiskers2 from '$lib/images/projects/screenshots/wrecking-whiskers-2.png';
 	import wreckingWhiskers3 from '$lib/images/projects/screenshots/wrecking-whiskers-3.png';
 
+	import portfolio from '$lib/images/projects/portfolio.png';
+
 	import charge1 from '$lib/images/projects/screenshots/charge-1.png';
 	import charge2 from '$lib/images/projects/screenshots/charge-2.png';
 	import charge3 from '$lib/images/projects/screenshots/charge-3.png';
@@ -364,6 +366,22 @@
 							badges: [
 								{ name: 'C#', type: BadgeType.Language },
 								{ name: 'Unity', type: BadgeType.Framework }
+							]
+						}}
+						pixelated={true}
+						jumpTo={'#personal-projects'}
+					/>
+
+					<ProjectCard
+						info={{
+							title: 'Portfolio',
+							images: [portfolio],
+							description: 'This portfolio.',
+							date: '2025',
+							badges: [
+								{ name: 'TypeScript', type: BadgeType.Language },
+								{ name: 'Tailwind', type: BadgeType.Framework },
+								{ name: 'Svelte', type: BadgeType.Framework }
 							]
 						}}
 						pixelated={true}

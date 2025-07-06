@@ -240,7 +240,7 @@
 			<h4>Degree</h4>
 			<p class="text-lg">
 				BS Computer Science | University of the Philippines, Baguio (UPB). <br />
-				Graduation: July 23, 2025. <br />
+				Graduation: July 22, 2025. <br />
 			</p>
 
 			<h4 class="mt-5">Academic Honors</h4>

@@ -439,15 +439,15 @@ export class InteractionManager {
 		);
 		this.addInteractArea(13, 15, 61, clickArea);
 
-		var clickArea = this.addClickArea(
-			new BoundingBox(162.5, 187.5, 635.5, 660.5),
-			'Show Link',
-			InteractionManager.makeSpeechBubbleFunc(import.meta.env.VITE_RESUME_LINK, 'char'),
-			'Resume (New Tab)',
-			(context) => {
-				window.open(import.meta.env.VITE_RESUME_LINK, '_blank');
-			}
-		);
-		this.addInteractArea(16, 18, 61, clickArea);
+		// var clickArea = this.addClickArea(
+		// 	new BoundingBox(162.5, 187.5, 635.5, 660.5),
+		// 	'Show Link',
+		// 	InteractionManager.makeSpeechBubbleFunc(import.meta.env.VITE_RESUME_LINK, 'char'),
+		// 	'Resume (New Tab)',
+		// 	(context) => {
+		// 		window.open(import.meta.env.VITE_RESUME_LINK, '_blank');
+		// 	}
+		// );
+		// this.addInteractArea(16, 18, 61, clickArea);
 	}
 }

@@ -12,9 +12,11 @@
 	import grid128 from '$lib/images/background/grid-128.png';
 	import grid64 from '$lib/images/background/grid-64.png';
 	import grid32 from '$lib/images/background/grid-32.png';
+
 	import beastBonds from '$lib/images/projects/beast-bonds.png';
 	import chasmsCall from '$lib/images/projects/chasms-call.png';
 	import flickeringFlame from '$lib/images/projects/flickering-flame.png';
+	import riverpaws from '$lib/images/projects/riverpaws.png';
 	import timeflowers from '$lib/images/projects/timeflowers.png';
 	import wreckingWhiskers from '$lib/images/projects/wrecking-whiskers.png';
 
@@ -29,6 +31,10 @@
 	import flickeringFlame1 from '$lib/images/projects/screenshots/flickering-flame-1.png';
 	import flickeringFlame2 from '$lib/images/projects/screenshots/flickering-flame-2.png';
 	import flickeringFlame3 from '$lib/images/projects/screenshots/flickering-flame-3.png';
+
+	import riverpaws1 from '$lib/images/projects/screenshots/riverpaws-1.png';
+	import riverpaws2 from '$lib/images/projects/screenshots/riverpaws-2.png';
+	import riverpaws3 from '$lib/images/projects/screenshots/riverpaws-3.png';
 
 	import timeflowers1 from '$lib/images/projects/screenshots/timeflowers-1.png';
 	import timeflowers2 from '$lib/images/projects/screenshots/timeflowers-2.png';
@@ -209,20 +215,21 @@
 			<h4 class="py-2">Favorites</h4>
 			<Badge type={BadgeType.Language}>C#</Badge>
 			<Badge type={BadgeType.Language}>Python</Badge>
-			<Badge type={BadgeType.Language}>Rust</Badge>
+			<Badge type={BadgeType.Language}>Dart</Badge>
 			<Badge type={BadgeType.Framework}>Unity</Badge>
 			<Badge type={BadgeType.Framework}>Godot</Badge>
-
+			<Badge type={BadgeType.Framework}>Flutter</Badge>
+			
 			<h4 class="pt-2">Completed Projects Using</h4>
 			<p class="font-lexend text-neutral pb-2 text-left">
 				aside from the Favorites, I've completed projects with these technologies
 			</p>
 			<Badge type={BadgeType.Language}>TypeScript</Badge>
 			<Badge type={BadgeType.Language}>JavaScript</Badge>
-			<Badge type={BadgeType.Language}>Dart</Badge>
+			<Badge type={BadgeType.Language}>Rust</Badge>
 			<Badge type={BadgeType.Framework}>Bevy</Badge>
 			<Badge type={BadgeType.Framework}>Svelte</Badge>
-			<Badge type={BadgeType.Framework}>Flutter</Badge>
+			<Badge type={BadgeType.Framework}>Tailwind</Badge>
 
 			<h4 class="pt-2">Exposed To</h4>
 			<p class="font-lexend text-neutral pb-2 text-left">
@@ -233,7 +240,7 @@
 			<Badge type={BadgeType.Language}>Java</Badge>
 			<Badge type={BadgeType.Language}>Lua</Badge>
 			<Badge type={BadgeType.Language}>Php</Badge>
-			<Badge type={BadgeType.Language}>Assembly (NASM x86)</Badge>
+			<!-- <Badge type={BadgeType.Language}>Assembly (NASM x86)</Badge> -->
 			<Badge type={BadgeType.Framework}>Laravel</Badge>
 
 			<h3 class="pt-15 pb-3">Education</h3>
@@ -251,7 +258,7 @@
 			<p class="text-secondary my-3">
 				In 2024, I had a 6 week internship with the Department of Science and Technology (DOST),
 				where I worked on a mobile application using Flutter for the frontend, and Laravel for the
-				backend. I worked on both the frontend and backend.
+				backend. I worked full-stack.
 			</p>
 
 			<br />
@@ -292,6 +299,28 @@
 						pixelated={true}
 						jumpTo={'#personal-projects'}
 					/>
+
+					<ProjectCard
+						info={{
+							title: "Riverpaws",
+							images: [riverpaws, riverpaws1, riverpaws2, riverpaws3],
+							description:
+								'"Riverpaws" is a simple puzzle game. The game was made for android and web platforms. \
+							The game is heavily inspired by another game named "Astrotails: Escape the Sun", and the classic Wolf, Goat, Cabbage problem.\
+							Aside from several pre-built levels, the game allows constructing new levels by crafting a level code.\
+							It also has a simple solver built-in so players can test the solvability of their levels.',
+							date: '2025',
+							link: 'https://fluff-feli.itch.io/riverpaws',
+							badges: [
+								{ name: 'Dart', type: BadgeType.Language },
+								{ name: 'Flutter', type: BadgeType.Framework },
+								{ name: 'Flame', type: BadgeType.Framework }
+							]
+						}}
+						pixelated={true}
+						jumpTo={'#personal-projects'}
+					/>
+
 
 					<ProjectCard
 						info={{
@@ -359,8 +388,8 @@
 							description:
 								'"Beast Bonds" is a simple card-game inspired by a mix of games like Spellstone\
 							and Texas Hold \'Em Poker. As it was made during the school year, it was my first experience\
-							having to juggle multiple projects. Admittedly, the game suffers from a lack of a proper tutorial, making the gameplay confusing,\
-							and time to flesh out the game design, however, it still served as a useful learning experience.',
+							having to juggle multiple projects. Admittedly, the game suffers from a lack of a proper tutorial and time to flesh out the game design,\
+							making the gameplay confusing, however, it still served as a useful learning experience.',
 							date: '2023',
 							link: 'https://fluff-feli.itch.io/beast-bonds',
 							badges: [

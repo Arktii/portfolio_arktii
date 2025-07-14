@@ -35,6 +35,7 @@
 	import beastBonds from '$lib/images/projects/beast-bonds.png';
 	import chasmsCall from '$lib/images/projects/chasms-call.png';
 	import flickeringFlame from '$lib/images/projects/flickering-flame.png';
+	import riverpaws from '$lib/images/projects/riverpaws.png';
 	import timeflowers from '$lib/images/projects/timeflowers.png';
 	import wreckingWhiskers from '$lib/images/projects/wrecking-whiskers.png';
 
@@ -155,6 +156,7 @@
 				],
 				[
 					new TvImageInfo(chasmsCall, "Chasm's Call, a strategy game, made in Godot"),
+					new TvImageInfo(riverpaws, 'Riverpaws, a puzzle game, made in Flame'),
 					new TvImageInfo(
 						flickeringFlame,
 						'Flickering Flame, an arcade side-scroller, made in Bevy'

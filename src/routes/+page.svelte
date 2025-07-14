@@ -219,7 +219,7 @@
 			<Badge type={BadgeType.Framework}>Unity</Badge>
 			<Badge type={BadgeType.Framework}>Godot</Badge>
 			<Badge type={BadgeType.Framework}>Flutter</Badge>
-			
+
 			<h4 class="pt-2">Completed Projects Using</h4>
 			<p class="font-lexend text-neutral pb-2 text-left">
 				aside from the Favorites, I've completed projects with these technologies
@@ -302,7 +302,7 @@
 
 					<ProjectCard
 						info={{
-							title: "Riverpaws",
+							title: 'Riverpaws',
 							images: [riverpaws, riverpaws1, riverpaws2, riverpaws3],
 							description:
 								'"Riverpaws" is a simple puzzle game. The game was made for android and web platforms. \
@@ -320,7 +320,6 @@
 						pixelated={true}
 						jumpTo={'#personal-projects'}
 					/>
-
 
 					<ProjectCard
 						info={{
@@ -439,7 +438,7 @@
 								'"UPB Subaybay" is a request tracker made for the Office of the University Registrar.\
 								The application allows staff members to synchronize the progress in processing various requests for documents,\
 								and pass tasks between each other.',
-							date: '2023',
+							date: '2024',
 							link: 'https://github.com/brymer-meneses/Subaybay',
 							badges: [
 								{ name: 'TypeScript', type: BadgeType.Language },

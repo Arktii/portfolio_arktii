@@ -252,6 +252,9 @@
 
 			<h4 class="mt-5">Academic Honors</h4>
 			<p class="text-lg">Summa Cum Laude</p>
+			<p class="text-lg">Valedictorian</p>
+			<p class="text-lg">CHED UniFAST Academic Excellence Award</p>
+			<p class="text-lg">Dr. and Mrs. Ernesto L. M. Abellera Award for Academic Excellence in the Natural Sciences and Mathematics</p>
 		</Section>
 
 		<Section header="Internship" id="internship">
@@ -479,7 +482,8 @@
 							a "Special Problem", which needs to be defended like a thesis. My "Special Problem",\
 							which I did with a pair, was titled "Genetic Programming in the Synthesis of Algebraic\
 							Heuristic Functions for Pathfinding. The algorithm itself was implemented in Rust, but\
-							the statistical tests were done using Python.',
+							the statistical tests were done using Python.\
+							This received the Best Presentation Award.',
 							date: '2025',
 							badges: [
 								{ name: 'Rust', type: BadgeType.Language },

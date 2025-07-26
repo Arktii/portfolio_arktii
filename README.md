@@ -1,7 +1,5 @@
 # portfolio
 
-This portfolio is **almost** complete, but is still lacking some content.
-
 ## Developing
 
 To run the app, first ensure dependencies are installed
@@ -31,7 +29,9 @@ Preview the production build with `npm run preview`.
 
 ## Deploying
 
-To deploy to github pages, run the following command from the main branch:
+The app now deploys to Vercel automatically on pushes to the main branch.
+
+Originally, to deploy to github pages, the following command was run from the main branch:
 
 ```bash
 npm run deploy

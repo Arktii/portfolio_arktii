@@ -133,7 +133,7 @@
 		<div
 			class="bg-primary/75 border-accent/35 w-9/10 max-w-225 rounded-t-lg border-x-2 border-t-2 p-5 lg:w-4/5"
 		>
-			<h1>Hi, I'm Emir. ≽^⎚˕⎚^≼</h1>
+			<h1>Hi, I'm Emir.</h1>
 			<p class="font-lexend text-accent text-left text-2xl font-bold">Software Developer</p>
 
 			<p class="my-5 text-lg">
@@ -254,7 +254,10 @@
 			<p class="text-lg">Summa Cum Laude</p>
 			<p class="text-lg">Valedictorian</p>
 			<p class="text-lg">CHED UniFAST Academic Excellence Award</p>
-			<p class="text-lg">Dr. and Mrs. Ernesto L. M. Abellera Award for Academic Excellence in the Natural Sciences and Mathematics</p>
+			<p class="text-lg">
+				Dr. and Mrs. Ernesto L. M. Abellera Award for Academic Excellence in the Natural Sciences
+				and Mathematics
+			</p>
 		</Section>
 
 		<Section header="Internship" id="internship">
@@ -276,7 +279,8 @@
 
 		<Section header="Personal Projects" headerSubtitle="Selected Works" id="personal-projects">
 			<p class="text-secondary my-5">
-				Here are some selected projects that I've completed in my free time.
+				Here are some selected projects that I've completed in my free time. Although they're mostly
+				games, they served as useful practice in programming and software development in general.
 			</p>
 
 			<ProjectSection pixelated={true}>
@@ -308,10 +312,10 @@
 							title: 'Riverpaws',
 							images: [riverpaws, riverpaws1, riverpaws2, riverpaws3],
 							description:
-								'"Riverpaws" is a simple puzzle game. The game was made for android and web platforms. \
+								'"Riverpaws" is a simple puzzle game made for android and web platforms. \
 							The game is heavily inspired by another game named "Astrotails: Escape the Sun", and the classic Wolf, Goat, Cabbage problem.\
-							Aside from several pre-built levels, the game allows constructing new levels by crafting a level code.\
-							It also has a simple solver built-in so players can test the solvability of their levels.',
+							Aside from several pre-built levels, the game includes a system for constructing new levels and an\
+							algorithm for solving them, so players can test the solvability of their levels.',
 							date: '2025',
 							link: 'https://fluff-feli.itch.io/riverpaws',
 							badges: [
@@ -329,7 +333,7 @@
 							title: 'Flickering Flame',
 							images: [flickeringFlame, flickeringFlame1, flickeringFlame2, flickeringFlame3],
 							description:
-								'"Flickering Flame" was made almost entirely for the purpose of\
+								'"Flickering Flame" is a simple game made for the purpose of\
 							studying Rust and Bevy, which uses an Entity-Component-System approach as opposed to\
 							other game engines\' object-oriented approach. The game is a simple arcade platformer,\
 							with the special mechanic that the player\'s size and abilities change at certain health\
@@ -438,7 +442,7 @@
 							title: 'UPB Subaybay',
 							images: [subaybay1, subaybay2, subaybay3, subaybay4, subaybay5],
 							description:
-								'"UPB Subaybay" is a request tracker made for the Office of the University Registrar.\
+								'"UPB Subaybay" is a request tracker and web application made for the Office of the University Registrar.\
 								The application allows staff members to synchronize the progress in processing various requests for documents,\
 								and pass tasks between each other.',
 							date: '2024',
@@ -501,7 +505,7 @@
 		<Section header="Contact" id="contact">
 			<p class="font-lexend text-neutral pb-2 text-left">
 				You can reach me here or through the contact form below. <br />
-				Thank you in advance for any job offers ദ്ദി/ᐠ｡‸｡ᐟ\.
+				Thank you in advance for any job offers.
 			</p>
 
 			<div class="flex w-full flex-row items-center justify-center space-x-5 p-5">
